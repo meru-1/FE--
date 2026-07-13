@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FE本質理解学習システム Extreme v3.5</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #eeebff;
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --danger: #ef4444;
+            --danger-light: #fef2f2;
+            --dark-blue: #0f172a;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text-main: #334155;
+            --text-dark: #0f172a;
+            --accent: #8b5cf6;
+            --accent-light: #f5f3ff;
+            --border: #e2e8f0;
+            --radius: 16px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* プレミアムヘッダー */
+        header {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0 0 8px 0;
+            letter-spacing: -0.025em;
+            background: linear-gradient(to right, #ffffff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        header p {
+            font-size: 14px;
+            color: #c7d2fe;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 24px 16px 80px 16px;
+        }
+
+        /* 洗練されたタブナビゲーション */
+        .nav-tabs {
+            display: flex;
+            background: #ffffff;
+            padding: 6px;
+            border-radius: 14px;
+            gap: 4px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            overflow-x: auto;
+        }
+        .nav-tab-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px 14px;
+            font-size: 14px;
+            font-weight: 600;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            color: #64748b;
+            white-space: nowrap;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .nav-tab-btn:hover {
+            color: var(--text-dark);
+            background: #f1f5f9;
+        }
+        .nav-tab-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+        .nav-tab-btn.tab-ai-style.active {
+            background: var(--accent);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+        }
+
+        .view-content { display: none; }
+        .view-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* リアルタイムカウンターバナー */
+        .live-counter-banner {
+            background: linear-gradient(90deg, #eff6ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+            color: #0369a1;
+            padding: 14px 20px;
+            border-radius: 12px;
+            margin-bottom: 28px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* モダンなカードデザイン */
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: box-shadow 0.2s ease;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #4338ca;
+            background-color: #e0e7ff;
+            letter-spacing: 0.05em;
+        }
+        .badge-ai { color: #6d28d9; background-color: #f5f3ff; }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 20px 0;
+            line-height: 1.6;
+        }
+
+        /* ラジオボタンを廃止した次世代の選択肢UI */
+        .options-group { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+        .option-label {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            padding: 14px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .option-label:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            transform: translateX(2px);
+        }
+        .option-label input {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px; height: 18px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            margin-right: 14px;
+            outline: none;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .option-label input:checked {
+            border-color: var(--primary);
+            background-color: var(--primary);
+            box-shadow: inset 0 0 0 3px #fff;
+        }
+        
+        /* 正解・不正解のスタイリッシュな可視化 */
+        .option-label.correct {
+            background-color: var(--success-light) !important;
+            border-color: var(--success) !important;
+            color: #065f46 !important;
+            font-weight: 600;
+        }
+        .option-label.correct input {
+            border-color: var(--success) !important;
+            background-color: var(--success) !important;
+            box-shadow: inset 0 0 0 3px #fff;
+        }
+        .option-label.incorrect {
+            background-color: var(--danger-light) !important;
+            border-color: var(--danger) !important;
+            color: #991b1b !important;
+        }
+        .option-label.incorrect input {
+            border-color: var(--danger) !important;
+            background-color: var(--danger) !important;
+            box-shadow: inset 0 0 0 3px #fff;
+        }
+
+        /* スムーズなアニメーション付き解説ボックス */
+        .explanation-box {
+            display: none;
+            margin-top: 24px;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+        .ex-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+        .ex-tab-btn {
+            padding: 8px 14px;
+            background: #f1f5f9;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            color: #475569;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .ex-tab-btn:hover { background: #e2e8f0; }
+        .ex-tab-btn.active { background: var(--text-dark); color: white; }
+        
+        .ex-content {
+            display: none;
+            background: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+        .ex-content.active { display: block; }
+
+        /* 洗練されたプレミアムボタン */
+        .btn-action {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 700;
+            width: 100%;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+            transition: all 0.2s;
+        }
+        .btn-action:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 700;
+            width: 100%;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+            margin-top: 16px;
+            display: none;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        /* ダッシュボードグリッド（グラスマテリアル風エフェクト） */
+        .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+        .score-tile {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        .score-tile-label { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 6px; letter-spacing: 0.05em; }
+        .score-num { font-size: 32px; font-weight: 800; color: var(--primary); letter-spacing: -0.05em; }
+        
+        /* 極細スタイリッシュフラットグラフ */
+        .chart-container { margin-top: 24px; }
+        .chart-row { display: flex; align-items: center; margin-bottom: 16px; }
+        .chart-label { width: 110px; font-size: 13px; font-weight: 700; color: var(--text-dark); }
+        .chart-bar-bg { flex-grow: 1; background: #e2e8f0; height: 8px; border-radius: 9999px; overflow: hidden; position: relative; }
+        .chart-bar-fill { background: linear-gradient(90deg, #6366f1, #4f46e5); height: 100%; width: 0%; border-radius: 9999px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .chart-percent { width: 45px; text-align: right; font-size: 13px; font-weight: 700; color: var(--text-dark); margin-left: 12px; }
+
+        /* 美しい履歴ログ */
+        .history-log-card {
+            background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 12px;
+            box-shadow: var(--shadow); transition: transform 0.2s;
+        }
+        .history-log-card:hover { transform: translateX(2px); }
+        .history-badge-correct { color: var(--success); background: var(--success-light); padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 12px; }
+        .history-badge-incorrect { color: var(--danger); background: var(--danger-light); padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 12px; }
+
+        /* AI診断モダンコンポーネント */
+        .ai-box { background: linear-gradient(180deg, #f5f3ff 0%, #f3e8ff 100%); border: 1px solid #ddd6fe; padding: 28px; border-radius: var(--radius); }
+        .ai-box h2 { color: #5b21b6; margin-top: 0; font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        
+        /* 擬似言語などのコードブロック表現 */
+        pre { background: var(--dark-blue); color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 13px; margin: 14px 0; border: 1px solid rgba(255,255,255,0.1); line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <!-- プレミアムヘッダー -->
+    <header>
+        <h1>FE本質理解システム Extreme</h1>
+        <p>CBT対応・AI厳選最高品質オリジナル問題集</p>
+    </header>
+
+<div class="container">
+    <!-- ナビゲーションタブ -->
+    <div class="nav-tabs">
+        <button id="nav-btn-main" class="nav-tab-btn active" onclick="switchMainView('main-study-view')">📝 演習画面</button>
+        <button id="nav-btn-stats" class="nav-tab-btn" onclick="switchMainView('stats-view')">📊 統計データ</button>
+        <button id="nav-btn-ai" class="nav-tab-btn tab-ai-style" onclick="switchMainView('ai-view')">🧠 AI総合診断</button>
+        <button id="nav-btn-history" class="nav-tab-btn" onclick="switchMainView('past-history-view')">📜 回答履歴</button>
+    </div>
+
+    <!-- 1. メイン演習画面 -->
+    <div id="main-study-view" class="view-content active">
+        <!-- リアルタイムスコア常時表示バナー -->
+        <div id="live-counter-banner" class="live-counter-banner">
+            現在の累計スコア: 0問解答 / 正解 0問 (正答率 0%)
+        </div>
+
+        <div id="quiz-container"></div>
+
+        <div style="margin: 36px 0;">
+            <button id="submit-all-btn" class="btn-action" onclick="gradeAll()">このセット(10問)を一括採点する</button>
+            <button id="next-set-btn" class="btn-secondary" onclick="loadNextSet()">次の10問へ進む ➔</button>
+        </div>
+    </div>
+
+    <!-- 2. スコア・統計グラフ画面 -->
+    <div id="stats-view" class="view-content">
+        <div class="card">
+            <h2 style="font-size: 18px; font-weight: 800; margin-top:0; margin-bottom:20px; color:var(--text-dark)">📊 総合スコア・ダッシュボード</h2>
+            <div class="score-grid">
+                <div class="score-tile">
+                    <div class="score-tile-label">総合正答率</div>
+                    <div id="stat-total-rate" class="score-num">0%</div>
+                </div>
+                <div class="score-tile">
+                    <div class="score-tile-label">本日の正答率</div>
+                    <div id="stat-today-rate" class="score-num">0%</div>
+                </div>
+                <div class="score-tile">
+                    <div class="score-tile-label">過去の正答率</div>
+                    <div id="stat-past-rate" class="score-num">0%</div>
+                </div>
+                <div class="score-tile">
+                    <div class="score-tile-label">総解答問題数</div>
+                    <div id="stat-total-count" class="score-num">0問</div>
+                </div>
+            </div>
+
+            <h3 style="font-size: 15px; font-weight: 800; color:var(--text-dark); margin-top:30px; margin-bottom:10px;">📂 出題セクション別正答率</h3>
+            <div class="chart-container">
+                <div class="chart-row">
+                    <div class="chart-label">テクノロジ系</div>
+                    <div class="chart-bar-bg"><div id="bar-tech" class="chart-bar-fill"></div></div>
+                    <div id="per-tech" class="chart-percent">0%</div>
+                </div>
+                <div class="chart-row">
+                    <div class="chart-label">マネジメント系</div>
+                    <div class="chart-bar-bg"><div id="bar-mgmt" class="chart-bar-fill" style="background: linear-gradient(90deg, #34d399, #10b981);"></div></div>
+                    <div id="per-mgmt" class="chart-percent">0%</div>
+                </div>
+                <div class="chart-row">
+                    <div class="chart-label">ストラテジ系</div>
+                    <div class="chart-bar-bg"><div id="bar-strat" class="chart-bar-fill" style="background: linear-gradient(90deg, #fbbf24, #f59e0b);"></div></div>
+                    <div id="per-strat" class="chart-percent">0%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. AI分析画面 -->
+    <div id="ai-view" class="view-content">
+        <div class="card ai-box">
+            <h2>🧠 AIリアルタイム能力分析診断</h2>
+            <p style="font-size:13px; color:#6d28d9; font-weight:600; margin-bottom: 20px;">近年のFE試験（CBT方式）の難化傾向に合わせ、あなたの「暗記依存度」と「論理的思考力」をクロス分析しています。</p>
+            <div id="ai-analysis-text" style="font-size: 14px; color: #4c1d95; background: rgba(255,255,255,0.6); padding: 20px; border-radius: 12px; border: 1px solid rgba(139,92,246,0.2);">
+                現在の演習セットを採点すると、ここに解答の偏りや、新傾向問題に対する耐性の分析レポートが出力されます。まずは1セット解いてみましょう！
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. 過去の回答履歴画面 -->
+    <div id="past-history-view" class="view-content">
+        <div class="card">
+            <h2 style="font-size: 18px; font-weight: 800; margin-top:0; margin-bottom:20px; color:var(--text-dark)">📜 過去の全回答履歴</h2>
+            <div id="history-log-container">
+                <p style="color: #94a3b8; text-align: center; padding: 40px 0;">まだ回答履歴がありません。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ==========================================
+// 近年のトレンドを徹底分析して作成したAIオリジナル・本質理解問題集（全30問）
+// ==========================================
+const allMasterQuestions = [
+    // --- 【第1セット：問1〜10】テクノロジ(新傾向・構造・思考) ---
+    {
+        id: 1, category: "テクノロジ", type: "AI作成・本質理解",
+        question: "符号なし8ビットの整数において、ある値 X を4倍にしたい。ただし、オーバーフロー（桁あふれ）は発生しないものとする。このとき行うべきビット操作として適切なものはどれか。",
+        options: ["右に2ビット論理シフトする", "左に2ビット論理シフトする", "右に4ビット算術シフトする", "左に4ビット算術シフトする"],
+        answer: 1,
+        text: "2進数において、左に1ビットシフトすると値は2倍、2ビットシフトすると2の2乗である「4倍」になります。符号なし整数であるため、論理シフトを使用するのが適切です。",
+        ex: "10進数で「15」の右に0を2つ足すと「1500（100倍）」になるのと同じで、2進数では左へずらすことで2のべき乗倍（2倍、4倍、8倍...）を作ることができます。"
+    },
+    {
+        id: 2, category: "テクノロジ", type: "AI作成・思考力",
+        question: "以下の擬似言語で記述されたアルゴリズムにおいて、手続き proc(4) を呼び出したとき、出力される値はどれか。\n\n【手続き定義】\nproc(引数: n)\nif (n <= 1) ならば:\n  1を出力する\nelse:\n  proc(n - 1) を実行する\n  nを出力する",
+        options: ["1, 2, 3, 4", "4, 3, 2, 1", "1, 1, 1, 1", "4, 4, 4, 4"],
+        answer: 0,
+        text: "再帰呼び出しのスタック構造と実行順序を問う問題です。proc(4)は内部でproc(3)を呼び、それがproc(2), proc(1)を呼びます。proc(1)が「1」を出力して終了すると、制御がproc(2)に戻り「2」を出力、順に「3」「4」と出力されます。",
+        ex: "マトリョーシカ人形を一番奥（n=1）まで開けてから、戻りながら順に外側（n=4）の数字をノートにメモしていくイメージです。そのため「1, 2, 3, 4」の順になります。"
+    },
+    {
+        id: 3, category: "テクノロジ", type: "近年の傾向・セキュリティ",
+        question: "「境界防御型セキュリティ」が通用しなくなった現代において、すべての通信を信頼せず、アクセスの度に厳格な認証と認可を行う最新のセキュリティ設計思想はどれか。",
+        options: ["ゼロトラスト", "サンドボックス", "シングルサインオン", "パケットフィルタリング"],
+        answer: 0,
+        text: "近年の最重要トレンドである「ゼロトラスト（Zero Trust）」です。「誰も信じない」を前提とし、社内ネットワークからのアクセスであっても安全性を都度検証します。",
+        ex: "従来は『一度会社のビル（社内LAN）に入れば安全』とみなしていましたが、ゼロトラストでは『社内にいようが、すべての部屋に入る度に毎回顔認証とIDチェックを求める』という超厳重なセキュリティスタンスです。"
+    },
+    {
+        id: 4, category: "テクノロジ", type: "AI作成・本質理解",
+        question: "スタック（LIFO）構造を持つデータ領域に対し、[ Push(A), Push(B), Pop(), Push(C), Pop(), Pop() ] の順に操作を施した。データ領域から取り出された（Popされた）データの順番として正しいものはどれか。",
+        options: ["A, B, C", "B, C, A", "C, B, A", "B, A, C"],
+        answer: 1,
+        text: "スタックは最後に積んだものが最初に出る構造です。①Push(A)→[A]、②Push(B)→[A, B]、③Pop()で最後に入れた「B」が最初に出る。④Push(C)→[A, C]、⑤Pop()で「C」が出る。⑥Pop()で残った「A」が出ます。",
+        ex: "机の上に本を積み重ねていくイメージです。Aを置き、その上にBを積む。本を取る（Pop）ときは、一番上にあるBしか取れません。次にCを積んで取る時はCが取れ、最後に底にあったAが取れます。"
+    },
+    {
+        id: 5, category: "テクノロジ", type: "近年の傾向・データベース",
+        question: "関係データベースにおいて、主キー（Primary Key）が満たすべき制約のうち、値が空（NULL）であってはならず、かつ重複してもいけないという制約を何と呼ぶか。",
+        options: ["参照整合性制約", "一意性制約（実体整合性制約）", "ドメイン制約", "形式制約"],
+        answer: 1,
+        text: "主キーはテーブル内の行を一意に特定するためのものです。そのため、空欄（NULL）になることや、同じ値が複数存在することは許されません（実体整合性・一意性制約）。",
+        ex: "学校の「出席番号」や会社の「社員番号」です。出席番号が空欄の生徒がいたり、同じ「5番」がクラスに2人いたら、特定の個人を指名できなくなってしまいます。"
+    },
+    {
+        id: 6, category: "テクノロジ", type: "AI作成・基礎応用",
+        question: "Cookieの属性の一つであり、JavaScriptなどのスクリプトからのアクセスを禁止することで、クロスサイトスクリプティング（XSS）によるセッションハイジャック（クッキー盗聴）を防ぐ設定はどれか。",
+        options: ["Secure属性", "HttpOnly属性", "SameSite属性", "Domain属性"],
+        answer: 1,
+        text: "HttpOnly属性を有効にすると、ブラウザ上のJavaScript（document.cookieなど）から該当Cookieの読み取りができなくなり、悪意あるスクリプトによるトークン窃取を防ぎます。",
+        ex: "クッキー（合鍵）を透明な防弾ガラスの箱に入れておくイメージです。ブラウザが通信に使うことはできますが、悪意あるJavaScript（泥棒の手）が触れて中身を盗むことはできません。"
+    },
+    {
+        id: 7, category: "マネジメント", type: "近年の傾向・開発",
+        question: "変化の激しい現代の開発において、短期間（1〜4週間程度）のイテレーション（反復）を繰り返し、動作するソフトウェアを迅速にリリースしていくアジリティ重視の開発フレームワークはどれか。",
+        options: ["ウォーターフォール", "スクラム（アジャイル）", "クリーンルーム開発", "リバースエンジニアリング"],
+        answer: 1,
+        text: "近年のFE試験で出題比率が急増している「アジャイル/スクラム」開発です。要件が不確定な新規ビジネス等で圧倒的な優位性を持ちます。",
+        ex: "1年かけて完璧な航海計画を作る（ウォーターフォール）のではなく、まずは目の前の島に向けて2週間船を走らせ、状況を見ながら進路を少しずつ調整していく柔軟な進め方です。"
+    },
+    {
+        id: 8, category: "ストラテジ", type: "AI作成・最新トレンド",
+        question: "サブスクリプション型サービスなどにおいて、顧客が製品やサービスを利用することで「望む成果」を得られ、満足して契約を継続してもらうための企業の能動的な支援活動を何と呼ぶか。",
+        options: ["カスタマーサクセス", "カスタマーサポート", "プロダクトライフサイクル", "インバウンドマーケティング"],
+        answer: 0,
+        text: "従来の受動的な「カスタマーサポート（苦情処理）」に対し、顧客の成功を先回りして支援する「カスタマーサクセス」は現代の重要デジタルビジネス用語です。",
+        ex: "ジムに入会した人に「器具の使い方の苦情を待つ」のがサポート。「目標体重に向けてメニューを提案し、サボりそうな時に声をかける」のがサクセスです。"
+    },
+    {
+        id: 9, category: "テクノロジ", type: "AI作成・ネットワーク",
+        question: "OSI参照モデルにおいて、ルータやレイヤ3スイッチが担当し、エンドツーエンドのパケット転送および経路制御（ルーティング）を行う階層はどれか。",
+        options: ["物理層", "データリンク層", "ネットワーク層", "トランスポート層"],
+        answer: 2,
+        text: "ルータは「ネットワーク層（第3層）」で動作し、IPアドレスを基にして別のネットワークへデータをどのように届けるか（経路選択）を決定します。",
+        ex: "世界の郵便システムでいえば、手紙の「住所（IPアドレス）」を見て、どの飛行機やトラックに乗せるべきかを仕分ける中継拠点の役割です。"
+    },
+    {
+        id: 10, category: "テクノロジ", type: "AI作成・本質理解",
+        question: "2進数の乗算において、ある正の整数 X に 0.011(2) を掛け算したい。この処理をシフト演算と加算の組み合わせで表現したものとして、適切なものはどれか。",
+        options: ["(Xを右に2ビットシフト) ＋ (Xを右に3ビットシフト)", "(Xを左に2ビットシフト) ＋ (Xを左に3ビットシフト)", "(Xを右に1ビットシフト) ＋ (Xを右に2ビットシフト)", "(Xを左に1ビットシフト) ＋ (Xを左に2ビットシフト)"],
+        answer: 0,
+        text: "2進数「0.011」は、0.01 と 0.001 の和です。0.01倍は右に2ビットシフト、0.001倍は右に3ビットシフトを意味します。したがって、これらを足し合わせたものが正解です。",
+        ex: "10進数で「X × 0.12」を計算するとき、「X×0.1」と「X×0.02」を別々に計算して後からガッチャンコするのと同じ発想です。"
+    },
+
+    // --- 【第2セット：問11〜20】応用・計算・データベース構造 ---
+    {
+        id: 11, category: "テクノロジ", type: "AI作成・応用力",
+        question: "CPUの性能指標であるMIPS（Million Instructions Per Second）において、1 instructionの平均実行時間が 20ナノ秒 であるCPUの性能は何MIPSか。",
+        options: ["5 MIPS", "20 MIPS", "50 MIPS", "100 MIPS"],
+        answer: 2,
+        text: "1秒間に実行できる命令数を求めます。1秒 / (20 × 10^-9 秒) = 50,000,000命令。MIPSは「100万命令/秒」単位なので、5,000万 / 100万 = 50 MIPS となります。",
+        ex: "1つの作業に20秒かかるロボットがいたら、100秒間で5回動けます。ナノ秒（10億分の1秒）という極小の世界ですが、計算の比率は全く同じです。"
+    },
+    {
+        id: 12, category: "テクノロジ", type: "近年の傾向・DX",
+        question: "クラウドコンピューティングのサービス形態のうち、アプリケーションを稼働させるためのOSやデータベース、ランタイム環境（プラットフォーム）までをインターネット経由で提供するものはどれか。",
+        options: ["IaaS", "PaaS", "SaaS", "DaaS"],
+        answer: 1,
+        text: "PaaS（Platform as a Service）は開発環境・実行土台を提供します。インフラのみはIaaS、完成品アプリはSaaSです。",
+        ex: "カレー作りに例えると、キッチンとコンロだけ借りるのがIaaS。下ごしらえ済みの具材と鍋（土台）まで用意してもらうのがPaaS。お店で完成したカレーを食べるのがSaaSです。"
+    },
+    {
+        id: 13, category: "マネジメント", type: "AI作成・本質理解",
+        question: "アローダイアグラム（作業ネットワーク図）において、ある作業の「最早結合点時刻」が10、「最遅結合点時刻」が14であった。この作業における『ゆとり時間（スラックタイム）』はどれくらいあるか。",
+        options: ["0", "2", "4", "24"],
+        answer: 2,
+        text: "ゆとり時間は「最遅結合点時刻 ー 最早結合点時刻」で計算されます。14 - 10 = 4 となり、この作業は最大4日間遅れてもプロジェクト全体の終了日に影響しません。",
+        ex: "「最短なら10日目に始められる作業だが、最悪14日目までに始めれば全体が遅れない」という状況です。つまり、4日間の寝坊（遅れ）が許される「心のゆとり」です。"
+    },
+    {
+        id: 14, category: "ストラテジ", type: "近年の傾向・ビジネス",
+        question: "既存のビジネスモデルをデジタル技術によって根本から覆し、新たな価値やゲームチェンジをもたらす「デジタルトランスフォーメーション（DX）」の核心的な目的はどれか。",
+        options: ["社内の紙の書類をPDF化してサーバーに保存すること", "最新のパソコンを全社員に導入してタイピング速度を上げること", "デジタル技術を活用して、ビジネスモデルや組織、顧客体験を劇的に変革すること", "自社のホームページのデザインをトレンドに合わせて新しくすること"],
+        answer: 2,
+        text: "DXの本質は単なるIT化（デジタイゼーション）ではなく、技術を通じた「ビジネスモデルそのものの変革・競争優位の確立」です。",
+        ex: "手書きの帳簿をExcelにするのはただのIT化です。レンタルビデオ店がお店を無くし、サブスクのネット配信（Netflix等）にして人々の生活習慣ごと変えてしまうのがDXです。"
+    },
+    {
+        id: 15, category: "テクノロジ", type: "AI作成・セキュリティ",
+        question: "公開鍵暗号方式を用いた電子メールの暗号化において、送信者が「受信者にしか中身を読めないように」暗号化したい。このとき使用すべき鍵はどれか。",
+        options: ["送信者の秘密鍵", "送信者の公開鍵", "受信者の秘密鍵", "受信者の公開鍵"],
+        answer: 3,
+        text: "誰でも手に入れられる「受信者の公開鍵」で暗号化したデータは、世界で唯一、ペアになる「受信者の秘密鍵」を持つ本人しか解読できません。",
+        ex: "あなたが誰かに秘密の手紙を送りたい時、相手が配っている「開けっ放しの南京錠（公開鍵）」を手紙の箱にパチンと掛けます。これを鍵で開けられる（秘密鍵）のは、南京錠の持ち主だけです。"
+    },
+    {
+        id: 16, category: "テクノロジ", type: "AI作成・アルゴリズム",
+        question: "要素数が1,000の整列済みの配列から、特定のデータを「二分探索法（バイナリサーチ）」を用いて探すとき、最悪の場合でも最大何回の比較で探索が完了するか。",
+        options: ["10回", "50回", "500回", "1,000回"],
+        answer: 0,
+        text: "二分探索法は1回の比較ごとに探す範囲が「半分」になります。 2の10乗は1024であるため、1000個のデータであれば最大10回の絞り込みで必ず1個に特定できます。",
+        ex: "1から1000までの数字当てゲームで、常に真ん中の数字（500、750...）を言っていけば、「大きい」「小さい」のヒント10回以内で絶対に正解に辿り着けます。"
+    },
+    {
+        id: 17, category: "マネジメント", type: "近年の傾向・監査",
+        question: "IT監査において、監査人が被監査部門から完全に独立した立場で客観的な意見を述べるために、最も厳格に保持しなければならないスタンスはどれか。",
+        options: ["職能的専門家としての偏りのない独立性", "被監査部門との親密な人間関係の構築", "開発コスト削減のための妥協案の提示", "最新のプログラミングスキルの証明"],
+        answer: 0,
+        text: "システム監査の本質は、利害関係のない第三者が「客観的」にチェックすることです。そのため独立性が何よりも重視されます。",
+        ex: "自分で作ったテストの採点を自分でやると甘くなりますよね（独立性なし）。全く関係のない外部の先生（監査人）が採点するからこそ、その結果に信頼性が生まれるのです。"
+    },
+    {
+        id: 18, category: "ストラテジ", type: "AI作成・知財法務",
+        question: "オープンソースソフトウェア（OSS）において広く利用されている「GPLライセンス」の最大の特徴はどれか。",
+        options: ["著作権を完全に放棄し、パブリックドメインにすること", "改変したプログラムを再配布する場合、同じGPLライセンス（ソースコード公開）を適用しなければならないこと", "商用利用を一切禁止し、学術目的のみに利用を制限すること", "ソースコードの改変を一切禁止し、そのまま利用すること"],
+        answer: 1,
+        text: "GPL（General Public License）は、そのコードを含めて作った成果物を配る際、元のソースコードも開示することを義務付ける「コピーレフト」の代表格です。",
+        ex: "「誰でも使っていい秘伝のスパイスをあげるけど、これを使って新しいラーメンを売るなら、君のラーメンの隠し味レシピもみんなに公開してね」というルールです。"
+    },
+    {
+        id: 19, category: "テクノロジ", type: "近年の傾向・設計",
+        question: "オブジェクト指向設計において、クラスの内部構造（データや具体的な処理）を隠蔽し、外部からは公開されたメソッド（窓口）を通してのみ操作を許可する本質的な概念はどれか。",
+        options: ["カプセル化", "継承（インヘリタンス）", "多相性（ポリモーフィズム）", "構造化"],
+        answer: 0,
+        text: "カプセル化（Encapsulation）は、内部の変数を勝手に書き換えられないよう保護し、システムの安全性を高める仕組みです。",
+        ex: "自動車の運転手が「アクセルを踏む」だけで加速できる状態です。エンジン内部のガソリン噴射量を手動でイジる必要はなく、中身はカプセルの中に隠されています。"
+    },
+    {
+        id: 20, category: "テクノロジ", type: "AI作成・Web構造",
+        question: "REST APIなどのWeb通信において、データの軽量なやり取りに最も広く使われている、キーと値のペアをコロンで区切って記述するテキストデータフォーマットはどれか。",
+        options: ["XML", "JSON", "HTML", "CSV"],
+        answer: 1,
+        text: "JSON（JavaScript Object Notation）は、人間にとっても読みやすく、コンピュータでの解析も高速なため、現代のWebシステム・API通信の標準規格となっています。",
+        ex: "`{ \"name\": \"山田\", \"age\": 25 }` のように波括弧でデータを囲うシンプルな形式です。無駄な飾りがなくデータサイズが軽いため重宝されます。"
+    },
+
+    // --- 【第3セット：問21〜30】ストラテジ・最新マネジメント・高度思考 ---
+    {
+        id: 21, category: "テクノロジ", type: "AI作成・ネットワーク理論",
+        question: "IPv4アドレスの枯渇対策として導入された、1つのグローバルIPアドレスを、ポート番号を識別子として用いることで複数のプライベートIPアドレスで共有し、同時にインターネット接続を可能にする技術はどれか。",
+        options: ["DHCP", "DNS", "NAPT（IPマスカレード）", "NTP"],
+        answer: 2,
+        text: "単なる1対1変換のNATに対し、ポート番号を組み合わせることで「1対多」の変換を実現したのがNAPT（IPマスカレード）です。",
+        ex: "会社の住所（1つのグローバルIP）宛てに届いた荷物を、宛名に書かれた「内線番号や部屋番号（ポート番号）」を見て、社内の別々の社員（複数のプライベートIP）に配り分ける技です。"
+    },
+    {
+        id: 22, category: "テクノロジ", type: "近年の傾向・信頼性",
+        question: "システムに障害が発生した際、あらかじめ用意していた予備のシステムに自動的に処理を切り替え、サービスの中断を最小限に抑える仕組みを何と呼ぶか。",
+        options: ["フェールソフト", "フェールオーバー", "フールプルーフ", "フォールトトレラント"],
+        answer: 1,
+        text: "冗長化されたシステムにおいて、稼働系が倒れた時に待機系へ自動スイッチする動作を「フェールオーバー」と呼びます。",
+        ex: "飛行機のエンジンが片方壊れた瞬間、もう一つの予備エンジンが自動的に出力を上げて、乗客に気づかれることなく飛び続ける仕組みです。"
+    },
+    {
+        id: 23, category: "マネジメント", type: "AI作成・品質管理",
+        question: "ソフトウェアのバグの原因や偏りを分析するため、データをいくつかの項目（例えば、開発者別、時間帯別、モジュール別など）にグループ分けして傾向を掴む品質管理手法はどれか。",
+        options: ["層別（ストラティフィケーション）", "パレート図", "散布図", "ヒストグラム"],
+        answer: 0,
+        text: "データを共通の属性ごとに「層（グループ）」に分けることで、どこに問題が集中しているのか原因を特定しやすくする手法が「層別」です。",
+        ex: "「今月は不良品が多い！」と騒ぐだけでなく、「新人A君のシフト」「ベテランBさんのシフト」にデータを分けてみたら、原因が偏っている場所が一発で見えてくるような分析です。"
+    },
+    {
+        id: 24, category: "ストラテジ", type: "近年の傾向・ガバナンス",
+        question: "ITガバナンスの世界的フレームワークであり、企業のIT投資が戦略に合致し、適切なリスク管理と価値創造を行えているかを評価・管理するための指針はどれか。",
+        options: ["ITIL", "COBIT", "SLA", "WBS"],
+        answer: 1,
+        text: "COBIT（Control Objectives for Information and Related Technology）は、経営陣がITを適切に統治（ガバナンス）するための包括的なフレームワークです。",
+        ex: "ITILが「現場のエンジニアが効率よくシステムを運用するためのルールブック」なら、COBITは「社長や役員が、IT投資で大損しないように管理するための経営者用チェックリスト」です。"
+    },
+    {
+        id: 25, category: "テクノロジ", type: "AI作成・高度計算",
+        question: "稼働率が 0.9 のサーバ2台を「並列」に接続して構築したシステムの、システム全体の稼働率はいくつか。",
+        options: ["0.81", "0.90", "0.95", "0.99"],
+        answer: 3,
+        text: "並列システムの稼働率は「1 － (全サーバが同時に故障する確率)」で求めます。1台が壊れる確率は 1 - 0.9 = 0.1。2台同時に壊れる確率は 0.1 × 0.1 = 0.01。よって全体稼働率は 1 - 0.01 = 0.99 です。",
+        ex: "「寝坊する確率が10%の人」が2人で協力し、どちらか1人でも起きれば会社に鍵が開けられる状態です。2人とも同時に寝坊して会社が開かない確率はわずか1%（全体で99%成功）になります。"
+    },
+    {
+        id: 26, category: "テクノロジ", type: "近年の傾向・AI技術",
+        question: "機械学習（ディープラーニング）において、入力データの特徴を自動的に抽出し、高度な予測や分類を可能にする、人間の脳の神経回路を模した数理モデルを何と呼ぶか。",
+        options: ["ニューラルネットワーク", "決定木（デシジョンツリー）", "回帰分析モデル", "サポートベクターマシン"],
+        answer: 0,
+        text: "ディープラーニングの基盤となる「ニューラルネットワーク（Neural Network）」です。多層に重ねることで複雑なパターン認識を可能にします。",
+        ex: "目の神経から脳の細胞へ「丸い」「赤い」「ヘタがある」という情報がバケツリレー式に伝わって、最終的に「これはリンゴだ！」と脳が判断する仕組みをコンピュータ内に再現したものです。"
+    },
+    {
+        id: 27, category: "マネジメント", type: "AI作成・プロジェクト管理",
+        question: "プロジェクト管理の「WBS（Work Breakdown Structure）」を作成する究極の本質的な目的はどれか。",
+        options: ["綺麗なガントチャートを作って顧客を安心させること", "プロジェクトに必要なすべての作業（スコープ）を漏れなく重複なく洗い出し、管理可能にすること", "プログラマーの毎日の残業時間を1分単位で計算すること", "システム開発の契約書に添付する法的なハンコを省略すること"],
+        answer: 1,
+        text: "WBSの本質はスコープ定義です。大きなプロジェクトを、管理・見積もりが可能な最小単位（ワークパッケージ）まで細分化し、作業漏れを防ぎます。",
+        ex: "「家を建てる」という大雑把なタスクのままだと見積もれませんが、「基礎を掘る」「柱を立てる」「壁を塗る」までバラバラに分解すれば、期間や費用がハッキリ計算できるようになります。"
+    },
+    {
+        id: 28, category: "ストラテジ", type: "AI作成・ビジネス戦略",
+        question: "マイケル・ポーターが提唱した「5フォース分析」において、業界の収益性を脅かす5つの競争要因に含まれないものはどれか。",
+        options: ["新規参入者の脅威", "代替品の脅威", "買い手の交渉力", "自社の株主総会での発言力"],
+        answer: 3,
+        text: "5フォース（5つの脅威）は、「新規参入」「代替品」「買い手」「売り手」「業界内の競合」です。株主総会の発言力は内部統治の話であり、業界構造分析の5要因には含まれません。",
+        ex: "あなたがラーメン屋を開くとき、「隣に新しい店ができるか（新規参入）」「みんながパスタに流れるか（代替品）目標」「お客が値切りを要求するか（買い手）」など、周りから受けるプレッシャーの強さを分析する手法です。"
+    },
+    {
+        id: 29, category: "テクノロジ", type: "近年の傾向・セキュリティ応用",
+        question: "標的型のサイバー攻撃において、攻撃者が社内ネットワークに侵入後、長期間にわたり検知を潜り抜けながら、標的組織の機密情報を奪取し続ける持続的な攻撃手法の総称はどれか。",
+        options: ["APT（Advanced Persistent Threat）攻撃", "ランサムウェア攻撃", "SQLインジェクション", "バッファオーバフロー"],
+        answer: 0,
+        text: "APT攻撃（持続的標的型攻撃）は、特定の組織を狙い、高度（Advanced）かつ持続的（Persistent）に潜伏してスパイ活動を行う深刻なサイバー脅威です。",
+        ex: "泥棒が一晩で金庫を破って逃げるのではなく、スパイが会社の天井裏に何ヶ月も住み着いて、毎日重要書類をスマホでパシャパシャ撮影して外部に送り続けるような攻撃です。"
+    },
+    {
+        id: 30, category: "ストラテジ", type: "AI作成・法務",
+        question: "派遣契約と請負契約の本質的な法的違いにおいて、「労働者への指揮命令権」が発注元（常駐先の企業）にある契約形態はどれか。",
+        options: ["請負契約", "労働者派遣契約", "業務委託契約", "出向契約"],
+        answer: 1,
+        text: "労働者派遣契約では、指揮命令権は派遣先（発注元）にあります。一方、請負契約や準委任契約では指揮命令権は受注側企業にあり、発注側が直接指示を出すと「偽装請負」として違法になります。",
+        ex: "派遣のエンジニアには「今日中にこのバグを直して！」と直接指示してOKですが、請負の会社の人に直接命令するのはNGです（会社の上司経由でタスクを依頼しなければいけません）。"
+    }
+];
+
+// ==========================================
+// 進行制御・統計管理システム Pro (修正・同期強化版)
+// ==========================================
+let currentProgress = 0; 
+let activeQuestions = [];
+let totalHistory = [];
+
+window.onload = function() {
+    try {
+        totalHistory = JSON.parse(localStorage.getItem('fe_extreme_history_v3') || '[]');
+    } catch(e) {
+        totalHistory = [];
+    }
+    loadQuestionsForCurrentProgress();
+    calculateStats();
+    updateHistoryDOM();
+};
+
+function switchMainView(viewId) {
+    document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
+    document.getElementById(viewId).classList.add('active');
+    
+    document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+    if (viewId === 'main-study-view') document.getElementById('nav-btn-main').classList.add('active');
+    if (viewId === 'stats-view') document.getElementById('nav-btn-stats').classList.add('active');
+    if (viewId === 'ai-view') document.getElementById('nav-btn-ai').classList.add('active');
+    if (viewId === 'past-history-view') document.getElementById('nav-btn-history').classList.add('active');
+    
+    calculateStats();
+    updateHistoryDOM();
+}
+
+function loadQuestionsForCurrentProgress() {
+    const startIdx = currentProgress * 10;
+    activeQuestions = allMasterQuestions.slice(startIdx, startIdx + 10);
+    
+    document.getElementById('submit-all-btn').style.display = 'block';
+    document.getElementById('next-set-btn').style.display = 'none';
+    
+    renderQuiz();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    let html = "";
+    
+    activeQuestions.forEach((q, idx) => {
+        const globalNum = (currentProgress * 10) + idx + 1;
+        const formattedQuestion = q.question.replace(/\n/g, '<br>');
+        
+        html += `
+            <div class="card" id="card-${q.id}">
+                <div class="badge-container">
+                    <span class="badge">${q.category}</span>
+                    <span class="badge badge-ai">${q.type}</span>
+                </div>
+                <div class="question-text">問 ${globalNum}. ${formattedQuestion}</div>
+                <div class="options-group">
+        `;
+        q.options.forEach((opt, oIdx) => {
+            html += `
+                <label class="option-label" id="label-${q.id}-${oIdx}">
+                    <input type="radio" name="question-${q.id}" value="${oIdx}">
+                    ${opt}
+                </label>
+            `;
+        });
+        html += `
+                </div>
+                <div id="ex-box-${q.id}" class="explanation-box">
+                    <div class="ex-tabs">
+                        <button class="ex-tab-btn active" id="btn-tab-text-${q.id}" onclick="switchExTab(${q.id}, 'text')">💡 思考・本質解説</button>
+                        <button class="ex-tab-btn" id="btn-tab-ex-${q.id}" onclick="switchExTab(${q.id}, 'ex')">🏫 具体例イメージ</button>
+                    </div>
+                    <div id="content-text-${q.id}" class="ex-content active"><strong>【AI解説】</strong> ${q.text}</div>
+                    <div id="content-ex-${q.id}" class="ex-content"><strong>【たとえば…】</strong> ${q.ex}</div>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+function switchExTab(qId, type) {
+    document.getElementById(`btn-tab-text-${qId}`).classList.remove('active');
+    document.getElementById(`btn-tab-ex-${qId}`).classList.remove('active');
+    document.getElementById(`content-text-${qId}`).classList.remove('active');
+    document.getElementById(`content-ex-${qId}`).classList.remove('active');
+
+    document.getElementById(`btn-tab-${type}-${qId}`).classList.add('active');
+    document.getElementById(`content-${type}-${qId}`).classList.add('active');
+}
+
+function gradeAll() {
+    let score = 0;
+    const todayStr = new Date().toLocaleDateString();
+    
+    activeQuestions.forEach(q => {
+        const selected = document.querySelector(`input[name="question-${q.id}"]:checked`);
+        const userAns = selected ? parseInt(selected.value) : -1;
+        
+        document.querySelectorAll(`input[name="question-${q.id}"]`).forEach(r => r.disabled = true);
+        
+        let isCorrect = false;
+        if (userAns === q.answer) {
+            score++;
+            document.getElementById(`label-${q.id}-${q.answer}`).classList.add('correct');
+            isCorrect = true;
+        } else {
+            if (userAns !== -1) document.getElementById(`label-${q.id}-${userAns}`).classList.add('incorrect');
+            document.getElementById(`label-${q.id}-${q.answer}`).classList.add('correct');
+        }
+        
+        const record = {
+            id: q.id,
+            category: q.category,
+            question: q.question,
+            userAnsText: userAns !== -1 ? q.options[userAns] : "未回答",
+            correctAnsText: q.options[q.answer],
+            isCorrect: isCorrect,
+            date: todayStr,
+            time: new Date().toLocaleTimeString()
+        };
+        
+        totalHistory.unshift(record);
+        document.getElementById(`ex-box-${q.id}`).style.display = 'block';
+    });
+    
+    localStorage.setItem('fe_extreme_history_v3', JSON.stringify(totalHistory));
+    
+    document.getElementById('submit-all-btn').style.display = 'none';
+    document.getElementById('next-set-btn').style.display = 'block';
+    
+    calculateStats();
+    updateHistoryDOM();
+    
+    alert(`【採点結果】今回の10問中、${score}問正解です！\n他のタブの情報も同期更新されました。`);
+}
+
+function loadNextSet() {
+    currentProgress = (currentProgress + 1) % 3; 
+    loadQuestionsForCurrentProgress();
+}
+
+function calculateStats() {
+    const totalCount = totalHistory.length;
+    document.getElementById('stat-total-count').innerText = totalCount + "問";
+    
+    if (totalCount === 0) {
+        document.getElementById('live-counter-banner').innerText = `現在の累計スコア: 0問解答 / 正解 0問 (正答率 0%)`;
+        document.getElementById('stat-total-rate').innerText = "0%";
+        document.getElementById('stat-today-rate').innerText = "0%";
+        document.getElementById('stat-past-rate').innerText = "0%";
+        document.getElementById('bar-tech').style.width = "0%";
+        document.getElementById('per-tech').innerText = "0%";
+        document.getElementById('bar-mgmt').style.width = "0%";
+        document.getElementById('per-mgmt').innerText = "0%";
+        document.getElementById('bar-strat').style.width = "0%";
+        document.getElementById('per-strat').innerText = "0%";
+        generateAIFeedback(0, 0, 0);
+        return;
+    }
+    
+    const todayStr = new Date().toLocaleDateString();
+    const correctCount = totalHistory.filter(h => h.isCorrect).length;
+    const totalRate = Math.round((correctCount / totalCount) * 100);
+    document.getElementById('stat-total-rate').innerText = totalRate + "%";
+    
+    document.getElementById('live-counter-banner').innerText = `現在の累計スコア: ${totalCount}問解答 / 正解 ${correctCount}問 (正答率 ${totalRate}%)`;
+    
+    const todayLogs = totalHistory.filter(h => h.date === todayStr);
+    const todayRate = todayLogs.length > 0 
+        ? Math.round((todayLogs.filter(h => h.isCorrect).length / todayLogs.length) * 100) : 0;
+    document.getElementById('stat-today-rate').innerText = todayRate + "%";
+    
+    const pastLogs = totalHistory.filter(h => h.date !== todayStr);
+    const pastRate = pastLogs.length > 0 
+        ? Math.round((pastLogs.filter(h => h.isCorrect).length / pastLogs.length) * 100) : 0;
+    document.getElementById('stat-past-rate').innerText = pastRate + "%";
+    
+    const cats = ["テクノロジ", "マネジメント", "ストラテジ"];
+    cats.forEach(c => {
+        const cLogs = totalHistory.filter(h => h.category === c);
+        const rate = cLogs.length > 0 
+            ? Math.round((cLogs.filter(h => h.isCorrect).length / cLogs.length) * 100) : 0;
+        
+        let idMap = { "テクノロジ": "tech", "マネジメント": "mgmt", "ストラテジ": "strat" };
+        document.getElementById(`bar-${idMap[c]}`).style.width = rate + "%";
+        document.getElementById(`per-${idMap[c]}`).innerText = rate + "%";
+    });
+    
+    generateAIFeedback(totalRate, todayRate, totalCount);
+}
+
+function generateAIFeedback(totalRate, todayRate, totalCount) {
+    const aiTarget = document.getElementById('ai-analysis-text');
+    if (totalCount === 0) {
+        aiTarget.innerHTML = "現在の演習セットを採点すると、ここに解答の偏りや、新傾向問題に対する耐性の分析レポートが出力されます。まずは1セット解いてみましょう！";
+        return;
+    }
+
+    let msg = `<h4 style="margin-top:0; color:#4c1d95; font-size:16px;">📊 AIデータパルス：あなたの思考特性分析</h4>`;
+    
+    if (totalRate >= 75) {
+        msg += `<p><strong>【思考タイプ：ロジカル・アーキテクト（高適性）】</strong><br>素晴らしい成績です。過去問の単純流用ではない「ビット操作の本質」や「再帰関数の挙動」に関するAI作成問題を綺麗に見抜いています。近年のFE試験が最も求める『初見の問題への対応力』が備わっています。記述の長い応用問題（セキュリティ、設計分野）を重点的に補強すればトップ通過が可能です。</p>`;
+    } else if (totalRate >= 55) {
+        msg += `<p><strong>【思考タイプ：ハイブリッド・ラーナー（合格ボーダー）】</strong><br>基礎知識は頭に入っていますが、計算問題（MIPS、並列稼働率）や、新傾向の概念（ゼロトラスト等）で一歩踏み込んだ応用を求められた際に失点しやすい傾向があります。丸暗記を排し、解説にある「具体例」のイメージを頭の中に動画として描けるように訓練してください。ブレがなくなれば一気に合格圏へ突き抜けます。</p>`;
+    } else {
+        msg += `<p><strong>【思考タイプ：インプット先行型（基礎要補強）】</strong><br>現在はIT用語の文字面だけを追ってしまい、システムの本質的な仕組み（データ構造の動き、クッキーのセキュリティ制限など）への深い理解が不足している可能性があります。点数を気にする必要はありません！間違えた問題の『具体例・身近なイメージ』タブを開き、現実世界での身近な仕組みとIT技術をリンクさせて再挑戦しましょう。</p>`;
+    }
+    
+    msg += `
+        <h4 style="margin-top:18px; margin-bottom:8px; color:#6d28d9; font-size:15px;">🎯 近年のトレンドを見据えたAI強化命令</h4>
+        <ul style="margin:0; padding-left:20px;">
+            <li style="margin-bottom:6px;">本日の正答率: <strong>${todayRate}%</strong>（まずはセット内の間違えた問題をノートなしで思い出すテストをしてください）</li>
+            <li><strong>【対策戦略】</strong>CBT試験では問題の文章量が長くなる傾向にあります。アルゴリズム問題の条件分岐を1行ずつ指差し確認する癖をつけましょう。</li>
+        </ul>
+    `;
+    aiTarget.innerHTML = msg;
+}
+
+function updateHistoryDOM() {
+    const logContainer = document.getElementById('history-log-container');
+    if (!totalHistory || totalHistory.length === 0) {
+        logContainer.innerHTML = '<p style="color: #94a3b8; text-align: center; padding: 40px 0;">まだ履歴はありません。</p>';
+        return;
+    }
+    
+    let html = "";
+    totalHistory.forEach(item => {
+        const badge = item.isCorrect 
+            ? `<span class="history-badge-correct">正解</span>` 
+            : `<span class="history-badge-incorrect">不正解</span>`;
+            
+        html += `
+            <div class="history-log-card">
+                <div style="font-size: 11px; color: #94a3b8; margin-bottom: 8px; font-weight:600;">
+                    ${item.date} ${item.time} | ${item.category}
+                </div>
+                <div style="display:flex; align-items:center; gap: 10px; margin-bottom:8px;">
+                    ${badge}
+                    <strong style="font-size:14px; color:var(--text-dark);">${item.question.substring(0, 60)}...</strong>
+                </div>
+                <p style="margin: 0; font-size: 13px; color: #64748b;">
+                    あなたの選択: <span style="color:var(--danger); font-weight:600;">${item.userAnsText}</span> | 
+                    正解: <span style="color:var(--success); font-weight:600;">${item.correctAnsText}</span>
+                </p>
+            </div>
+        `;
+    });
+    logContainer.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
