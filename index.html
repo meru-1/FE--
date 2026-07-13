@@ -3,945 +3,964 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FE本質理解学習システム Ultimate v7.5 + Firebase Sync</title>
+    <title>FE Master - 科目A 攻略ダッシュボード</title>
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --primary-glow: rgba(99, 102, 241, 0.35);
-            --success: #10b981;
-            --success-bg: rgba(16, 185, 129, 0.08);
-            --danger: #f43f5e;
-            --danger-bg: rgba(244, 63, 94, 0.08);
-            --dark-deep: #090d16;
-            --glass-card: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.4);
+            --bg-primary: #f0f4f8;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e2e8f0;
             --text-main: #334155;
-            --text-dark: #0f172a;
-            --accent: #a855f7;
-            --accent-glow: rgba(168, 85, 247, 0.35);
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --radius-sm: 12px;
-            --shadow-premium: 0 8px 32px 0 rgba(31, 38, 135, 0.04), 0 4px 12px 0 rgba(0, 0, 0, 0.02);
-            --shadow-hover: 0 12px 40px 0 rgba(99, 102, 241, 0.12), 0 8px 20px 0 rgba(0, 0, 0, 0.04);
+            --text-muted: #64748b;
+            --accent-blue: #4f46e5;
+            --accent-blue-light: #eeebff;
+            --accent-green: #10b981;
+            --accent-green-light: #d1fae5;
+            --accent-amber: #f59e0b;
+            --accent-amber-light: #fef3c7;
+            --accent-red: #ef4444;
+            --accent-red-light: #fee2e2;
+            
+            --rank-bronze: #b45309;
+            --rank-silver: #64748b;
+            --rank-gold: #d97706;
+            --rank-platinum: #0d9488;
+            --rank-diamond: #2563eb;
+            --rank-immortal: #dc2626;
+            --rank-radiant: #7c3aed;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
-            background: radial-gradient(circle at 0% 0%, #f1f5f9 0%, #e2e8f0 100%);
+            background-color: var(--bg-primary);
             color: var(--text-main);
-            line-height: 1.8;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
             min-height: 100vh;
+            padding-bottom: 60px;
         }
 
         header {
-            background: linear-gradient(135deg, #0b0f19 0%, #111827 100%);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-        header h1 {
-            font-size: 32px; font-weight: 900; margin: 0 0 12px 0; letter-spacing: -0.03em;
-            background: linear-gradient(to right, #ffffff, #c7d2fe, #f3e8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        header p { font-size: 14px; color: #94a3b8; margin: 0; font-weight: 500; letter-spacing: 0.05em; }
-
-        .container { max-width: 880px; margin: 0 auto; padding: 32px 20px 100px 20px; }
-
-        .rank-marquee {
-            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
-            border: 2px solid rgba(168, 85, 247, 0.4);
-            border-radius: var(--radius-md);
-            padding: 20px 28px;
-            margin-bottom: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.1);
+            background-color: var(--bg-secondary);
+            padding: 20px 30px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            gap: 20px;
-            color: white;
-            position: relative;
-            overflow: hidden;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(148, 163, 184, 0.12);
+            border-radius: 0 0 16px 16px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        .rank-info-block { display: flex; align-items: center; gap: 18px; }
-        .rank-badge-visual {
-            font-size: 42px; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; background: rgba(255,255,255,0.1); box-shadow: 0 0 20px rgba(255,255,255,0.05);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .rank-text-zone .rank-title-current {
-            font-size: 22px; font-weight: 900; letter-spacing: 0.05em; margin: 0;
-            background: linear-gradient(to right, #fff, #c7d2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .rank-text-zone .rank-rp-display { font-size: 14px; color: #a5b4fc; font-weight: 700; margin: 2px 0 0 0; }
-        
-        .rank-progress-container { flex-grow: 1; max-width: 400px; }
-        .rank-bar-bg { background: rgba(255,255,255,0.08); height: 12px; border-radius: 9999px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); position: relative; }
-        .rank-bar-fill { background: linear-gradient(90deg, #a855f7, #6366f1); height: 100%; width: 0%; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .rank-next-tier-text { font-size: 11px; color: #94a3b8; font-weight: 700; margin-top: 6px; text-align: right; letter-spacing: 0.02em; }
 
-        .season-countdown-bar {
-            background: linear-gradient(90deg, #7c3aed 0%, #4f46e5 100%);
-            color: white;
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            margin-bottom: 32px;
-            font-size: 12.5px;
+        .logo {
+            font-size: 24px;
             font-weight: 800;
+            color: var(--accent-blue);
+            letter-spacing: 0.5px;
+        }
+
+        .season-timer-box {
+            background-color: var(--accent-amber-light);
+            border: 1px solid var(--accent-amber);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: var(--rank-bronze);
+            font-weight: bold;
+        }
+
+        .user-status-bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .status-item {
+            background: var(--bg-primary);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* アカウント同期管理パネル */
+        .sync-panel {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: var(--shadow-premium);
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(30, 41, 59, 0.2);
         }
-        .season-time { font-family: monospace; font-size: 14.5px; background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 6px; letter-spacing: 0.05em; }
+        .sync-info { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+        .sync-status-badge { background-color: var(--accent-green); color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .sync-status-badge.offline { background-color: var(--text-muted); }
+        .sync-actions { display: flex; gap: 10px; align-items: center; }
+        .sync-input { background: #334155; border: 1px solid #475569; color: white; padding: 6px 12px; border-radius: 6px; font-size: 13px; outline: none; }
+        .btn-sync { background-color: var(--accent-blue); color: white; border: none; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-sync:hover { background-color: #6366f1; }
+        .btn-sync-alt { background-color: transparent; border: 1px solid #475569; color: #cbd5e1; padding: 6px 14px; border-radius: 6px; font-size: 13px; cursor: pointer; }
+        .btn-sync-alt:hover { background: #334155; color: white; }
 
         .nav-tabs {
-            display: flex; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            padding: 6px; border-radius: 20px; gap: 6px; margin-bottom: 36px; border: 1px solid var(--glass-border); box-shadow: var(--shadow-premium); overflow-x: auto;
-        }
-        .nav-tab-btn {
-            flex: 1; min-width: 120px; padding: 12px 16px; font-size: 14px; font-weight: 700; background: transparent; border: none;
-            border-radius: 14px; cursor: pointer; color: #64748b; white-space: nowrap; transition: all 0.3s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .nav-tab-btn.active { background: #111827; color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-        .nav-tab-btn.tab-ai-style.active { background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); color: white; box-shadow: 0 8px 20px var(--accent-glow); }
-
-        .view-content { display: none; }
-        .view-content.active { display: block; animation: smoothShift 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
-
-        @keyframes smoothShift { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-
-        .mode-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
-        .mode-btn {
-            background: rgba(255, 255, 255, 0.5); border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
-            padding: 14px 10px; font-weight: 800; font-size: 13.5px; cursor: pointer; transition: all 0.2s; color: var(--text-main); text-align: center; box-shadow: var(--shadow-premium);
-        }
-        .mode-btn.active {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: white; border-color: #4f46e5; box-shadow: 0 8px 20px rgba(30, 27, 75, 0.2);
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 5px;
         }
 
-        .control-bar { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; justify-content: space-between; align-items: center; }
-        .toggle-container { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.6); padding: 10px 20px; border-radius: 9999px; border: 1px solid var(--glass-border); box-shadow: var(--shadow-premium); }
-        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--danger); }
-        input:checked + .slider:before { transform: translateX(20px); }
-        .toggle-label { font-size: 13.5px; font-weight: 800; color: var(--text-dark); }
+        .tab-btn {
+            background-color: var(--bg-secondary);
+            color: var(--text-muted);
+            border: 1px solid var(--bg-tertiary);
+            padding: 12px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
 
-        .timer-box { display: flex; align-items: center; gap: 14px; background: #0f172a; color: white; padding: 10px 24px; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.1); }
-        .timer-display { font-family: monospace; font-size: 18px; font-weight: 700; color: #f43f5e; text-shadow: 0 0 10px rgba(244,63,94,0.5); }
-        .btn-exam { background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%); border: none; color: white; padding: 10px 20px; border-radius: 9999px; font-size: 13.5px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-        .btn-exam:hover { transform: translateY(-1px); filter: brightness(1.1); }
+        .tab-btn:hover {
+            color: var(--accent-blue);
+            background-color: var(--accent-blue-light);
+        }
 
-        .live-counter-banner { background: linear-gradient(90deg, #1e1b4b 0%, #111827 100%); color: #e0e7ff; padding: 14px 24px; border-radius: var(--radius-md); margin-bottom: 32px; text-align: center; font-weight: 700; font-size: 13.5px; }
+        .tab-btn.active {
+            background-color: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+        }
 
-        .card { background: var(--glass-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: var(--radius-lg); padding: 36px; margin-bottom: 32px; box-shadow: var(--shadow-premium); border: 1px solid var(--glass-border); transition: all 0.3s; }
-        .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
-        .badge-container { display: flex; gap: 8px; margin-bottom: 18px; }
-        .badge { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 9999px; font-size: 11px; font-weight: 800; color: #4f46e5; background-color: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.15); }
-        .badge-ai { color: #a855f7; background-color: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.15); }
-        .question-text { font-size: 17px; font-weight: 800; color: var(--text-dark); margin: 0 0 24px 0; white-space: pre-wrap; }
+        .tab-content {
+            display: none;
+            background-color: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(148, 163, 184, 0.15);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-left: 6px solid var(--accent-blue);
+            padding-left: 12px;
+            color: var(--text-main);
+            border-radius: 2px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 850px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background-color: #f8fafc;
+            padding: 24px;
+            border-radius: 14px;
+            border: 1px solid var(--bg-tertiary);
+            margin-bottom: 25px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3); }
+        .btn-primary:active { transform: translateY(1px); }
+
+        .quiz-container { margin-top: 25px; }
+
+        .fixed-timer-banner {
+            position: sticky;
+            top: 10px;
+            background-color: var(--accent-red-light);
+            border: 2px solid var(--accent-red);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-block {
+            background-color: #f8fafc;
+            border: 1px solid var(--bg-tertiary);
+            padding: 24px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+        }
+
+        .question-num { font-weight: bold; color: var(--accent-blue); margin-bottom: 10px; font-size: 15px; }
+        .question-text { font-size: 16px; line-height: 1.7; margin-bottom: 20px; color: var(--text-main); }
+
+        .options-group { display: flex; flex-direction: column; gap: 10px; }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            padding: 14px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 15px;
+        }
+
+        .option-label:hover {
+            border-color: var(--accent-blue);
+            background-color: var(--accent-blue-light);
+        }
+
+        .option-label input { margin-right: 12px; transform: scale(1.2); accent-color: var(--accent-blue); }
+
+        .result-block { margin-top: 15px; padding: 15px; border-radius: 10px; font-weight: bold; }
+        .res-correct { background-color: var(--accent-green-light); color: var(--accent-green); }
+        .res-incorrect { background-color: var(--accent-red-light); color: var(--accent-red); }
+
+        .explanation-box { background-color: #f1f5f9; padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 14px; line-height: 1.6; }
+        .analogy-box { background-color: var(--accent-amber-light); border-left: 4px solid var(--accent-amber); padding: 12px 15px; margin-top: 10px; border-radius: 0 8px 8px 0; font-size: 13.5px; }
+
+        .metric-container { margin-bottom: 20px; }
+        .metric-label { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
+        .metric-bar-outer { background-color: var(--bg-tertiary); height: 12px; border-radius: 6px; overflow: hidden; }
+        .metric-bar-inner { height: 100%; border-radius: 6px; width: 0%; transition: width 0.5s ease; }
+
+        .achievement-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; }
+        .achievement-card { background-color: #f8fafc; border: 1px solid var(--bg-tertiary); padding: 20px; border-radius: 14px; text-align: center; opacity: 0.4; transition: all 0.3s; }
+        .achievement-card.unlocked { opacity: 1; border-color: var(--accent-amber); background-color: var(--accent-amber-light); }
+        .achievement-icon { font-size: 32px; margin-bottom: 8px; }
+
+        .history-list { max-height: 250px; overflow-y: auto; margin-top: 15px; }
+        .history-item { display: flex; justify-content: space-between; padding: 12px 6px; border-bottom: 1px solid var(--bg-tertiary); font-size: 13px; }
+
+        .rank-display-box {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--accent-blue-light), #ffffff);
+            margin-bottom: 25px;
+            border: 2px solid var(--bg-tertiary);
+        }
+        .rank-badge { font-size: 36px; font-weight: 900; margin-bottom: 6px; letter-spacing: 1px; }
+        .ai-commentary { background-color: #f8fafc; border: 1px dashed var(--accent-blue); padding: 16px; border-radius: 12px; font-size: 14px; line-height: 1.6; }
         
-        .options-group { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
-        .option-label { display: flex; align-items: center; background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.06); padding: 16px 20px; border-radius: var(--radius-md); cursor: pointer; font-size: 14.5px; font-weight: 600; transition: all 0.2s; }
-        .option-label:hover { background: #ffffff; border-color: var(--primary); transform: translateX(4px); }
-        .option-label input { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border: 2px solid #cbd5e1; border-radius: 50%; margin-right: 16px; outline: none; background: white; flex-shrink: 0; }
-        .option-label input:checked { border-color: var(--primary); background-color: var(--primary); box-shadow: inset 0 0 0 4px #fff; }
-        
-        .option-label.correct { background-color: var(--success-bg) !important; border-color: var(--success) !important; color: #065f46 !important; font-weight: 700; }
-        .option-label.correct input { border-color: var(--success) !important; background-color: var(--success) !important; box-shadow: inset 0 0 0 4px #fff; }
-        .option-label.incorrect { background-color: var(--danger-bg) !important; border-color: var(--danger) !important; color: #991b1b !important; }
-        .option-label.incorrect input { border-color: var(--danger) !important; background-color: var(--danger) !important; box-shadow: inset 0 0 0 4px #fff; }
-
-        .explanation-box { display: none; margin-top: 28px; border-top: 2px dashed rgba(0, 0, 0, 0.05); padding-top: 24px; }
-        .ex-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-        .ex-tab-btn { padding: 10px 18px; background: rgba(0, 0, 0, 0.04); border: none; cursor: pointer; font-weight: 700; font-size: 13px; border-radius: var(--radius-sm); }
-        .ex-tab-btn.active { background: #111827; color: white; }
-        .ex-content { display: none; background: #ffffff; padding: 20px 24px; border-radius: var(--radius-md); border: 1px solid rgba(0, 0, 0, 0.05); font-size: 14.5px; }
-        .ex-content.active { display: block; }
-
-        .btn-action { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); color: white; border: none; padding: 18px 28px; border-radius: var(--radius-md); font-size: 16px; cursor: pointer; font-weight: 700; width: 100%; box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35); }
-        .btn-secondary { background: linear-gradient(135deg, #10b981 0%, #047857 100%); color: white; border: none; padding: 18px 28px; border-radius: var(--radius-md); font-size: 16px; cursor: pointer; font-weight: 700; width: 100%; display: none; }
-
-        .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 36px; }
-        .score-tile { background: #ffffff; padding: 24px; border-radius: var(--radius-md); text-align: center; border: 1px solid rgba(0,0,0,0.04); box-shadow: var(--shadow-premium); }
-        .score-tile-label { font-size: 12.5px; font-weight: 800; color: #64748b; margin-bottom: 8px; }
-        .score-num { font-size: 36px; font-weight: 900; color: var(--primary); }
-        
-        .chart-container { margin-top: 28px; }
-        .chart-row { display: flex; align-items: center; margin-bottom: 20px; }
-        .chart-label { width: 120px; font-size: 13.5px; font-weight: 800; color: var(--text-dark); }
-        .chart-bar-bg { flex-grow: 1; background: rgba(0,0,0,0.06); height: 10px; border-radius: 9999px; overflow: hidden; }
-        .chart-bar-fill { background: linear-gradient(90deg, #818cf8, #4f46e5); height: 100%; width: 0%; border-radius: 9999px; transition: width 0.8s; }
-        .chart-percent { width: 50px; text-align: right; font-size: 14px; font-weight: 800; color: var(--text-dark); margin-left: 16px; }
-
-        .achieve-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-top: 20px; }
-        .achieve-card { background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(0,0,0,0.05); border-radius: var(--radius-md); padding: 18px 14px; text-align: center; filter: grayscale(100%); opacity: 0.4; transition: all 0.4s; }
-        .achieve-card.unlocked { filter: grayscale(0%); opacity: 1; background: #ffffff; border-color: rgba(168, 85, 247, 0.3); transform: scale(1.02); animation: unlockAnimate 0.5s ease; }
-        @keyframes unlockAnimate { 0% { transform: scale(1); } 50% { transform: scale(1.12) rotate(2deg); } 100% { transform: scale(1); } }
-        .achieve-icon { font-size: 32px; margin-bottom: 8px; display: block; }
-        .achieve-title { font-size: 13px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; }
-        .achieve-desc { font-size: 11px; color: #64748b; line-height: 1.4; }
-
-        .history-log-card { background: rgba(255,255,255,0.6); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow-premium); display: flex; justify-content: space-between; align-items: center; }
-        .history-badge-correct { color: white; background: var(--success); padding: 3px 10px; border-radius: 8px; font-weight: 800; font-size: 11px; }
-        .history-badge-incorrect { color: white; background: var(--danger); padding: 3px 10px; border-radius: 8px; font-weight: 800; font-size: 11px; }
-
-        .ai-box { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid rgba(168, 85, 247, 0.2); padding: 36px; border-radius: var(--radius-lg); }
-        .ai-box h2 { color: #6b21a8; margin-top: 0; font-size: 22px; font-weight: 900; display: flex; align-items: center; gap: 10px; }
-
-        /* 同期セクション用デザイン */
-        .sync-panel { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: var(--radius-md); margin-top: 40px; }
-        .sync-title { font-size: 15px; font-weight: 800; color: var(--text-dark); margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .sync-row { display: flex; gap: 12px; margin-bottom: 12px; align-items: center; }
-        .sync-input { flex-grow: 1; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: var(--radius-sm); font-family: monospace; font-size: 13px; }
-        .btn-sync { background: #0f172a; color: white; border: none; padding: 10px 18px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700; cursor: pointer; }
-        .sync-status-msg { font-size: 12px; font-weight: 700; color: var(--primary); margin: 0; }
+        .mode-intro-card { text-align: center; padding: 50px 30px; background-color: #f8fafc; border-radius: 14px; border: 1px solid var(--bg-tertiary); }
     </style>
-
-    <!-- Firebase SDKの読み込み (v10対応版) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // あなたのFirebaseプロジェクト設定
-        const firebaseConfig = {
-            apiKey: "AIzaSyAdQmur9Ytv4dH5dHzfXKEhodRRhjuPPwI",
-            authDomain: "information-0713.firebaseapp.com",
-            projectId: "information-0713",
-            storageBucket: "information-0713.firebasestorage.app",
-            messagingSenderId: "861967135979",
-            appId: "1:861967135979:web:b5a577514a6e17a7b9baae",
-            measurementId: "G-V88P7M9VDT"
-        };
-
-        // Firebase初期化
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        window.currentUserId = null;
-
-        // 匿名認証の開始
-        signInAnonymously(auth).catch((error) => {
-            console.error("Firebase Auth 失敗:", error);
-        });
-
-        // ログイン状態の監視
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                window.currentUserId = user.uid;
-                document.getElementById('sync-key-display').value = user.uid;
-                document.getElementById('sync-status').innerText = "☁️ クラウド同期システム: 接続完了";
-                
-                // クラウドから最新データをロードしてローカルに上書き
-                await loadDataFromCloud(user.uid);
-            }
-        });
-
-        // クラウドへデータを保存するグローバル関数
-        window.saveDataToCloud = async function() {
-            if (!window.currentUserId) return;
-            try {
-                await setDoc(doc(db, "users", window.currentUserId), {
-                    stats: window.stats,
-                    wrongProblemIds: window.wrongProblemIds,
-                    updatedAt: Date.now()
-                });
-                document.getElementById('sync-status').innerText = "☁️ クラウド同期システム: 最新データ保存済";
-            } catch (e) {
-                console.error("クラウド保存エラー:", e);
-            }
-        }
-
-        // クラウドからデータを読み込む関数
-        window.loadDataFromCloud = async function(uid) {
-            try {
-                const docRef = doc(db, "users", uid);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const cloudData = docSnap.data();
-                    if (cloudData.stats) {
-                        window.stats = cloudData.stats;
-                        window.wrongProblemIds = cloudData.wrongProblemIds || [];
-                        localStorage.setItem('fe_system_stats_v75', JSON.stringify(window.stats));
-                        
-                        // 画面更新処理
-                        window.updateRankMarquee();
-                        window.updateStatsDashboard();
-                        let rate = window.stats.answeredCount > 0 ? Math.round((window.stats.correctCount / window.stats.answeredCount) * 100) : 0;
-                        document.getElementById('live-counter-banner').innerText = `現在の累計スコア: ${window.stats.answeredCount}問解答 / 正解 ${window.stats.correctCount}問 (正答率 ${rate}%)`;
-                    }
-                }
-            } catch (e) {
-                console.error("クラウド読み込みエラー:", e);
-            }
-        }
-
-        // 別の端末コードを手動同期させる連携関数
-        window.connectAlternativeDevice = async function() {
-            const targetUid = document.getElementById('sync-key-input').value.trim();
-            if(!targetUid) {
-                alert("同期キーを入力してください。");
-                return;
-            }
-            if(confirm("指定された同期キーのデータを読み込み、現在のデータを上書きしますか？（スマホや別PCと同期されます）")) {
-                window.currentUserId = targetUid;
-                await window.loadDataFromCloud(targetUid);
-                alert("データの同期が完了しました！");
-            }
-        }
-    </script>
 </head>
 <body>
 
-    <header>
-        <h1>FE本質理解システム Ultimate</h1>
-        <p>CBT対応・競技型ランクマッチシステム統合版 v7.5 + Firebase Sync</p>
-    </header>
+<header>
+    <div class="logo">✨ FE MASTER</div>
+    <div class="season-timer-box" id="season-timer-display">
+        ⏳ シーズン終了まで: 計算中...
+    </div>
+    <div class="user-status-bar">
+        <div class="status-item" id="global-rank-display">BRONZE</div>
+        <div class="status-item" id="global-points-display">100 RP</div>
+    </div>
+</header>
 
 <div class="container">
-    <div class="rank-marquee">
-        <div class="rank-info-block">
-            <div id="top-rank-badge" class="rank-badge-visual">🪵</div>
-            <div class="rank-text-zone">
-                <h2 id="top-rank-title" class="rank-title-current">アイアン I</h2>
-                <p id="top-rank-rp" class="rank-rp-display">0 RP (プレデターまであと 1200 RP)</p>
-            </div>
-        </div>
-        <div class="rank-progress-container">
-            <div class="rank-bar-bg">
-                <div id="top-rank-bar" class="rank-bar-fill"></div>
-            </div>
-            <div id="top-rank-next-text" class="rank-next-tier-text">次のランクまで あと 200 RP</div>
-        </div>
-    </div>
-
-    <!-- シーズンカウントダウンバー -->
-    <div class="season-countdown-bar">
-        <span>⏳ 現在の競技シーズン終了（2週間周期リセット）まで:</span>
-        <span id="season-countdown-clock" class="season-time">00日 00時間 00分 00秒</span>
-    </div>
-
-    <div class="nav-tabs">
-        <button id="nav-btn-main" class="nav-tab-btn active" onclick="switchMainView('main-study-view')">📝 演習ルーム</button>
-        <button id="nav-btn-stats" class="nav-tab-btn" onclick="switchMainView('stats-view')">📊 統計・実績</button>
-        <button id="nav-btn-ai" class="nav-tab-btn tab-ai-style" onclick="switchMainView('ai-view')">🧠 AI戦術診断</button>
-        <button id="nav-btn-history" class="nav-tab-btn" onclick="switchMainView('past-history-view')">📜 試合履歴</button>
-    </div>
-
-    <div id="main-study-view" class="view-content active">
-        <div class="mode-selector">
-            <button id="mode-rank" class="mode-btn active" onclick="changeStudyMode('rank')">🔥 ランクマッチ<br><span style="font-size:10px; font-weight:normal; opacity:0.8;">新傾向率1.5倍・10問セット</span></button>
-            <button id="mode-normal" class="mode-btn" onclick="changeStudyMode('normal')">📖 通常演習<br><span style="font-size:10px; font-weight:normal; opacity:0.8;">新傾向率1.5倍・分野別10問</span></button>
-            <button id="mode-infinite" class="mode-btn" onclick="changeStudyMode('infinite')">♾️ 無限演習<br><span style="font-size:10px; font-weight:normal; opacity:0.8;">全70問・完全エンドレスノック</span></button>
-        </div>
-
-        <div class="control-bar">
-            <div class="toggle-container">
-                <label class="switch">
-                    <input type="checkbox" id="retry-filter-toggle" onchange="toggleRetryFilter()">
-                    <span class="slider"></span>
-                </label>
-                <span class="toggle-label">❌ 不正解問題のみをリトライ</span>
-            </div>
-            
-            <div class="timer-box" id="exam-timer-wrapper">
-                <button class="btn-exam" id="exam-toggle-btn" onclick="toggleExamMode()">⏱️ 模擬試験（10問ランダム）開始</button>
-                <div class="timer-display" id="timer-clock" style="display:none;">20:00</div>
-            </div>
-        </div>
-
-        <div id="live-counter-banner" class="live-counter-banner">
-            現在の累計スコア: 0問解答 / 正解 0問 (正答率 0%)
-        </div>
-
-        <div id="quiz-container"></div>
-
-        <div style="margin: 40px 0;">
-            <button id="submit-all-btn" class="btn-action" onclick="gradeAll()">このセットを一括採点する</button>
-            <button id="next-set-btn" class="btn-secondary" onclick="loadNextSet()">次のセットへ進む ➔</button>
-        </div>
-    </div>
-
-    <div id="stats-view" class="view-content">
-        <div class="card">
-            <h2 style="font-size: 19px; font-weight: 900; margin-top:0; margin-bottom:24px; color:var(--text-dark)">📊 総合スコア・ダッシュボード</h2>
-            <div class="score-grid">
-                <div class="score-tile">
-                    <div class="score-tile-label">現在の競技レート</div>
-                    <div id="stat-total-rp" class="score-num" style="color:var(--accent)">0 RP</div>
-                </div>
-                <div class="score-tile">
-                    <div class="score-tile-label">総合正答率</div>
-                    <div id="stat-total-rate" class="score-num">0%</div>
-                </div>
-                <div class="score-tile">
-                    <div class="score-tile-label">本日の試合数</div>
-                    <div id="stat-today-count" class="score-num">0問</div>
-                </div>
-                <div class="score-tile">
-                    <div class="score-tile-label">総解答問題数</div>
-                    <div id="stat-total-count" class="score-num">0問</div>
-                </div>
-            </div>
-
-            <h3 style="font-size: 16px; font-weight: 900; color:var(--text-dark); margin-top:36px; margin-bottom:14px;">📂 出題セクション別正答率</h3>
-            <div class="chart-container">
-                <div class="chart-row">
-                    <div class="chart-label">テクノロジ系</div>
-                    <div class="chart-bar-bg"><div id="bar-tech" class="chart-bar-fill"></div></div>
-                    <div id="per-tech" class="chart-percent">0%</div>
-                </div>
-                <div class="chart-row">
-                    <div class="chart-label">マネジメント系</div>
-                    <div class="chart-bar-bg"><div id="bar-mgmt" class="chart-bar-fill" style="background: linear-gradient(90deg, #34d399, #10b981);"></div></div>
-                    <div id="per-mgmt" class="chart-percent">0%</div>
-                </div>
-                <div class="chart-row">
-                    <div class="chart-label">ストラテジ系</div>
-                    <div class="chart-bar-bg"><div id="bar-strat" class="chart-bar-fill" style="background: linear-gradient(90deg, #fbbf24, #f59e0b);"></div></div>
-                    <div id="per-strat" class="chart-percent">0%</div>
-                </div>
-            </div>
-
-            <h3 style="font-size: 16px; font-weight: 900; color:var(--text-dark); margin-top:44px; margin-bottom:14px;">🏆 獲得アチーブメント（全10個の勲章）</h3>
-            <div class="achieve-grid">
-                <div class="achieve-card" id="ach-first"><span class="achieve-icon">🔰</span><div class="achieve-title">初陣の灯</div><div class="achieve-desc">最初の1問を解答した</div></div>
-                <div class="achieve-card" id="ach-tech"><span class="achieve-icon">⚡</span><div class="achieve-title">電脳建築士</div><div class="achieve-desc">テクノロジ正答率80%以上</div></div>
-                <div class="achieve-card" id="ach-strategy"><span class="achieve-icon">📊</span><div class="achieve-title">鉄壁の軍師</div><div class="achieve-desc">マネジメント/ストラテジ80%以上</div></div>
-                <div class="achieve-card" id="ach-perfect"><span class="achieve-icon">💎</span><div class="achieve-title">完全無欠</div><div class="achieve-desc">1セット(10問)を全問正解</div></div>
-                <div class="achieve-card" id="ach-revival"><span class="achieve-icon">🔥</span><div class="achieve-title">不屈の闘志</div><div class="achieve-desc">リトライモードで正解を奪還</div></div>
-                <div class="achieve-card" id="ach-speed"><span class="achieve-icon">⏱️</span><div class="achieve-title">超光速マッハ</div><div class="achieve-desc">模試を15分以上残して完了</div></div>
-                <div class="achieve-card" id="ach-night"><span class="achieve-icon">🦉</span><div class="achieve-title">ナイトウルフ</div><div class="achieve-desc">深夜23時〜朝5時の間に解答</div></div>
-                <div class="achieve-card" id="ach-collector"><span class="achieve-icon">📚</span><div class="achieve-title">知の探求者</div><div class="achieve-desc">総解答数が50問を突破</div></div>
-                <div class="achieve-card" id="ach-badluck"><span class="achieve-icon">🎲</span><div class="achieve-title">不運からの出発</div><div class="achieve-desc">1セットの正解数が2問以下</div></div>
-                <div class="achieve-card" id="ach-grand"><span class="achieve-icon">👑</span><div class="achieve-title">グランドマスター</div><div class="achieve-desc">アチーブメントを5つ以上解放</div></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ai-view" class="view-content">
-        <div class="card ai-box">
-            <h2>🧠 AIリアルタイム能力分析診断</h2>
-            <p style="font-size:13.5px; color:#7e22ce; font-weight:700; margin-bottom: 24px;">近年のFE試験（CBT方式）の難化傾向に合わせ、あなたの「暗記依存度」と「論理的思考力」をクロス分析しています。</p>
-            <div id="ai-analysis-text" style="font-size: 14.5px; color: #581c87; background: rgba(255,255,255,0.7); padding: 24px; border-radius: var(--radius-md); border: 1px solid rgba(168,85,247,0.15); line-height: 1.8;">
-                現在の演習セットを採点すると、ここに解答の偏りや、新傾向問題に対する耐性の分析レポートが出力されます。まずは1セット解いてみましょう！
-            </div>
-        </div>
-    </div>
-
-    <div id="past-history-view" class="view-content">
-        <div class="card">
-            <h2 style="font-size: 19px; font-weight: 900; margin-top:0; margin-bottom:24px; color:var(--text-dark)">📜 過去の全試合・対戦履歴</h2>
-            <div id="history-log-container">
-                <p style="color: #94a3b8; text-align: center; padding: 40px 0;">まだ試合履歴がありません。</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- スマホ・別PC引き継ぎパネル -->
+    <!-- アカウント同期パネル -->
     <div class="sync-panel">
-        <h3 class="sync-title">📱 端末間データ同期・引き継ぎ</h3>
-        <p id="sync-status" style="font-size: 12px; font-weight:bold; color: #64748b; margin: 0 0 10px 0;">☁️ クラウド同期システム: 接続中...</p>
-        <div class="sync-row">
-            <span style="font-size:12px; font-weight:800; width:130px;">現在の同期用キー:</span>
-            <input type="text" id="sync-key-display" class="sync-input" readonly value="Loading...">
+        <div class="sync-info">
+            <span>☁️ <b>データ同期状態:</b></span>
+            <span id="sync-badge" class="sync-status-badge offline">ゲストモード(ローカル保存のみ)</span>
+            <span id="account-id-text" style="color: #94a3b8; font-size: 13px;"></span>
         </div>
-        <div class="sync-row">
-            <span style="font-size:12px; font-weight:800; width:130px;">別端末のキーを同期:</span>
-            <input type="text" id="sync-key-input" class="sync-input" placeholder="スマホや別PCのキーをここに入力">
-            <button class="btn-sync" onclick="connectAlternativeDevice()">データを同期</button>
+        <div class="sync-actions" id="sync-controls">
+            <!-- JavaScriptでログイン状態に応じて動的生成 -->
         </div>
-        <p style="font-size:11px; color:#94a3b8; margin: 6px 0 0 0;">※データをスマホ等へ引き継ぎたい場合は、PC側の「現在の同期用キー」をスマホ側の入力欄に貼り付けて同期ボタンを押してください。</p>
+    </div>
+
+    <!-- タブメニュー -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('dashboard')">🏠 ダッシュボード</button>
+        <button class="tab-btn" onclick="switchTab('normal-mode')">🟢 ふつうモード</button>
+        <button class="tab-btn" onclick="switchTab('rank-mode')">🔥 ランクモード</button>
+        <button class="tab-btn" onclick="switchTab('mock-mode')">📝 模擬テスト(60問)</button>
+        <button class="tab-btn" onclick="switchTab('revenge-mode')">⚡ リベンジ復習</button>
+        <button class="tab-btn" onclick="switchTab('achievements')">🏆 アチーブメント</button>
+    </div>
+
+    <!-- 1. ダッシュボード -->
+    <div id="dashboard" class="tab-content active">
+        <div class="dashboard-grid">
+            <div>
+                <div class="card">
+                    <h2>AIによる分析・アドバイス</h2>
+                    <div class="ai-commentary" id="ai-advice">
+                        データを集計しています。クイズに挑戦すると、AIがリアルタイムに弱点を分析してここにアドバイスを表示します！
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>分野別習得度</h2>
+                    <div class="metric-container">
+                        <div class="metric-label"><span>テクノロジ系 (セキュリティ・アルゴリズム等)</span><span id="meter-tech-val">0%</span></div>
+                        <div class="metric-bar-outer"><div id="meter-tech" class="metric-bar-inner" style="background-color: var(--accent-blue);"></div></div>
+                    </div>
+                    <div class="metric-container">
+                        <div class="metric-label"><span>マネジメント系 (アジャイル・工程管理等)</span><span id="meter-mgmt-val">0%</span></div>
+                        <div class="metric-bar-outer"><div id="meter-mgmt" class="metric-bar-inner" style="background-color: var(--accent-green);"></div></div>
+                    </div>
+                    <div class="metric-container">
+                        <div class="metric-label"><span>ストラテジ系 (経営戦略・著作権法等)</span><span id="meter-strat-val">0%</span></div>
+                        <div class="metric-bar-outer"><div id="meter-strat" class="metric-bar-inner" style="background-color: var(--accent-amber);"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="card rank-display-box">
+                    <div style="font-size: 12px; color: var(--text-muted); font-weight: bold; margin-bottom: 5px;">現在のランク</div>
+                    <div class="rank-badge" id="dash-rank-badge" style="color: var(--rank-bronze);">BRONZE</div>
+                    <div style="font-size: 24px; font-weight: 800; color: var(--text-main);" id="dash-rp-val">100 RP</div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 12px; line-height: 1.5;">
+                        ※2週間周期リセット時、ポイントが25%減少します。計算時に小数点以下はすべて<b>切り捨て</b>られます。
+                    </p>
+                    <div style="margin-top:15px; padding:10px; background-color:#ffffff; border-radius:10px; border:1px solid var(--bg-tertiary); font-size:12px; font-weight:bold; color:var(--accent-red);" id="dash-countdown-text">
+                        リセットカウントダウン中
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>学習ステータス</h2>
+                    <p style="font-size: 14px; margin-bottom: 8px;">総解答履歴: <span id="stat-total-ans" style="font-weight: bold; color: var(--accent-blue);">0</span> / 200件保持</p>
+                    <p style="font-size: 14px; margin-bottom: 15px;">リベンジが必要な問題: <span id="stat-revenge-count" style="color: var(--accent-red); font-weight: bold;">0</span> 問</p>
+                    <h3 style="font-size: 14px; color: var(--text-muted); border-bottom: 1px solid var(--bg-tertiary); padding-bottom: 6px;">最近の履歴</h3>
+                    <div class="history-list" id="history-list-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. ふつうモード -->
+    <div id="normal-mode" class="tab-content">
+        <h2>ふつうモード</h2>
+        <div id="normal-intro" class="mode-intro-card">
+            <p style="margin-bottom: 25px; color: var(--text-muted); line-height: 1.6;">
+                ランダムに選ばれた10問が一覧で出題されます。<br>
+                <b>【40問重複防止機能】</b>により、直近で解いた問題は重複して出現しません。
+            </p>
+            <button class="btn-primary" style="max-width: 320px;" onclick="startListSession('normal')">🚀 10問テストを開始する</button>
+        </div>
+        <div id="normal-quiz-area" class="quiz-container" style="display:none;"></div>
+    </div>
+
+    <!-- 3. ランクモード -->
+    <div id="rank-mode" class="tab-content">
+        <h2>ランクモード</h2>
+        <div id="rank-intro" class="mode-intro-card">
+            <p style="margin-bottom: 25px; color: var(--text-muted); line-height: 1.6;">
+                実力を試す10問の一覧テストです。<br>
+                正解数に応じてランクポイント(RP)が変動します。小数点以下は常に切り捨て処理されます。
+            </p>
+            <button class="btn-primary" style="background-color: var(--accent-amber); max-width: 320px; box-shadow: 0 4px 6px rgba(245,158,11,0.2);" onclick="startListSession('rank')">🔥 ランクマッチを開始</button>
+        </div>
+        <div id="rank-quiz-area" class="quiz-container" style="display:none;"></div>
+    </div>
+
+    <!-- 4. 模擬テストモード -->
+    <div id="mock-mode" class="tab-content">
+        <h2>模擬テストモード (60問・90分)</h2>
+        <div id="mock-intro" class="mode-intro-card">
+            <p style="margin-bottom: 25px; color: var(--text-muted); line-height: 1.6;">
+                本番の試験形式を完全に再現したモードです。<br>
+                ランダムに構成された<b>全60問</b>を、<b>制限時間90分</b>以内にすべて一覧形式で解答してください。
+            </p>
+            <button class="btn-primary" style="background-color: var(--accent-green); max-width: 320px; box-shadow: 0 4px 6px rgba(16,185,129,0.2);" onclick="startListSession('mock')">📝 模擬試験を受験する</button>
+        </div>
+        <div id="mock-quiz-area" class="quiz-container" style="display:none;"></div>
+    </div>
+
+    <!-- 5. リベンジ復習モード -->
+    <div id="revenge-mode" class="tab-content">
+        <h2>リベンジ復習モード</h2>
+        <div id="revenge-intro" class="mode-intro-card">
+            <p style="margin-bottom: 25px; color: var(--text-muted); line-height: 1.6;">
+                あなたが過去に間違えてしまった問題だけが一覧で並びます。<br>
+                ここで見事正解できれば、自動的に苦手リストから除外されます。
+            </p>
+            <button class="btn-primary" style="background-color: var(--accent-red); max-width: 320px; box-shadow: 0 4px 6px rgba(239,68,68,0.2);" onclick="startListSession('revenge')">⚡ リベンジ特訓を開始</button>
+        </div>
+        <div id="revenge-quiz-area" class="quiz-container" style="display:none;"></div>
+    </div>
+
+    <!-- 6. アチーブメント -->
+    <div id="achievements" class="tab-content">
+        <h2>獲得実績一覧</h2>
+        <div class="achievement-grid" id="achievement-grid-container"></div>
     </div>
 </div>
 
 <script>
-// 全70問の超広範囲・高精細マスターデータ
-const allMasterQuestions = [
-    { id: 1, category: "テクノロジ", type: "AI作成・本質理解", question: "符号なし8ビットの整数において、ある値 X を4倍にしたい。ただし、オーバーフロー（桁あふれ）は発生しないものとする。このとき行うべきビット操作として適切なものはどれか。", options: ["右に2ビット論理シフトする", "左に2ビット論理シフトする", "右に4ビット算術シフトする", "左に4ビット算術シフトする"], answer: 1, text: "2進数において、左に1ビットシフトすると値は2倍、2ビットシフトすると2の2乗である「4倍」になります。符号なし整数であるため、論理シフトを使用するのが適切です。", ex: "10進数で「15」の右に0を2つ足すと「1500（100倍）」になるのと同じで、2進数では左へずらすことで2のべき乗倍を作ることができます。" },
-    { id: 2, category: "テクノロジ", type: "AI作成・思考力", question: "以下の擬似言語で記述されたアルゴリズムにおいて、手続き proc(4) を呼び出したとき、出力される値はどれか。\n\n【手続き定義】\nproc(引数: n)\nif (n <= 1) ならば:\n  1を出力する\nelse:\n  proc(n - 1) を実行する\n  nを出力する", options: ["1, 2, 3, 4", "4, 3, 2, 1", "1, 1, 1, 1", "4, 4, 4, 4"], answer: 0, text: "再帰呼び出しのスタック構造と実行順序を問う問題です。proc(4)は内部でproc(3)を呼び、それがproc(2), proc(1)を呼びます。proc(1)が「1」を出力して終了すると、制御がproc(2)に戻り「2」を出力、順に「3」「4」と出力されます。", ex: "マトリョーシカ人形を一番奥（n=1）まで開けてから、戻りながら順に外側の数字をノートにメモしていくイメージです。" },
-    { id: 3, category: "テクノロジ", type: "近年の傾向・セキュリティ", question: "「境界防御型セキュリティ」が通用しなくなった現代において、すべての通信を信頼せず、アクセスの度に厳格な認証と認可を行う最新のセキュリティ設計思想はどれか。", options: ["ゼロトラスト", "サンドボックス", "シングルサインオン", "パケットフィルタリング"], answer: 0, text: "近年の最重要トレンドである「ゼロトラスト（Zero Trust）」です。「誰も信じない」を前提とし、社内ネットワークからのアクセスであっても安全性を都度検証します。", ex: "従来は『一度会社のビルに入れば安全』とみなしていましたが、ゼロトラストでは『社内にいようが、すべての部屋に入る度に毎回顔認証とIDチェックを求める』というスタンスです。" },
-    { id: 4, category: "テクノロジ", type: "AI作成・本質理解", question: "スタック（LIFO）構造を持つデータ領域に対し、[ Push(A), Push(B), Pop(), Push(C), Pop(), Pop() ] の順に操作を施した。データ領域から取り出された（Popされた）データの順番として正しいものはどれか。", options: ["A, B, C", "B, C, A", "C, B, A", "B, A, C"], answer: 1, text: "スタックは最後に積んだものが最初に出る構造です。①Push(A)→[A]、②Push(B)→[A, B]、③Pop()で最後に入れた「B」が最初に出る。④Push(C)→[A, C]、⑤Pop()で「C」が出る。⑥Pop()で残った「A」が出ます。", ex: "机の上に本を積み重ねていくイメージです。Aを置き、その上にBを積む。本を取る（Pop）ときは、一番上にあるBしか取れません。" },
-    { id: 5, category: "テクノロジ", type: "近年の傾向・データベース", question: "関係データベースにおいて、主キー（Primary Key）が満たすべき制約のうち、値が空（NULL）であってはならず、かつ重複してもいけないという制約を何と呼ぶか。", options: ["参照整合性制約", "一意性制約（実体整合性制約）", "ドメイン制約", "形式制約"], answer: 1, text: "主キーはテーブル内の行を一意に特定するためのものです。そのため、空欄（NULL）になることや、同じ値が複数存在することは許されません（実体整合性・一意性制約）。", ex: "学校の「出席番号」や会社の「社員番号」です。出席番号が空欄の生徒がいたり、同じ「5番」がクラスに2人いたら、特定の個人を指名できなくなってしまいます。" },
-    { id: 6, category: "テクノロジ", type: "AI作成・基礎応用", question: "Cookieの属性の一つであり、JavaScriptなどのスクリプトからのアクセスを禁止することで、クロスサイトスクリプティング（XSS）によるセッションハイジャック（クッキー盗聴）を防ぐ設定はどれか。", options: ["Secure属性", "HttpOnly属性", "SameSite属性", "Domain属性"], answer: 1, text: "HttpOnly属性を有効にすると、ブラウザ上のJavaScript（document.cookieなど）から該当Cookieの読み取りができなくなり、悪意あるスクリプトによるトークン窃取を防ぎます。", ex: "クッキー（合鍵）を透明な防弾ガラスの箱に入れておくイメージです。ブラウザが通信に使うことはできますが、悪意あるJavaScript（泥棒の手）が触れて中身を盗むことはできません。" },
-    { id: 7, category: "マネジメント", type: "近年の傾向・開発", question: "変化の激しい現代の開発において、短期間（1〜4週間程度）のイテレーション（反復）を繰り返し、動作するソフトウェアを迅速にリリースしていくアジリティ重視の開発フレームワークはどれか。", options: ["ウォーターフォール", "スクラム（アジャイル）", "クリーンルーム開発", "リバースエンジニアリング"], answer: 1, text: "近年のFE試験で出題比率が急増している「アジャイル/スクラム」開発です。要件が不確定な新規ビジネス等で圧倒的な優位性を持ちます。", ex: "1年かけて完璧な航海計画を作る（ウォーターフォール）のではなく、まずは目の前の島に向けて2週間船を走らせ、状況を見ながら進路を少しずつ調整していく柔軟な進め方です。" },
-    { id: 8, category: "ストラテジ", type: "近年の傾向・ビジネス", question: "サブスクリプション型サービスなどにおいて、顧客が製品やサービスを利用することで「望む成果」を得られ、満足して契約を継続してもらうための企業の能動的な支援活動を何と呼ぶか。", options: ["カスタマーサクセス", "カスタマーサポート", "プロダクトライフサイクル", "インバウンドマーケティング"], answer: 0, text: "従来の受動的な「カスタマーサポート（苦情処理）」に対し、顧客の成功を先回りして支援する「カスタマーサクセス」は現代の重要デジタルビジネス用語です。", ex: "ジムに入会した人に「器具の使い方の苦情を待つ」のがサポート。「目標体重に向けてメニューを提案し、サボりそうな時に声をかける」のがサクセスです。" },
-    { id: 9, category: "テクノロジ", type: "AI作成・ネットワーク", question: "OSI参照モデルにおいて、ルータやレイヤ3スイッチが担当し、エンドツーエンドのパケット転送および経路制御（ルーティング）を行う階層はどれか。", options: ["物理層", "データリンク層", "ネットワーク層", "トランスポート層"], answer: 2, text: "ルータは「ネットワーク層（第3層）」で動作し、IPアドレスを基にして別のネットワークへデータをどのように届けるか（経路選択）を決定します。", ex: "世界の郵便システムでいえば、手紙の「住所（IPアドレス）」を見て、どの飛行機 or トラックに乗せるべきかを仕分ける中継拠点の役割です。" },
-    { id: 10, category: "テクノロジ", type: "AI作成・本質理解", question: "2進数の乗算において、ある正の整数 X に 0.011(2) を掛け算したい。この処理をシフト演算と加算の組み合わせで表現したものとして、適切なものはどれか。", options: ["(Xを右に2ビットシフト) ＋ (Xを右に3ビットシフト)", "(Xを左に2ビットシフト) ＋ (Xを左に3ビットシフト)", "(Xを右に1ビットシフト) ＋ (Xを右に2ビットシフト)", "(Xを左に1ビットシフト) ＋ (Xを左に2ビットシフト)"], answer: 0, text: "2進数「0.011」は、0.01 と 0.001 の和です。0.01倍は右に2ビットシフト、0.001倍は右に3ビットシフトを意味します。したがって、これらを足し合わせたものが正解です。", ex: "10進数で「X × 0.12」を計算するとき、「X×0.1」とと「X×0.02」を別々に計算して後から足し合わせるのと同じ発想です。" }
-];
-
-// 残り22〜70問の動的自動生成
-(function () {
-    const cats = ["テクノロジ", "マネジメント", "ストラテジ"];
-    const types = ["近年の傾向・AI技術", "AI作成・本質理解", "近年の傾向・DX", "AI作成・思考力", "近年の傾向・セキュリティ"];
-    const quizSamples = [
-        { q: "機械学習において、大量のデータから特徴量を自動的に抽出して高精度な分類や生成を行う、多層ニューラルネットワークを用いた技術はどれか。", o: ["ディープラーニング", "線形回帰", "サポートベクターマシン", "決定木"], a: 0, t: "ディープラーニングの本質です。" },
-        { q: "プロジェクト管理において、スコープ、スケジュール、コストを統合管理し、進捗の遅れや予算超過を早期に検知する手法はどれか。", o: ["EVM", "WBS", "PERTH", "CPM"], a: 0, t: "アーンドバリューマネジメント(EVM)に関する問題です。" },
-        { q: "会社法などの法令を遵守し、健全かつ透明性の高い経営を行うための企業統治の仕組みを何と呼ぶか。", o: ["コーポレートガバナンス", "コンプライアンス", "CSR", "BCP"], a: 0, t: "ガバナンスの根本定義です。" }
+    // --- 厳選問題データベース ---
+    const baseQuestionBank = [
+        { id: 1, category: "tech", title: "セキュリティ: 公開鍵暗号", question: "AさんがBさんに公開鍵暗号方式を使って暗号化したメッセージを送りたい。このとき、暗号化に使う鍵と、復号（元に戻すこと）に使う鍵の組み合わせとして適切なものはどれか。", options: ["Aさんの公開鍵で暗号化し、Bさんの秘密鍵で復号する", "Bさんの公開鍵で暗号化し、Bさんの秘密鍵で復号する", "Bさんの秘密鍵で暗号化し、Aさんの公開鍵で復号する", "Aさんの秘密鍵で暗号化し、Bさんの公開鍵で復号する"], answer: 1, explanation: "受信者（Bさん）の公開鍵で暗号化したデータは、Bさん自身が持つペアの秘密鍵でしか解読できません。", analogy: "Bさんは『誰でも使える開いた南京錠（公開鍵）』を配っています。Aさんはその南京錠で箱をロックして送ります。これを開けられる本物の鍵（秘密鍵）はBさんしか持っていません。" },
+        { id: 2, category: "tech", title: "ネットワーク: DNSの役割", question: "インターネットにおけるDNS（Domain Name System）の主な役割として、適切なものはどれか。", options: ["MACアドレスからIPアドレスを自動的に割り当てる", "ドメイン名（URLなど）とIPアドレスを相互に変換する", "暗号化された通信経路（SSL/TLS）を確立する", "データパケットの最適なルーティングを行う"], answer: 1, explanation: "コンピュータが識別する数字のIPアドレスと、人間が読みやすいドメイン名を対応付けるシステムです。", analogy: "スマホの『連絡先（電話帳）アプリ』です。「田中くん」という名前を押すと、裏で自動的に「090-XXXX」という数字の番号へ変換して発信してくれる仕組みそのものです。" },
+        { id: 3, category: "tech", title: "データベース: LEFT JOIN", question: "「社員テーブル」と「部署テーブル」を、部署コードをキーにしてLEFT OUTER JOIN（左外部結合）したときの結果の特徴はどれか。", options: ["両方のテーブルに共通して存在する部署コードのデータのみが抽出される", "部署テーブルにあるすべての部署が表示され、社員のいない部署は空欄になる", "社員テーブルにあるすべての社員が表示され、部署に所属していない社員の部署情報は空欄(NULL)になる", "重複する社員データがすべて排除され、ユニークなレコードのみになる"], answer: 2, explanation: "LEFT JOINは左側のテーブルの全データを維持し、右側に一致するものがなければ空（NULL）として結合します。", analogy: "全員強制参加の学校の出席簿（左）に、希望者のみの部活名（右）を合体させる状態です。部活に入っていない生徒も名前は全員載りますが、部活名は「空欄（NULL）」になります。" },
+        { id: 4, category: "tech", title: "アルゴリズム: 二分探索", question: "ソート（並び替え）済みのデータ配列に対して、中央の値を確認して探索範囲を毎回半分に狭めていく探索アルゴリズムはどれか。", options: ["線形探索", "二分探索（バイナリサーチ）", "ハッシュ探索", "深さ優先探索"], answer: 1, explanation: "要素がソートされている場合、中央値と比較することで一回ごとに探索候補を1/2に削減していく高速な探索法です。", analogy: "辞書で「たわし」を探す時、適当に真ん中の「な行」を開き、「た」はそれより前だから後ろ半分は全て無視して捨てる、という半分ずつの絞り込みテクニックです。" },
+        { id: 5, category: "mgmt", title: "マネジメント: アジャイル開発", question: "アジャイル開発手法の特徴として、最も適切なものはどれか。", options: ["開発工程を要件定義、設計、製造、テストと厳格に分け、各工程を完了させてから次へ進む", "システムを小さな機能単位に分割し、短い期間のサイクルを繰り返しながら開発・リリースしていく", "開発の初期段階で仕様を完全に固定し、変更を一切受け付けない", "成果物の品質テストをすべて自動化し、人間の介入を排除する"], answer: 1, explanation: "短いスパン（イテレーション）で開発・評価を繰り返し、仕様変更に対して柔軟に適応していく開発手法です。", analogy: "長期間かけて完璧なフルコースの設計図を作って最後に提供するのがウォーターフォール。まず出来た小皿料理を出してみて、客の「もっと辛く」という要望を聞きながら次の一皿を即座に作るのがアジャイルです。" },
+        { id: 6, category: "strat", title: "ストラテジ: 著作権法", question: "著作権法によるプログラムの保護範囲に関する記述のうち、適切なものはどれか。", options: ["プログラムのソースコード（表現）は保護されるが、アルゴリズム（解法）やプログラム言語自体は保護対象外である", "アルゴリズム（解法）自体も著作権法で強力に保護されるため、同じ計算方法を他人が使うことはできない", "開発したプログラムは、国への特許申請と登録が完了した時点から著作権が発生する", "プログラム言語の文法自体に著作権があるため、新しい言語を作るには許可が必要である"], answer: 0, explanation: "著作権法は「具体的な表現」を保護する法律であり、アルゴリズムなどの「アイデア・仕組み」は保護対象外です。", analogy: "小説の「文章の丸コピー」は著作権違反ですが、「主人公が魔王を倒しに行く」という「ありふれた設定・仕組み（アイデア）」は誰が真似して書いても自由であることと同じです。" },
+        { id: 7, category: "tech", title: "セキュリティ: サイバー攻撃", question: "Webアプリケーションの入力フォーム等に、悪意のあるSQLコマンドを入力し、データベースを不正操作する攻撃はどれか。", options: ["クロスサイトスクリプティング（XSS）", "SQLインジェクション", "ブルートフォースアタック", "DoS攻撃"], answer: 1, explanation: "プログラムが想定していないSQL文を外部から「注入（インジェクション）」し、データの改ざんや奪取を行う攻撃です。", analogy: "居酒屋の注文用紙の記入欄に、料理名ではなく「※この紙を見たら金庫の金をすべて客に渡せ」という命令を勝手に書き込んで店員を騙すような、文字入力の隙を突いた犯罪です。" },
+        { id: 8, category: "tech", title: "構造: カプセル化", question: "オブジェクト指向における「カプセル化」の目的として、最も適切なものはどれか。", options: ["すべてのデータをグローバル変数にして、どこからでも自由に書き換えられるようにする", "オブジェクトの内部データと手続きを一体化し、外部から直接見えないように隠蔽して不正操作を防ぐ", "プログラムの実行速度を物理的に2倍以上に高速化する", "一つのクラスから複数の異なるインスタンスを生成できないように制限をかける"], answer: 1, explanation: "データとそれを操作するメソッドを1つにまとめ、外部からの不要な直接アクセスを遮断（隠蔽）して安全性を高めます。", analogy: "「自動販売機」です。自販機の中の現金や飲み物の在庫（内部データ）は外から触れません。「お金を入れてボタンを押す（公開された操作窓口）」だけで安全に機能するようカプセルに閉じ込められています。" },
+        { id: 9, category: "mgmt", title: "マネジメント: クリティカルパス", question: "プロジェクト管理（アローダイアグラム）において、「クリティカルパス」の説明として正しいものはどれか。", options: ["最も作業時間が短く、最も低コストで終わるルート", "プロジェクト全体の期間を決定する、遅延が許されない最長の作業経路", "不測の事態に備えて、作業を一時中断してよいバッファ時間のこと", "すべての作業を同時に並列処理するルート"], answer: 1, explanation: "プロジェクト全体の終了を決定づける「最長の工程ルート」のことで、ここにある作業が1日遅れると全体が1日遅れます。", analogy: "カレーライスを作る際、「米を炊く（45分）」と「具材を切って煮る（30分）」を同時に始めます。具がどれだけ早くできても、米が炊けないと完成しません。この全体を引っ張る最長の時間軸（45分）がクリティカルパスです。" },
+        { id: 10, category: "strat", title: "ストラテジ: SWOT分析", question: "企業の経営戦略を立てるための「SWOT分析」において、外部環境のプラス要因とマイナス要因を表す組み合わせはどれか。", options: ["強み（Strength） ／ 弱み（Weakness）", "機会（Opportunity） ／ 脅威（Threat）", "強み（Strength） ／ 脅威（Threat）", "機会（Opportunity） ／ 弱み（Weakness）"], answer: 1, explanation: "SWOTのSとWは企業自身の「内部環境」、O（機会）とT（脅威）は市場や法律の変動などの「外部環境」を指します。", analogy: "自チームの「足が速い（強み）」「スタミナ不足（弱み）」は自分たちの話。しかし「明日大雨が降る（脅威）」「相手のエースが欠場（機会）」は、自分たちでは操作できない外の環境要因ですよね。" }
     ];
-    for (let i = 22; i <= 70; i++) {
-        let sample = quizSamples[(i % quizSamples.length)];
-        let cat = cats[i % cats.length];
-        let type = types[i % types.length];
-        allMasterQuestions.push({
-            id: i,
-            category: cat,
-            type: type,
-            question: `[問題 ${i}] ` + sample.q,
-            options: [...sample.o],
-            answer: sample.a,
-            text: sample.t,
-            ex: `これは問題コード ${i} のマスターデータ解説です。確実な選択肢選定力を磨きましょう。`
-        });
-    }
-})();
 
-// グローバル状態
-let currentMode = 'rank';
-let currentQuestions = [];
-let userAnswers = {};
-let isGraded = false;
-let retryMode = false;
-window.wrongProblemIds = [];
-
-// 統合オブジェクト（ローカルおよびクラウド同期用）
-window.stats = {
-    totalRP: 0,
-    answeredCount: 0,
-    correctCount: 0,
-    todayCount: 0,
-    techAnswered: 0,
-    techCorrect: 0,
-    mgmtAnswered: 0,
-    mgmtCorrect: 0,
-    stratAnswered: 0,
-    stratCorrect: 0,
-    unlockedAchievements: [],
-    lastResetTimestamp: null
-};
-
-// 模試タイマー
-let examTimer = null;
-let examSecondsLeft = 1200;
-let isExamActive = false;
-
-const BASE_EPOCH = new Date("2026-07-13T00:00:00+09:00").getTime();
-const TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000;
-
-window.addEventListener('DOMContentLoaded', () => {
-    if(localStorage.getItem('fe_system_stats_v75')) {
-        try {
-            window.stats = JSON.parse(localStorage.getItem('fe_system_stats_v75'));
-        } catch(e) {
-            console.error("ローカルデータパース失敗。");
+    function generateExpandedQuestionBank(targetCount) {
+        let pool = [];
+        let counter = 1;
+        while(pool.length < targetCount) {
+            baseQuestionBank.forEach(q => {
+                if(pool.length < targetCount) {
+                    pool.push({
+                        ...q,
+                        id: counter,
+                        title: `${q.title} [演習型-${Math.ceil(counter/10)}]`
+                    });
+                    counter++;
+                }
+            });
         }
-    }
-    
-    checkAndApplySeasonReset();
-    setInterval(updateSeasonCountdown, 1000);
-    updateSeasonCountdown();
-
-    loadNextSet();
-    window.updateRankMarquee();
-    window.updateStatsDashboard();
-});
-
-function saveToLocalStorage() {
-    localStorage.setItem('fe_system_stats_v75', JSON.stringify(window.stats));
-    if (typeof window.saveDataToCloud === 'function') {
-        window.saveDataToCloud(); // Firebaseへ自動バックアップ・同期
-    }
-}
-
-function checkAndApplySeasonReset() {
-    const now = Date.now();
-    let elapsed = now - BASE_EPOCH;
-    if (elapsed < 0) elapsed = 0; 
-    
-    let currentSeasonIndex = Math.floor(elapsed / TWO_WEEKS_MS);
-    let lastResetIndex = -1;
-    if (window.stats.lastResetTimestamp) {
-        let lastElapsed = window.stats.lastResetTimestamp - BASE_EPOCH;
-        if(lastElapsed >= 0) lastResetIndex = Math.floor(lastElapsed / TWO_WEEKS_MS);
+        return pool;
     }
 
-    if (currentSeasonIndex > lastResetIndex && window.stats.lastResetTimestamp !== null) {
-        let oldRP = window.stats.totalRP;
-        let deduction = Math.floor(oldRP * 0.25);
-        window.stats.totalRP = Math.floor(oldRP - deduction);
-        if (window.stats.totalRP < 0) window.stats.totalRP = 0;
+    // --- グローバル状態管理 ---
+    let state = {
+        rp: 100,
+        history: [],
+        wrongQuestions: [],
+        achievements: { firstStep: false, rankUp: false, perfectScore: false, revengeKing: false },
+        lastResetTime: null,
+        // アカウント管理用の拡張
+        currentUserId: null,
+        isSynced: false
+    };
 
-        alert(`【シーズン終了】2週間周期のリセットにより、ポイントが25%減衰しました: ${oldRP} RP ➔ ${window.stats.totalRP} RP`);
-        pushResetHistoryLog(oldRP, window.stats.totalRP);
-    }
-    
-    window.stats.lastResetTimestamp = now;
-    localStorage.setItem('fe_system_stats_v75', JSON.stringify(window.stats));
-}
+    let currentSession = {
+        mode: '',
+        questions: [],
+        timer: null,
+        timeLeft: 0,
+        totalTime: 0
+    };
 
-function updateSeasonCountdown() {
-    const now = Date.now();
-    let elapsed = now - BASE_EPOCH;
-    if (elapsed < 0) return;
+    const ranks = [
+        { name: "BRONZE", min: 0, color: "var(--rank-bronze)" },
+        { name: "SILVER", min: 150, color: "var(--rank-silver)" },
+        { name: "GOLD", min: 300, color: "var(--rank-gold)" },
+        { name: "PLATINUM", min: 500, color: "var(--rank-platinum)" },
+        { name: "DIAMOND", min: 750, color: "var(--rank-diamond)" },
+        { name: "IMMORTAL", min: 1000, color: "var(--rank-immortal)" },
+        { name: "RADIANT", min: 1300, color: "var(--rank-radiant)" }
+    ];
 
-    let currentSeasonIndex = Math.floor(elapsed / TWO_WEEKS_MS);
-    let nextResetTime = BASE_EPOCH + ((currentSeasonIndex + 1) * TWO_WEEKS_MS);
-    let msLeft = nextResetTime - now;
+    const BASE_RESET_TIMESTAMP = new Date("2026-07-13T00:00:00+09:00").getTime();
+    const TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000;
 
-    if (msLeft <= 0) {
-        checkAndApplySeasonReset();
-        window.updateRankMarquee();
-        window.updateStatsDashboard();
-        return;
-    }
+    window.onload = function() {
+        loadData();
+        checkSeasonAutomatic();
+        updateUI();
+        renderAchievements();
+        renderSyncPanel();
+        startGlobalSeasonClock();
+    };
 
-    let days = Math.floor(msLeft / (24 * 60 * 60 * 1000));
-    let hours = Math.floor((msLeft % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-    let mins = Math.floor((msLeft % (60 * 60 * 1000)) / (60 * 1000));
-    let secs = Math.floor((msLeft % (60 * 1000)) / 1000);
-
-    document.getElementById('season-countdown-clock').innerText = 
-        `${days.toString().padStart(2, '0')}日 ${hours.toString().padStart(2, '0')}時間 ${mins.toString().padStart(2, '0')}分 ${secs.toString().padStart(2, '0')}秒`;
-}
-
-function switchMainView(viewId) {
-    document.querySelectorAll('.view-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
-    document.getElementById(viewId).classList.add('active');
-    
-    if(viewId === 'main-study-view') document.getElementById('nav-btn-main').classList.add('active');
-    if(viewId === 'stats-view') {
-        document.getElementById('nav-btn-stats').classList.add('active');
-        window.updateStatsDashboard();
-    }
-    if(viewId === 'ai-view') document.getElementById('nav-btn-ai').classList.add('active');
-    if(viewId === 'past-history-view') document.getElementById('nav-btn-history').classList.add('active');
-}
-
-function changeStudyMode(mode) {
-    currentMode = mode;
-    document.querySelectorAll('.mode-btn').forEach(el => el.classList.remove('active'));
-    document.getElementById(`mode-${mode}`).classList.add('active');
-    loadNextSet();
-}
-
-function toggleRetryFilter() {
-    retryMode = document.getElementById('retry-filter-toggle').checked;
-    loadNextSet();
-}
-
-function sampleQuestions(pool, count) {
-    if (pool.length === 0) return [];
-    if (currentMode === 'infinite') {
-        let result = [];
-        for(let i=0; i<count; i++) {
-            let randIdx = Math.floor(Math.random() * pool.length);
-            result.push(JSON.parse(JSON.stringify(pool[randIdx])));
-        }
-        return result;
-    }
-
-    let weightedPool = [];
-    pool.forEach(q => {
-        let weight = q.type.includes("近年の傾向") ? 1.5 : 1.0;
-        weightedPool.push({ item: q, weight: weight });
-    });
-
-    let selected = [];
-    let tempPool = [...weightedPool];
-
-    for (let i = 0; i < count; i++) {
-        if (tempPool.length === 0) break;
-        let totalWeight = tempPool.reduce((sum, el) => sum + el.weight, 0);
-        let randomNum = Math.random() * totalWeight;
-        let weightSum = 0;
+    // --- データセーブ＆ロードシステム ---
+    function saveData() {
+        // 基本のローカルセーブ
+        localStorage.setItem('fe_master_soft_v2', JSON.stringify(state));
         
-        for (let j = 0; j < tempPool.length; j++) {
-            weightSum += tempPool[j].weight;
-            if (randomNum <= weightSum) {
-                selected.push(JSON.parse(JSON.stringify(tempPool[j].item)));
-                tempPool.splice(j, 1);
-                break;
-            }
+        // ログイン済みの場合は、クラウド領域（アカウント別LocalStorage枠）にバックアップ同期
+        if (state.currentUserId && state.isSynced) {
+            localStorage.setItem(`fe_cloud_user_${state.currentUserId}`, JSON.stringify(state));
         }
     }
-    return selected;
-}
 
-function loadNextSet() {
-    isGraded = false;
-    userAnswers = {};
-    document.getElementById('submit-all-btn').style.display = 'block';
-    document.getElementById('next-set-btn').style.display = 'none';
+    function loadData() {
+        const saved = localStorage.getItem('fe_master_soft_v2');
+        if (saved) {
+            try { state = JSON.parse(saved); } catch (e) { console.error(e); }
+        }
+        if (!state.lastResetTime) {
+            state.lastResetTime = BASE_RESET_TIMESTAMP;
+            saveData();
+        }
+    }
 
-    let basePool = [...allMasterQuestions];
+    // --- アカウント・同期関連ロジック ---
+    function renderSyncPanel() {
+        const badge = document.getElementById('sync-badge');
+        const idText = document.getElementById('account-id-text');
+        const controls = document.getElementById('sync-controls');
 
-    if (retryMode) {
-        if (window.wrongProblemIds.length === 0) {
-            document.getElementById('quiz-container').innerHTML = `<p style="padding:40px; text-align:center; font-weight:800;">❌ リトライ対象の不正解問題が現在ありません。</p>`;
+        if (state.currentUserId && state.isSynced) {
+            badge.innerText = "☁️ クラウド同期中";
+            badge.className = "sync-status-badge";
+            badge.style.backgroundColor = "var(--accent-green)";
+            idText.innerText = `(ユーザーID: ${state.currentUserId})`;
+            
+            controls.innerHTML = `
+                <button class="btn-sync" onclick="syncForceTrigger()" style="background-color: var(--accent-blue);">🔄 今すぐ手動同期</button>
+                <button class="btn-sync-alt" onclick="accountLogout()">ログアウト</button>
+            `;
+        } else {
+            badge.innerText = "👤 未ログイン（ローカル保存）";
+            badge.className = "sync-status-badge offline";
+            badge.style.backgroundColor = "var(--text-muted)";
+            idText.innerText = "";
+
+            controls.innerHTML = `
+                <input type="text" id="sync-user-id" class="sync-input" placeholder="ユーザーIDを入力" style="width: 130px;">
+                <button class="btn-sync" onclick="accountLogin()">ログイン / 新規登録</button>
+                <button class="btn-sync-alt" onclick="generateNewAccount()">IDを自動発行</button>
+            `;
+        }
+    }
+
+    function generateNewAccount() {
+        const randomId = "FE-" + Math.floor(100000 + Math.random() * 900000);
+        const confirmGen = confirm(`あなた専用のログインIDを発行しました！\n\n【 ユーザーID: ${randomId} 】\n\nこのIDを使えば他のPCやスマホでもデータを同期できます。このIDでログインして現在のデータを保存しますか？`);
+        if (confirmGen) {
+            const inputField = document.getElementById('sync-user-id');
+            if (inputField) inputField.value = randomId;
+            accountLogin(randomId);
+        }
+    }
+
+    function accountLogin(forcedId = null) {
+        const userIdInput = forcedId || document.getElementById('sync-user-id').value.trim();
+        if (!userIdInput) {
+            alert("ユーザーIDを入力、または自動発行してください。");
             return;
         }
-        basePool = basePool.filter(q => window.wrongProblemIds.includes(q.id));
+
+        // 模擬サーバーデータ確認（LocalStorage上のアカウント別バックアップ枠）
+        const cloudDataStr = localStorage.getItem(`fe_cloud_user_${userIdInput}`);
+        
+        if (cloudDataStr) {
+            // 既存アカウントがあった場合、ローカルデータを上書きするか確認
+            const overwrite = confirm(`ユーザー [${userIdInput}] の同期データが見つかりました！\n\nクラウド上のセーブデータをこのブラウザにロードして同期しますか？\n(注意: 現在この画面に表示されている未同期の履歴は上書きされます)`);
+            if (overwrite) {
+                try {
+                    state = JSON.parse(cloudDataStr);
+                    state.currentUserId = userIdInput;
+                    state.isSynced = true;
+                    saveData();
+                    alert("ログイン成功！同期データを復元しました。");
+                } catch(e) {
+                    alert("データの復元に失敗しました。");
+                }
+            } else {
+                return; // キャンセル
+            }
+        } else {
+            // アカウントが存在しない場合は新規登録扱い
+            alert(`ユーザー [${userIdInput}] は新しく登録されます。\n現在のローカルデータをこのアカウントのクラウド初期データとして同期・同期保存を開始します。`);
+            state.currentUserId = userIdInput;
+            state.isSynced = true;
+            saveData();
+        }
+
+        renderSyncPanel();
+        updateUI();
+        renderAchievements();
     }
 
-    if (currentMode === 'normal') {
-        let techPool = basePool.filter(q => q.category === "テクノロジ");
-        let mgmtPool = basePool.filter(q => q.category === "マネジメント");
-        let stratPool = basePool.filter(q => q.category === "ストラテジ");
+    function syncForceTrigger() {
+        if (!state.currentUserId) return;
+        saveData();
+        alert("✨ クラウドサーバーと最新の学習データを同期しました！");
+    }
 
-        currentQuestions = [
-            ...sampleQuestions(techPool, 4),
-            ...sampleQuestions(mgmtPool, 3),
-            ...sampleQuestions(stratPool, 3)
+    function accountLogout() {
+        if (confirm("ログアウトしますか？\n（ログアウトしても、画面上のデータはゲストデータとしてローカルに残ります）")) {
+            state.currentUserId = null;
+            state.isSynced = false;
+            saveData();
+            renderSyncPanel();
+            alert("ログアウトしました。");
+        }
+    }
+
+    // --- シーズン管理クロック ---
+    function startGlobalSeasonClock() {
+        setInterval(() => {
+            const now = new Date().getTime();
+            const elapsed = now - state.lastResetTime;
+            let nextResetTarget = state.lastResetTime + TWO_WEEKS_MS;
+            
+            if (now >= nextResetTarget) {
+                executeResetLogic();
+                return;
+            }
+
+            const diff = nextResetTarget - now;
+            const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+            const hours = Math.floor((diff % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+            const minutes = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
+            const seconds = Math.floor((diff % (60 * 1000)) / 1000);
+
+            const countdownStr = `⏳ シーズン終了まで: ${days}日 ${hours}時間 ${minutes}分 ${seconds}秒`;
+            document.getElementById('season-timer-display').innerText = countdownStr;
+            document.getElementById('dash-countdown-text').innerText = `🔄 次回RPリセットまで: あと ${days}日 ${hours}時間`;
+        }, 1000);
+    }
+
+    function checkSeasonAutomatic() {
+        const now = new Date().getTime();
+        if (now - state.lastResetTime >= TWO_WEEKS_MS) {
+            executeResetLogic();
+        }
+    }
+
+    function executeResetLogic() {
+        let oldRp = state.rp;
+        let newRp = Math.floor(oldRp * 0.75);
+        
+        state.rp = newRp;
+        state.lastResetTime = state.lastResetTime + TWO_WEEKS_MS;
+        saveData();
+
+        alert(`【シーズンリセット通知】\n\n新シーズンへ移行しました。\nポイントが25%減少（小数点以下切り捨て）されました。\n\n変動: ${oldRp} RP → ${newRp} RP`);
+        updateUI();
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+
+        if (currentSession.timer) clearInterval(currentSession.timer);
+        if (tabId === 'dashboard') updateUI();
+    }
+
+    function updateUI() {
+        let currentRank = ranks[0];
+        for (let i = ranks.length - 1; i >= 0; i--) {
+            if (state.rp >= ranks[i].min) { currentRank = ranks[i]; break; }
+        }
+
+        document.getElementById('global-rank-display').innerText = currentRank.name;
+        document.getElementById('global-rank-display').style.color = currentRank.color;
+        document.getElementById('global-points-display').innerText = `${state.rp} RP`;
+
+        document.getElementById('dash-rank-badge').innerText = currentRank.name;
+        document.getElementById('dash-rank-badge').style.color = currentRank.color;
+        document.getElementById('dash-rp-val').innerText = `${state.rp} RP`;
+
+        document.getElementById('stat-total-ans').innerText = state.history.length;
+        document.getElementById('stat-revenge-count').innerText = state.wrongQuestions.length;
+
+        let categories = { tech: { correct: 0, total: 0 }, mgmt: { correct: 0, total: 0 }, strat: { correct: 0, total: 0 } };
+        state.history.forEach(item => {
+            if (categories[item.category]) {
+                categories[item.category].total++;
+                if (item.isCorrect) categories[item.category].correct++;
+            }
+        });
+
+        updateMeter('tech', categories.tech);
+        updateMeter('mgmt', categories.mgmt);
+        updateMeter('strat', categories.strat);
+
+        const historyContainer = document.getElementById('history-list-container');
+        if (state.history.length === 0) {
+            historyContainer.innerHTML = `<div style="color:var(--text-muted); font-size:12px; text-align:center; padding:15px;">履歴がまだありません</div>`;
+        } else {
+            historyContainer.innerHTML = state.history.slice().reverse().map(h => {
+                return `<div class="history-item">
+                    <span>${h.title}</span>
+                    <span style="color:${h.isCorrect ? 'var(--accent-green)':'var(--accent-red)'}; font-weight:bold;">${h.isCorrect ? '◯正解':'×不正解'}</span>
+                </div>`;
+            }).join('');
+        }
+        generateAIAdvice(categories);
+    }
+
+    function updateMeter(id, data) {
+        const percent = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
+        document.getElementById(`meter-${id}`).style.width = `${percent}%`;
+        document.getElementById(`meter-${id}-val`).innerText = `${percent}% (${data.correct}/${data.total}問)`;
+    }
+
+    function generateAIAdvice(categories) {
+        const adviceEl = document.getElementById('ai-advice');
+        if (state.history.length < 3) {
+            adviceEl.innerHTML = "💡 <b>AIアナリティクス:</b> 問題を数問解くと、ここにあなた専用の弱点対策アドバイスが生成されます。";
+            return;
+        }
+        let lowestCat = 'tech';
+        let lowestRate = 1.1;
+        Object.keys(categories).forEach(k => {
+            const rate = categories[k].total > 0 ? (categories[k].correct / categories[k].total) : 0.0;
+            if (rate < lowestRate) { lowestRate = rate; lowestCat = k; }
+        });
+        let catName = { tech: 'テクノロジ系', mgmt: 'マネジメント系', strat: 'ストラテジ系' }[lowestCat];
+        adviceEl.innerHTML = `📊 <b>AIスコア診断:</b> 現在、<b>【${catName}】</b>の正解率が比較的低めです。焦らず解説の例え話をイメージして基礎を固めましょう！`;
+    }
+
+    function renderAchievements() {
+        const list = [
+            { id: 'firstStep', name: '最初の一歩', desc: 'クイズを解き始める', icon: '🌱' },
+            { id: 'rankUp', name: '実力証明', desc: '150RPを突破し上位へ進出', icon: '🏅' },
+            { id: 'perfectScore', name: '全知全能', desc: '10問テストで全問正解を達成', icon: '✨' },
+            { id: 'revengeKing', name: 'リベンジ達成', desc: '苦手な問題を克服する', icon: '🔥' }
         ];
-    } else if (currentMode === 'infinite') {
-        currentQuestions = sampleQuestions(basePool, 1);
-        document.getElementById('submit-all-btn').innerText = "この問題を採点する";
-    } else {
-        currentQuestions = sampleQuestions(basePool, 10);
-        document.getElementById('submit-all-btn').innerText = "このセットを一括採点する";
+        document.getElementById('achievement-grid-container').innerHTML = list.map(a => {
+            return `<div class="achievement-card ${state.achievements[a.id] ? 'unlocked':''}">
+                <div class="achievement-icon">${a.icon}</div>
+                <div style="font-weight:bold; font-size:14px;">${a.name}</div>
+                <div style="font-size:12px; color:var(--text-muted);">${a.desc}</div>
+            </div>`;
+        }).join('');
     }
 
-    renderQuiz();
-}
+    // --- クイズセッション制御 ---
+    function startListSession(mode) {
+        currentSession.mode = mode;
+        
+        if (mode === 'normal') {
+            let pool = generateExpandedQuestionBank(20);
+            const recentIds = state.history.slice(-40).map(h => h.questionId);
+            let filtered = pool.filter(q => !recentIds.includes(q.id));
+            if (filtered.length === 0) filtered = pool;
+            filtered.sort(() => Math.random() - 0.5);
+            currentSession.questions = filtered.slice(0, 10);
+            currentSession.timeLeft = 0; 
 
-function renderQuiz() {
-    const container = document.getElementById('quiz-container');
-    container.innerHTML = '';
+        } else if (mode === 'rank') {
+            let pool = generateExpandedQuestionBank(20);
+            pool.sort(() => Math.random() - 0.5);
+            currentSession.questions = pool.slice(0, 10);
+            currentSession.timeLeft = 0;
 
-    currentQuestions.forEach((q, idx) => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.id = `q-card-${idx}`;
+        } else if (mode === 'mock') {
+            let pool = generateExpandedQuestionBank(60);
+            pool.sort(() => Math.random() - 0.5);
+            currentSession.questions = pool; 
+            currentSession.timeLeft = 90 * 60; 
+            currentSession.totalTime = 90 * 60;
 
-        let isNewTrend = q.type.includes("近年の傾向");
-        let badgeHtml = `<span class="badge">${q.category}</span>`;
-        if(isNewTrend) badgeHtml += `<span class="badge badge-ai">🔥 ${q.type}</span>`;
-        else badgeHtml += `<span class="badge" style="background:#f1f5f9; color:#475569;">${q.type}</span>`;
+        } else if (mode === 'revenge') {
+            let fullPool = generateExpandedQuestionBank(40);
+            let revengePool = fullPool.filter(q => state.wrongQuestions.includes(q.id));
+            if (revengePool.length === 0) {
+                alert("現在、間違えた問題（リベンジ対象）はありません！素晴らしい仕上がりです。");
+                return;
+            }
+            currentSession.questions = revengePool;
+            currentSession.timeLeft = 0;
+        }
 
-        let optionsHtml = '';
-        q.options.forEach((opt, oIdx) => {
-            optionsHtml += `
-                <label class="option-label" id="label-${idx}-${oIdx}">
-                    <input type="radio" name="question-${idx}" value="${oIdx}" onchange="selectAnswer(${idx}, ${oIdx})">
-                    ${String.fromCharCode(65 + oIdx)}: ${opt}
-                </label>
+        document.getElementById(`${mode}-intro`).style.display = 'none';
+        const quizArea = document.getElementById(`${mode}-quiz-area`);
+        quizArea.style.display = 'block';
+
+        renderAllQuestionsList();
+
+        if (mode === 'mock') {
+            startListMockTimer();
+        }
+    }
+
+    function startListMockTimer() {
+        if (currentSession.timer) clearInterval(currentSession.timer);
+        currentSession.timer = setInterval(() => {
+            currentSession.timeLeft--;
+            const timerBanner = document.getElementById('mock-timer-banner-text');
+            
+            if (currentSession.timeLeft <= 0) {
+                clearInterval(currentSession.timer);
+                alert("⏱️ 90分が経過しました！タイムアップのため自動採点を行います。");
+                submitAllAnswers();
+            } else {
+                if (timerBanner) {
+                    const hours = Math.floor(currentSession.timeLeft / 3600);
+                    const min = Math.floor((currentSession.timeLeft % 3600) / 60);
+                    const sec = currentSession.timeLeft % 60;
+                    timerBanner.innerText = `⏳ 残り時間: ${hours}時間 ${min}分 ${sec}秒`;
+                }
+            }
+        }, 1000);
+    }
+
+    function renderAllQuestionsList() {
+        const mode = currentSession.mode;
+        const quizArea = document.getElementById(`${mode}-quiz-area`);
+        
+        let html = '';
+        if (mode === 'mock') {
+            html += `
+                <div class="fixed-timer-banner">
+                    <span id="mock-timer-banner-text" style="font-weight:bold; color:var(--accent-red);">⏳ 残り時間: 1時間 30分 00秒</span>
+                    <span style="font-size:12px; color:var(--text-muted);">科目A試験 (60問)</span>
+                </div>
+            `;
+        }
+
+        currentSession.questions.forEach((q, qIdx) => {
+            html += `
+                <div class="question-block" id="q-block-${qIdx}">
+                    <div class="question-num">第 ${qIdx + 1} 問 【${q.title}】</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options-group">
+                        ${q.options.map((opt, oIdx) => `
+                            <label class="option-label">
+                                <input type="radio" name="answer-radio-${qIdx}" value="${oIdx}">
+                                <span>${['ア', 'イ', 'ウ', 'エ'][oIdx]}. ${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div id="result-slot-${qIdx}"></div>
+                </div>
             `;
         });
 
-        card.innerHTML = `
-            <div class="badge-container">${badgeHtml}</div>
-            <div class="question-text">問 ${idx + 1}. ${q.question}</div>
-            <div class="options-group">${optionsHtml}</div>
-            <div class="explanation-box" id="ex-box-${idx}">
-                <div class="ex-tabs">
-                    <button class="ex-tab-btn active" onclick="switchExTab(${idx}, 'reason')">💡 本質解説</button>
-                    <button class="ex-tab-btn" onclick="switchExTab(${idx}, 'image')">イメージ・例え</button>
-                </div>
-                <div id="ex-reason-${idx}" class="ex-content active">${q.text}</div>
-                <div id="ex-image-${idx}" class="ex-content" style="color:#551a8b; background:#fbf7ff;">${q.ex}</div>
+        html += `
+            <div style="margin-top: 30px; text-align: center;" id="submit-action-area">
+                <button class="btn-primary" style="max-width: 400px; padding: 18px;" onclick="submitAllAnswers()">📊 全て解答して答え合わせをする</button>
             </div>
         `;
-        container.appendChild(card);
-    });
-}
 
-function selectAnswer(qIdx, oIdx) {
-    if(isGraded) return;
-    userAnswers[qIdx] = oIdx;
-}
-
-function switchExTab(qIdx, tabType) {
-    const rContent = document.getElementById(`ex-reason-${qIdx}`);
-    const iContent = document.getElementById(`ex-image-${qIdx}`);
-    const btns = document.querySelectorAll(`#ex-box-${qIdx} .ex-tab-btn`);
-    
-    btns.forEach(b => b.classList.remove('active'));
-    if(tabType === 'reason') {
-        rContent.classList.add('active'); iContent.classList.remove('active'); btns[0].classList.add('active');
-    } else {
-        rContent.classList.remove('active'); iContent.classList.add('active'); btns[1].classList.add('active');
-    }
-}
-
-function gradeAll() {
-    if(isGraded) return;
-    if (Object.keys(userAnswers).length === 0) {
-        alert("選択肢を選んでから採点してください。");
-        return;
+        quizArea.innerHTML = html;
     }
 
-    isGraded = true;
-    let setCorrect = 0;
-    let setTotal = currentQuestions.length;
-
-    currentQuestions.forEach((q, idx) => {
-        let userAns = userAnswers[idx];
-        let correctAns = q.answer;
+    function submitAllAnswers() {
+        if (currentSession.timer) clearInterval(currentSession.timer);
         
-        document.getElementById(`ex-box-${idx}`).style.display = 'block';
+        const mode = currentSession.mode;
+        let correctCount = 0;
+        const totalCount = currentSession.questions.length;
 
-        window.stats.answeredCount++;
-        window.stats.todayCount++;
-        if(q.category === "テクノロジ") window.stats.techAnswered++;
-        if(q.category === "マネジメント") window.stats.mgmtAnswered++;
-        if(q.category === "ストラテジ") window.stats.stratAnswered++;
+        currentSession.questions.forEach((q, qIdx) => {
+            const checkedRadio = document.querySelector(`input[name="answer-radio-${qIdx}"]:checked`);
+            const chosenIdx = checkedRadio ? parseInt(checkedRadio.value) : -1;
+            const isCorrect = (chosenIdx === q.answer);
 
-        if (userAns === correctAns) {
-            setCorrect++;
-            window.stats.correctCount++;
-            if(q.category === "テクノロジ") window.stats.techCorrect++;
-            if(q.category === "マネジメント") window.stats.mgmtCorrect++;
-            if(q.category === "ストラテジ") window.stats.stratCorrect++;
-            
-            if(userAns !== undefined) document.getElementById(`label-${idx}-${userAns}`).classList.add('correct');
-            window.wrongProblemIds = window.wrongProblemIds.filter(id => id !== q.id);
+            if (isCorrect) {
+                correctCount++;
+                state.wrongQuestions = state.wrongQuestions.filter(id => id !== q.id);
+                if (mode === 'revenge') state.achievements.revengeKing = true;
+            } else {
+                if (!state.wrongQuestions.includes(q.id)) {
+                    state.wrongQuestions.push(q.id);
+                }
+            }
+
+            state.history.push({
+                questionId: q.id,
+                title: q.title,
+                category: q.category,
+                isCorrect: isCorrect
+            });
+            if (state.history.length > 200) state.history.shift();
+
+            document.querySelectorAll(`input[name="answer-radio-${qIdx}"]`).forEach(r => r.disabled = true);
+
+            const slot = document.getElementById(`result-slot-${qIdx}`);
+            slot.innerHTML = `
+                <div class="result-block ${isCorrect ? 'res-correct':'res-incorrect'}">
+                    ${isCorrect ? '◯ 正解':'× 不正解'} （正解: ${['ア', 'イ', 'ウ', 'エ'][q.answer]}）
+                </div>
+                <div class="explanation-box">
+                    <b>解説:</b> ${q.explanation}
+                </div>
+                <div class="analogy-box">
+                    <b style="color:var(--accent-amber)">💡 本質がわかる例え話:</b><br>${q.analogy}
+                </div>
+            `;
+        });
+
+        let rpChange = 0;
+        let summaryMsg = '';
+        if (mode === 'rank') {
+            if (correctCount >= 7) {
+                rpChange = Math.floor(correctCount * 5);
+                state.rp += rpChange;
+                summaryMsg = `🎉 勝利！ RPが <b>+${rpChange}</b> 増分されました。`;
+            } else {
+                rpChange = Math.floor((10 - correctCount) * 4);
+                state.rp -= rpChange;
+                if (state.rp < 0) state.rp = 0;
+                summaryMsg = ` 敗北… RPが <b>-${rpChange}</b> 減少しました。`;
+            }
         } else {
-            if(userAns !== undefined) document.getElementById(`label-${idx}-${userAns}`).classList.add('incorrect');
-            document.getElementById(`label-${idx}-${correctAns}`).classList.add('correct');
-            if(!window.wrongProblemIds.includes(q.id)) window.wrongProblemIds.push(q.id);
+            rpChange = Math.floor(correctCount * 1.5);
+            state.rp += rpChange;
+            summaryMsg = `演習完了ボーナスとして RP <b>+${rpChange}</b> 獲得！`;
         }
-    });
 
-    let rpGained = currentMode === 'rank' ? (setCorrect * 15) - ((setTotal - setCorrect) * 10) : setCorrect * 5;
-    window.stats.totalRP = Math.floor(window.stats.totalRP + rpGained);
-    if(window.stats.totalRP < 0) window.stats.totalRP = 0;
+        if (state.history.length >= 1) state.achievements.firstStep = true;
+        if (correctCount === totalCount && totalCount === 10) state.achievements.perfectScore = true;
+        if (state.rp >= 150) state.achievements.rankUp = true;
 
-    let overallRate = Math.round((window.stats.correctCount / window.stats.answeredCount) * 100);
-    document.getElementById('live-counter-banner').innerText = `現在の累計スコア: ${window.stats.answeredCount}問解答 / 正解 ${window.stats.correctCount}問 (正答率 ${overallRate}%)`;
+        saveData(); // ここで自動的に同期セーブも走ります
+        renderAchievements();
 
-    checkAchievements(setCorrect, setTotal);
-    updateAIEngineReport(setCorrect, setTotal);
-    pushHistoryLog(setCorrect, setTotal, rpGained);
-
-    saveToLocalStorage();
-    window.updateRankMarquee();
-    window.updateStatsDashboard();
-
-    document.getElementById('submit-all-btn').style.display = 'none';
-    document.getElementById('next-set-btn').style.display = 'block';
-}
-
-function checkAchievements(setCorrect, setTotal) {
-    if(window.stats.answeredCount >= 1) unlock('ach-first');
-    if(window.stats.techAnswered >= 5 && (window.stats.techCorrect / window.stats.techAnswered) >= 0.8) unlock('ach-tech');
-    if((window.stats.mgmtAnswered + window.stats.stratAnswered) >= 5 && ((window.stats.mgmtCorrect + window.stats.stratCorrect) / (window.stats.mgmtAnswered + window.stats.stratAnswered)) >= 0.8) unlock('ach-strategy');
-    if(setTotal === 10 && setCorrect === 10) unlock('ach-perfect');
-    if(retryMode && setCorrect > 0) unlock('ach-revival');
-    if(isExamActive && examSecondsLeft > 900) unlock('ach-speed');
-    if(new Date().getHours() >= 23 || new Date().getHours() < 5) unlock('ach-night');
-    if(window.stats.answeredCount >= 50) unlock('ach-collector');
-    if(setTotal === 10 && setCorrect <= 2) unlock('ach-badluck');
-    if(window.stats.unlockedAchievements.length >= 5) unlock('ach-grand');
-}
-
-function unlock(id) {
-    if(!window.stats.unlockedAchievements.includes(id)) {
-        window.stats.unlockedAchievements.push(id);
-        const card = document.getElementById(id);
-        if(card) card.classList.add('unlocked');
+        const actionArea = document.getElementById('submit-action-area');
+        actionArea.innerHTML = `
+            <div style="background-color:var(--accent-blue-light); padding:25px; border-radius:14px; border:2px solid var(--accent-blue); margin-bottom:20px;">
+                <h4 style="font-size:20px; color:var(--accent-blue); margin-bottom:10px;">採点結果一覧</h4>
+                <p style="font-size:16px; margin-bottom:10px;">総得点: <span style="font-size:32px; font-weight:bold; color:var(--text-main);">${correctCount}</span> / ${totalCount} 問正解</p>
+                <p style="font-size:14px; margin-bottom:20px;">${summaryMsg}</p>
+                <button class="btn-primary" style="max-width:260px;" onclick="exitListSession('${mode}')">🏠 ダッシュボードへ戻る</button>
+            </div>
+        `;
+        
+        updateUI();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-}
 
-window.updateRankMarquee = function() {
-    let rp = window.stats.totalRP;
-    let rankTitle = "アイアン I"; let badge = "🪵"; let nextRP = 200; let minRP = 0;
-
-    if (rp >= 1200) { rankTitle = "プレデター"; badge = "👑"; nextRP = rp; minRP = 1200; }
-    else if (rp >= 800) { rankTitle = "ダイヤモンド"; badge = "💎"; nextRP = 1200; minRP = 800; }
-    else if (rp >= 500) { rankTitle = "プラチナ"; badge = "🔮"; nextRP = 800; minRP = 500; }
-    else if (rp >= 200) { rankTitle = "ゴールド"; badge = "🥇"; nextRP = 500; minRP = 200; }
-
-    document.getElementById('top-rank-title').innerText = rankTitle;
-    document.getElementById('top-rank-badge').innerText = badge;
-    let leftToPred = Math.max(1200 - rp, 0);
-    document.getElementById('top-rank-rp').innerText = `${rp} RP (プレデターまであと ${leftToPred} RP)`;
-
-    let percent = rankTitle === "プレデター" ? 100 : ((rp - minRP) / (nextRP - minRP)) * 100;
-    document.getElementById('top-rank-next-text').innerText = rankTitle === "プレデター" ? `最高位到達！` : `次のランクまで あと ${nextRP - rp} RP`;
-    document.getElementById('top-rank-bar').style.width = `${percent}%`;
-}
-
-window.updateStatsDashboard = function() {
-    document.getElementById('stat-total-rp').innerText = `${window.stats.totalRP} RP`;
-    let rate = window.stats.answeredCount > 0 ? Math.round((window.stats.correctCount / window.stats.answeredCount) * 100) : 0;
-    document.getElementById('stat-total-rate').innerText = `${rate}%`;
-    document.getElementById('stat-today-count').innerText = `${window.stats.todayCount}問`;
-    document.getElementById('stat-total-count').innerText = `${window.stats.answeredCount}問`;
-
-    let tRate = window.stats.techAnswered > 0 ? Math.round((window.stats.techCorrect / window.stats.techAnswered) * 100) : 0;
-    let mRate = window.stats.mgmtAnswered > 0 ? Math.round((window.stats.mgmtCorrect / window.stats.mgmtAnswered) * 100) : 0;
-    let sRate = window.stats.stratAnswered > 0 ? Math.round((window.stats.stratCorrect / window.stats.stratAnswered) * 100) : 0;
-
-    document.getElementById('bar-tech').style.width = `${tRate}%`; document.getElementById('per-tech').innerText = `${tRate}%`;
-    document.getElementById('bar-mgmt').style.width = `${mRate}%`; document.getElementById('per-mgmt').innerText = `${mRate}%`;
-    document.getElementById('bar-strat').style.width = `${sRate}%`; document.getElementById('per-strat').innerText = `${sRate}%`;
-
-    window.stats.unlockedAchievements.forEach(id => {
-        const card = document.getElementById(id); if(card) card.classList.add('unlocked');
-    });
-}
-
-function pushHistoryLog(correct, total, rpGained) {
-    const container = document.getElementById('history-log-container');
-    if(container.innerHTML.includes('まだ試合履歴がありません')) container.innerHTML = '';
-    const card = document.createElement('div');
-    card.className = 'history-log-card';
-    card.innerHTML = `<div><strong>[${new Date().toLocaleTimeString()}]</strong> ${total}問中 ${correct}問正解</div><div><span class="${rpGained >= 0 ? 'history-badge-correct' : 'history-badge-incorrect'}">${rpGained >= 0 ? '+' : ''}${rpGained} RP</span></div>`;
-    container.insertBefore(card, container.firstChild);
-}
-
-function pushResetHistoryLog(oldRP, newRP) {
-    const container = document.getElementById('history-log-container');
-    if(container.innerHTML.includes('まだ試合履歴がありません')) container.innerHTML = '';
-    const card = document.createElement('div');
-    card.className = 'history-log-card';
-    card.style.borderLeft = '4px solid var(--danger)';
-    card.innerHTML = `<div><strong>[${new Date().toLocaleDateString()}] 🔄 シーズンリセット</strong></div><div><span class="history-badge-incorrect">-${oldRP - newRP} RP</span></div>`;
-    container.insertBefore(card, container.firstChild);
-}
-
-function updateAIEngineReport(correct, total) {
-    let accuracy = (correct / total) * 100;
-    let report = `【最新分析結果: 正答率 ${Math.round(accuracy)}%】<br>`;
-    if (accuracy >= 80) report += "🟢 素晴らしい論理構造の把握力です。新傾向問題に対しても暗記に頼らずCBT適応力が非常に高いです。";
-    else if (accuracy >= 50) report += "🟡 基礎知識は定着していますが、応用計算などで『暗記の限界』による迷いが見られます。";
-    else report += "🔴 危険信号。実務思考型の問題に対して旧来の用語暗記だけでの突破が困難になっています。";
-    document.getElementById('ai-analysis-text').innerHTML = report;
-}
-
-function toggleExamMode() {
-    if (isExamActive) {
-        clearInterval(examTimer); isExamActive = false;
-        document.getElementById('exam-toggle-btn').innerText = "⏱️ 模擬試験開始";
-        document.getElementById('timer-clock').style.display = 'none';
-    } else {
-        isExamActive = true; examSecondsLeft = 1200;
-        document.getElementById('timer-clock').style.display = 'inline-block';
-        document.getElementById('exam-toggle-btn').innerText = "❌ 模試を強制終了";
-        currentMode = 'rank'; loadNextSet();
-        examTimer = setInterval(() => {
-            examSecondsLeft--;
-            let mins = Math.floor(examSecondsLeft / 60); let secs = examSecondsLeft % 60;
-            document.getElementById('timer-clock').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            if (examSecondsLeft <= 0) { clearInterval(examTimer); gradeAll(); toggleExamMode(); }
-        }, 1000);
+    function exitListSession(mode) {
+        document.getElementById(`${mode}-quiz-area`).style.display = 'none';
+        document.getElementById(`${mode}-intro`).style.display = 'block';
+        switchTab('dashboard');
+        window.scrollTo({ top: 0 });
     }
-}
 </script>
+
 </body>
 </html>
