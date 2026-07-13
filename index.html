@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FE本質理解学習システム Ultimate v5.0</title>
+    <title>FE本質理解学習システム Ultimate v6.0</title>
     <style>
         :root {
             --primary: #6366f1;
@@ -41,191 +41,202 @@
         header {
             background: linear-gradient(135deg, #0b0f19 0%, #111827 100%);
             color: white;
-            padding: 50px 20px;
+            padding: 40px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
-        header::before {
-            content: ''; position: absolute; top: -20%; left: -10%; width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%); border-radius: 50%;
-        }
         header h1 {
             font-size: 32px; font-weight: 900; margin: 0 0 12px 0; letter-spacing: -0.03em;
             background: linear-gradient(to right, #ffffff, #c7d2fe, #f3e8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        header p { font-size: 15px; color: #94a3b8; margin: 0; font-weight: 500; letter-spacing: 0.05em; }
+        header p { font-size: 14px; color: #94a3b8; margin: 0; font-weight: 500; letter-spacing: 0.05em; }
 
         .container { max-width: 880px; margin: 0 auto; padding: 32px 20px 100px 20px; }
 
-        /* ナビゲーション */
+        /* 👑 リアルタイム・ランクディスプレイ */
+        .rank-marquee {
+            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            border: 2px solid rgba(168, 85, 247, 0.4);
+            border-radius: var(--radius-md);
+            padding: 20px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .rank-info-block { display: flex; align-items: center; gap: 18px; }
+        .rank-badge-visual {
+            font-size: 42px;
+            background: rgba(255,255,255,0.1);
+            width: 70px; height: 70px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255,255,255,0.05);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .rank-text-zone .rank-title-current {
+            font-size: 22px; font-weight: 900; letter-spacing: 0.05em; margin: 0;
+            background: linear-gradient(to right, #fff, #c7d2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .rank-text-zone .rank-rp-display { font-size: 14px; color: #a5b4fc; font-weight: 700; margin: 2px 0 0 0; }
+        
+        .rank-progress-container { flex-grow: 1; max-width: 400px; }
+        .rank-bar-bg { background: rgba(255,255,255,0.08); height: 12px; border-radius: 9999px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); position: relative; }
+        .rank-bar-fill { background: linear-gradient(90deg, #a855f7, #6366f1); height: 100%; width: 0%; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .rank-next-tier-text { font-size: 11px; color: #94a3b8; font-weight: 700; margin-top: 6px; text-align: right; letter-spacing: 0.02em; }
+
+        /* ナびゲーション */
         .nav-tabs {
             display: flex; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             padding: 6px; border-radius: 20px; gap: 6px; margin-bottom: 36px; border: 1px solid var(--glass-border); box-shadow: var(--shadow-premium); overflow-x: auto;
         }
         .nav-tab-btn {
             flex: 1; min-width: 120px; padding: 12px 16px; font-size: 14px; font-weight: 700; background: transparent; border: none;
-            border-radius: 14px; cursor: pointer; color: #64748b; white-space: nowrap; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 14px; cursor: pointer; color: #64748b; white-space: nowrap; transition: all 0.3s;
             display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .nav-tab-btn:hover { color: var(--text-dark); background: rgba(255,255,255,0.5); }
         .nav-tab-btn.active { background: #111827; color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
         .nav-tab-btn.tab-ai-style.active { background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); color: white; box-shadow: 0 8px 20px var(--accent-glow); }
 
         .view-content { display: none; }
         .view-content.active { display: block; animation: smoothShift 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
-        @keyframes smoothShift {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes smoothShift { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* フィルター・タイマーのコントロールツールバー */
-        .control-bar {
-            display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; justify-content: space-between; align-items: center;
-        }
-        .toggle-container {
-            display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.6); padding: 10px 20px; border-radius: 9999px; border: 1px solid var(--glass-border); box-shadow: var(--shadow-premium);
-        }
-        .switch {
-            position: relative; display: inline-block; width: 44px; height: 24px;
-        }
+        /* ツールバー */
+        .control-bar { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; justify-content: space-between; align-items: center; }
+        .toggle-container { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.6); padding: 10px 20px; border-radius: 9999px; border: 1px solid var(--glass-border); box-shadow: var(--shadow-premium); }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px;
-        }
-        .slider:before {
-            position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%;
-        }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
         input:checked + .slider { background-color: var(--danger); }
         input:checked + .slider:before { transform: translateX(20px); }
         .toggle-label { font-size: 13.5px; font-weight: 800; color: var(--text-dark); }
 
-        /* タイマーコンポーネント */
-        .timer-box {
-            display: flex; align-items: center; gap: 14px; background: #0f172a; color: white; padding: 10px 24px; border-radius: 9999px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1);
-        }
+        .timer-box { display: flex; align-items: center; gap: 14px; background: #0f172a; color: white; padding: 10px 24px; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.1); }
         .timer-display { font-family: monospace; font-size: 18px; font-weight: 700; color: #f43f5e; text-shadow: 0 0 10px rgba(244,63,94,0.5); }
-        .btn-exam { background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%); border: none; color: white; padding: 10px 20px; border-radius: 9999px; font-size: 13.5px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px var(--primary-glow); transition: all 0.2s; }
+        .btn-exam { background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%); border: none; color: white; padding: 10px 20px; border-radius: 9999px; font-size: 13.5px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
         .btn-exam:hover { transform: translateY(-1px); filter: brightness(1.1); }
 
-        .live-counter-banner {
-            background: linear-gradient(90deg, #1e1b4b 0%, #111827 100%); color: #e0e7ff; padding: 16px 24px; border-radius: var(--radius-md); margin-bottom: 32px; text-align: center; font-weight: 700; font-size: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid rgba(255,255,255,0.05); letter-spacing: 0.03em;
-        }
+        .live-counter-banner { background: linear-gradient(90deg, #1e1b4b 0%, #111827 100%); color: #e0e7ff; padding: 14px 24px; border-radius: var(--radius-md); margin-bottom: 32px; text-align: center; font-weight: 700; font-size: 13.5px; }
 
-        /* 高級カード */
-        .card {
-            background: var(--glass-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: var(--radius-lg); padding: 36px; margin-bottom: 32px; box-shadow: var(--shadow-premium); border: 1px solid var(--glass-border); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: rgba(99, 102, 241, 0.2); }
-
+        /* カードと選択肢 */
+        .card { background: var(--glass-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: var(--radius-lg); padding: 36px; margin-bottom: 32px; box-shadow: var(--shadow-premium); border: 1px solid var(--glass-border); transition: all 0.3s; }
+        .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
         .badge-container { display: flex; gap: 8px; margin-bottom: 18px; }
-        .badge { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 9999px; font-size: 11px; font-weight: 800; color: #4f46e5; background-color: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.15); letter-spacing: 0.06em; }
+        .badge { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 9999px; font-size: 11px; font-weight: 800; color: #4f46e5; background-color: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.15); }
         .badge-ai { color: #a855f7; background-color: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.15); }
-
-        .question-text { font-size: 17px; font-weight: 800; color: var(--text-dark); margin: 0 0 24px 0; line-height: 1.7; letter-spacing: -0.01em; }
-
-        /* 選択肢 */
+        .question-text { font-size: 17px; font-weight: 800; color: var(--text-dark); margin: 0 0 24px 0; }
+        
         .options-group { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
-        .option-label {
-            display: flex; align-items: center; background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.06); padding: 16px 20px; border-radius: var(--radius-md); cursor: pointer; font-size: 14.5px; font-weight: 600; color: var(--text-main); transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .option-label:hover { background: #ffffff; border-color: var(--primary); box-shadow: 0 6px 20px rgba(99, 102, 241, 0.06); transform: translateX(4px); color: var(--text-dark); }
-        .option-label input { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border: 2px solid #cbd5e1; border-radius: 50%; margin-right: 16px; outline: none; transition: all 0.2s; flex-shrink: 0; background: white; }
+        .option-label { display: flex; align-items: center; background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.06); padding: 16px 20px; border-radius: var(--radius-md); cursor: pointer; font-size: 14.5px; font-weight: 600; transition: all 0.2s; }
+        .option-label:hover { background: #ffffff; border-color: var(--primary); transform: translateX(4px); }
+        .option-label input { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border: 2px solid #cbd5e1; border-radius: 50%; margin-right: 16px; outline: none; background: white; flex-shrink: 0; }
         .option-label input:checked { border-color: var(--primary); background-color: var(--primary); box-shadow: inset 0 0 0 4px #fff; }
         
-        .option-label.correct { background-color: var(--success-bg) !important; border-color: var(--success) !important; color: #065f46 !important; font-weight: 700; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1); }
+        .option-label.correct { background-color: var(--success-bg) !important; border-color: var(--success) !important; color: #065f46 !important; font-weight: 700; }
         .option-label.correct input { border-color: var(--success) !important; background-color: var(--success) !important; box-shadow: inset 0 0 0 4px #fff; }
-        .option-label.incorrect { background-color: var(--danger-bg) !important; border-color: var(--danger) !important; color: #991b1b !important; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.1); }
+        .option-label.incorrect { background-color: var(--danger-bg) !important; border-color: var(--danger) !important; color: #991b1b !important; }
         .option-label.incorrect input { border-color: var(--danger) !important; background-color: var(--danger) !important; box-shadow: inset 0 0 0 4px #fff; }
 
         /* 解説 */
-        .explanation-box { display: none; margin-top: 28px; border-top: 2px dashed rgba(0, 0, 0, 0.05); padding-top: 24px; animation: smoothShift 0.4s ease; }
+        .explanation-box { display: none; margin-top: 28px; border-top: 2px dashed rgba(0, 0, 0, 0.05); padding-top: 24px; }
         .ex-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-        .ex-tab-btn { padding: 10px 18px; background: rgba(0, 0, 0, 0.04); border: none; cursor: pointer; font-weight: 700; font-size: 13px; color: #475569; border-radius: var(--radius-sm); transition: all 0.2s; }
-        .ex-tab-btn:hover { background: rgba(0, 0, 0, 0.08); }
+        .ex-tab-btn { padding: 10px 18px; background: rgba(0, 0, 0, 0.04); border: none; cursor: pointer; font-weight: 700; font-size: 13px; border-radius: var(--radius-sm); }
         .ex-tab-btn.active { background: #111827; color: white; }
-        
-        .ex-content { display: none; background: #ffffff; padding: 20px 24px; border-radius: var(--radius-md); border: 1px solid rgba(0, 0, 0, 0.05); font-size: 14.5px; color: var(--text-main); line-height: 1.75; box-shadow: inset 0 2px 4px rgba(0,0,0,0.01); }
+        .ex-content { display: none; background: #ffffff; padding: 20px 24px; border-radius: var(--radius-md); border: 1px solid rgba(0, 0, 0, 0.05); font-size: 14.5px; }
         .ex-content.active { display: block; }
 
-        /* アクションボタン */
-        .btn-action { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); color: white; border: none; padding: 18px 28px; border-radius: var(--radius-md); font-size: 16px; cursor: pointer; font-weight: 700; width: 100%; box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); letter-spacing: 0.05em; }
-        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 14px 35px rgba(79, 70, 229, 0.45); }
-        .btn-secondary { background: linear-gradient(135deg, #10b981 0%, #047857 100%); color: white; border: none; padding: 18px 28px; border-radius: var(--radius-md); font-size: 16px; cursor: pointer; font-weight: 700; width: 100%; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35); margin-top: 20px; display: none; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); letter-spacing: 0.05em; }
-        .btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 14px 35px rgba(16, 185, 129, 0.45); }
+        /* ボタン */
+        .btn-action { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); color: white; border: none; padding: 18px 28px; border-radius: var(--radius-md); font-size: 16px; cursor: pointer; font-weight: 700; width: 100%; box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35); }
+        .btn-secondary { background: linear-gradient(135deg, #10b981 0%, #047857 100%); color: white; border: none; padding: 18px 28px; border-radius: var(--radius-md); font-size: 16px; cursor: pointer; font-weight: 700; width: 100%; display: none; }
 
         /* 統計グリッド */
         .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 36px; }
         .score-tile { background: #ffffff; padding: 24px; border-radius: var(--radius-md); text-align: center; border: 1px solid rgba(0,0,0,0.04); box-shadow: var(--shadow-premium); }
-        .score-tile-label { font-size: 12.5px; font-weight: 800; color: #64748b; margin-bottom: 8px; letter-spacing: 0.06em; }
-        .score-num { font-size: 36px; font-weight: 900; color: var(--primary); letter-spacing: -0.04em; }
+        .score-tile-label { font-size: 12.5px; font-weight: 800; color: #64748b; margin-bottom: 8px; }
+        .score-num { font-size: 36px; font-weight: 900; color: var(--primary); }
         
         /* グラフ */
         .chart-container { margin-top: 28px; }
         .chart-row { display: flex; align-items: center; margin-bottom: 20px; }
         .chart-label { width: 120px; font-size: 13.5px; font-weight: 800; color: var(--text-dark); }
-        .chart-bar-bg { flex-grow: 1; background: rgba(0,0,0,0.06); height: 10px; border-radius: 9999px; overflow: hidden; position: relative; }
-        .chart-bar-fill { background: linear-gradient(90deg, #818cf8, #4f46e5); height: 100%; width: 0%; border-radius: 9999px; transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .chart-bar-bg { flex-grow: 1; background: rgba(0,0,0,0.06); height: 10px; border-radius: 9999px; overflow: hidden; }
+        .chart-bar-fill { background: linear-gradient(90deg, #818cf8, #4f46e5); height: 100%; width: 0%; border-radius: 9999px; transition: width 0.8s; }
         .chart-percent { width: 50px; text-align: right; font-size: 14px; font-weight: 800; color: var(--text-dark); margin-left: 16px; }
 
-        /* 🏆 実績解除（アチーブメント）セクション */
+        /* 実績グリッド */
         .achieve-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-top: 20px; }
-        .achieve-card {
-            background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(0,0,0,0.05); border-radius: var(--radius-md); padding: 18px 14px; text-align: center; filter: grayscale(100%); opacity: 0.4; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .achieve-card.unlocked {
-            filter: grayscale(0%); opacity: 1; background: #ffffff; border-color: rgba(168, 85, 247, 0.3); box-shadow: 0 10px 25px rgba(168, 85, 247, 0.1); transform: scale(1.02);
-        }
+        .achieve-card { background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(0,0,0,0.05); border-radius: var(--radius-md); padding: 18px 14px; text-align: center; filter: grayscale(100%); opacity: 0.4; transition: all 0.4s; }
+        .achieve-card.unlocked { filter: grayscale(0%); opacity: 1; background: #ffffff; border-color: rgba(168, 85, 247, 0.3); transform: scale(1.02); animation: unlockAnimate 0.5s ease; }
+        @keyframes unlockAnimate { 0% { transform: scale(1); } 50% { transform: scale(1.12) rotate(2deg); } 100% { transform: scale(1); } }
         .achieve-icon { font-size: 32px; margin-bottom: 8px; display: block; }
         .achieve-title { font-size: 13px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; }
         .achieve-desc { font-size: 11px; color: #64748b; line-height: 1.4; }
 
-        /* 回答履歴ログ */
-        .history-log-card { background: rgba(255,255,255,0.6); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow-premium); transition: all 0.2s ease; }
-        .history-log-card:hover { transform: translateX(4px); background: #ffffff; }
-        .history-badge-correct { color: white; background: var(--success); padding: 3px 10px; border-radius: 8px; font-weight: 800; font-size: 11px; letter-spacing: 0.05em;}
-        .history-badge-incorrect { color: white; background: var(--danger); padding: 3px 10px; border-radius: 8px; font-weight: 800; font-size: 11px; letter-spacing: 0.05em;}
+        .history-log-card { background: rgba(255,255,255,0.6); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow-premium); }
+        .history-badge-correct { color: white; background: var(--success); padding: 3px 10px; border-radius: 8px; font-weight: 800; font-size: 11px; }
+        .history-badge-incorrect { color: white; background: var(--danger); padding: 3px 10px; border-radius: 8px; font-weight: 800; font-size: 11px; }
 
         .ai-box { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid rgba(168, 85, 247, 0.2); padding: 36px; border-radius: var(--radius-lg); }
-        .ai-box h2 { color: #6b21a8; margin-top: 0; font-size: 22px; font-weight: 900; display: flex; align-items: center; gap: 10px; letter-spacing: -0.02em; }
-        pre { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: var(--radius-sm); overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 13.5px; margin: 18px 0; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 25px rgba(0,0,0,0.2); line-height: 1.6; }
+        .ai-box h2 { color: #6b21a8; margin-top: 0; font-size: 22px; font-weight: 900; display: flex; align-items: center; gap: 10px; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>FE本質理解システム Ultimate</h1>
-        <p>CBT対応・特化型プレミアム機能全部入り統合版 v5.0</p>
+        <p>CBT対応・競技型ランクマッチシステム統合版 v6.0</p>
     </header>
 
 <div class="container">
+    <!-- 👑 リアルタイム・ランク表示ダッシュボード -->
+    <div class="rank-marquee">
+        <div class="rank-info-block">
+            <div id="top-rank-badge" class="rank-badge-visual">🪵</div>
+            <div class="rank-text-zone">
+                <h2 id="top-rank-title" class="rank-title-current">アイアン I</h2>
+                <p id="top-rank-rp" class="rank-rp-display">0 RP (プレデターまであと 1200 RP)</p>
+            </div>
+        </div>
+        <div class="rank-progress-container">
+            <div class="rank-bar-bg">
+                <div id="top-rank-bar" class="rank-bar-fill"></div>
+            </div>
+            <div id="top-rank-next-text" class="rank-next-tier-text">次のランクまで あと 200 RP</div>
+        </div>
+    </div>
+
     <!-- ナビゲーションタブ -->
     <div class="nav-tabs">
-        <button id="nav-btn-main" class="nav-tab-btn active" onclick="switchMainView('main-study-view')">📝 演習画面</button>
+        <button id="nav-btn-main" class="nav-tab-btn active" onclick="switchMainView('main-study-view')">📝 ランクマッチ演習</button>
         <button id="nav-btn-stats" class="nav-tab-btn" onclick="switchMainView('stats-view')">📊 統計・実績</button>
-        <button id="nav-btn-ai" class="nav-tab-btn tab-ai-style" onclick="switchMainView('ai-view')">🧠 AI総合診断</button>
-        <button id="nav-btn-history" class="nav-tab-btn" onclick="switchMainView('past-history-view')">📜 回答履歴</button>
+        <button id="nav-btn-ai" class="nav-tab-btn tab-ai-style" onclick="switchMainView('ai-view')">🧠 AI戦術診断</button>
+        <button id="nav-btn-history" class="nav-tab-btn" onclick="switchMainView('past-history-view')">📜 試合履歴</button>
     </div>
 
     <!-- 1. メイン演習画面 -->
     <div id="main-study-view" class="view-content active">
-        <!-- 拡張コントロールバー -->
         <div class="control-bar">
-            <!-- 弱点フィルター -->
             <div class="toggle-container">
                 <label class="switch">
                     <input type="checkbox" id="retry-filter-toggle" onchange="toggleRetryFilter()">
                     <span class="slider"></span>
                 </label>
-                <span class="toggle-label" id="filter-label-text">❌ 不正解問題のみをリトライ</span>
+                <span class="toggle-label">❌ 不正解問題のみをリトライ</span>
             </div>
             
-            <!-- 模擬試験タイマー -->
             <div class="timer-box" id="exam-timer-wrapper">
-                <button class="btn-exam" id="exam-toggle-btn" onclick="toggleExamMode()">⏱️ 模擬試験(10問ランダム)開始</button>
+                <button class="btn-exam" id="exam-toggle-btn" onclick="toggleExamMode()">⏱️ 模擬試験（10問ランダム）開始</button>
                 <div class="timer-display" id="timer-clock" style="display:none;">20:00</div>
             </div>
         </div>
@@ -248,16 +259,16 @@
             <h2 style="font-size: 19px; font-weight: 900; margin-top:0; margin-bottom:24px; color:var(--text-dark)">📊 総合スコア・ダッシュボード</h2>
             <div class="score-grid">
                 <div class="score-tile">
+                    <div class="score-tile-label">現在の競技レート</div>
+                    <div id="stat-total-rp" class="score-num" style="color:var(--accent)">0 RP</div>
+                </div>
+                <div class="score-tile">
                     <div class="score-tile-label">総合正答率</div>
                     <div id="stat-total-rate" class="score-num">0%</div>
                 </div>
                 <div class="score-tile">
-                    <div class="score-tile-label">本日の正答率</div>
-                    <div id="stat-today-rate" class="score-num">0%</div>
-                </div>
-                <div class="score-tile">
-                    <div class="score-tile-label">過去の正答率</div>
-                    <div id="stat-past-rate" class="score-num">0%</div>
+                    <div class="score-tile-label">本日の試合数</div>
+                    <div id="stat-today-count" class="score-num">0問</div>
                 </div>
                 <div class="score-tile">
                     <div class="score-tile-label">総解答問題数</div>
@@ -284,29 +295,18 @@
                 </div>
             </div>
 
-            <!-- 🏆 ゲーミフィケーション・勲章セクション -->
-            <h3 style="font-size: 16px; font-weight: 900; color:var(--text-dark); margin-top:44px; margin-bottom:14px;">🏆 獲得アチーブメント（実績解放）</h3>
+            <h3 style="font-size: 16px; font-weight: 900; color:var(--text-dark); margin-top:44px; margin-bottom:14px;">🏆 獲得アチーブメント（全10個の勲章）</h3>
             <div class="achieve-grid">
-                <div class="achieve-card" id="ach-first">
-                    <span class="achieve-icon">🔰</span>
-                    <div class="achieve-title">初陣の灯</div>
-                    <div class="achieve-desc">最初の1問を解答した</div>
-                </div>
-                <div class="achieve-card" id="ach-tech">
-                    <span class="achieve-icon">⚡</span>
-                    <div class="achieve-title">電脳建築士</div>
-                    <div class="achieve-desc">テクノロジ正答率80%以上</div>
-                </div>
-                <div class="achieve-card" id="ach-perfect">
-                    <span class="achieve-icon">💎</span>
-                    <div class="achieve-title">完全無欠</div>
-                    <div class="achieve-desc">1セット(10問)を全問正解</div>
-                </div>
-                <div class="achieve-card" id="ach-revival">
-                    <span class="achieve-icon">🔥</span>
-                    <div class="achieve-title">不屈の闘志</div>
-                    <div class="achieve-desc">リトライモードで正解を奪還</div>
-                </div>
+                <div class="achieve-card" id="ach-first"><span class="achieve-icon">🔰</span><div class="achieve-title">初陣の灯</div><div class="achieve-desc">最初の1問を解答した</div></div>
+                <div class="achieve-card" id="ach-tech"><span class="achieve-icon">⚡</span><div class="achieve-title">電脳建築士</div><div class="achieve-desc">テクノロジ正答率80%以上</div></div>
+                <div class="achieve-card" id="ach-strategy"><span class="achieve-icon">📊</span><div class="achieve-title">鉄壁の軍師</div><div class="achieve-desc">マネジメント/ストラテジ80%以上</div></div>
+                <div class="achieve-card" id="ach-perfect"><span class="achieve-icon">💎</span><div class="achieve-title">完全無欠</div><div class="achieve-desc">1セット(10問)を全問正解</div></div>
+                <div class="achieve-card" id="ach-revival"><span class="achieve-icon">🔥</span><div class="achieve-title">不屈の闘志</div><div class="achieve-desc">リトライモードで正解を奪還</div></div>
+                <div class="achieve-card" id="ach-speed"><span class="achieve-icon">⏱️</span><div class="achieve-title">超光速マッハ</div><div class="achieve-desc">模試を15分以上残して完了</div></div>
+                <div class="achieve-card" id="ach-night"><span class="achieve-icon">🦉</span><div class="achieve-title">ナイトウルフ</div><div class="achieve-desc">深夜23時〜朝5時の間に解答</div></div>
+                <div class="achieve-card" id="ach-collector"><span class="achieve-icon">📚</span><div class="achieve-title">知の探求者</div><div class="achieve-desc">総解答数が50問を突破</div></div>
+                <div class="achieve-card" id="ach-badluck"><span class="achieve-icon">🎲</span><div class="achieve-title">不運からの出発</div><div class="achieve-desc">1セットの正解数が2問以下</div></div>
+                <div class="achieve-card" id="ach-grand"><span class="achieve-icon">👑</span><div class="achieve-title">グランドマスター</div><div class="achieve-desc">アチーブメントを5つ以上解放</div></div>
             </div>
         </div>
     </div>
@@ -325,16 +325,16 @@
     <!-- 4. 過去の回答履歴画面 -->
     <div id="past-history-view" class="view-content">
         <div class="card">
-            <h2 style="font-size: 19px; font-weight: 900; margin-top:0; margin-bottom:24px; color:var(--text-dark)">📜 過去の全回答履歴</h2>
+            <h2 style="font-size: 19px; font-weight: 900; margin-top:0; margin-bottom:24px; color:var(--text-dark)">📜 過去の全試合・対戦履歴</h2>
             <div id="history-log-container">
-                <p style="color: #94a3b8; text-align: center; padding: 40px 0;">まだ回答履歴がありません。</p>
+                <p style="color: #94a3b8; text-align: center; padding: 40px 0;">まだ試合履歴がありません。</p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// 全30問マスターデータ (前バージョンを完全継承)
+// 全30問マスターデータ（前バージョンと同じ）
 const allMasterQuestions = [
     { id: 1, category: "テクノロジ", type: "AI作成・本質理解", question: "符号なし8ビットの整数において、ある値 X を4倍にしたい。ただし、オーバーフロー（桁あふれ）は発生しないものとする。このとき行うべきビット操作として適切なものはどれか。", options: ["右に2ビット論理シフトする", "左に2ビット論理シフトする", "右に4ビット算術シフトする", "左に4ビット算術シフトする"], answer: 1, text: "2進数において、左に1ビットシフトすると値は2倍、2ビットシフトすると2の2乗である「4倍」になります。符号なし整数であるため、論理シフトを使用するのが適切です。", ex: "10進数で「15」の右に0を2つ足すと「1500（100倍）」になるのと同じで、2進数では左へずらすことで2のべき乗倍（2倍、4倍、8倍...）を作ることができます。" },
     { id: 2, category: "テクノロジ", type: "AI作成・思考力", question: "以下の擬似言語で記述されたアルゴリズムにおいて、手続き proc(4) を呼び出したとき、出力される値はどれか。\n\n【手続き定義】\nproc(引数: n)\nif (n <= 1) ならば:\n  1を出力する\nelse:\n  proc(n - 1) を実行する\n  nを出力する", options: ["1, 2, 3, 4", "4, 3, 2, 1", "1, 1, 1, 1", "4, 4, 4, 4"], answer: 0, text: "再帰呼び出しのスタック構造と実行順序を問う問題です。proc(4)は内部でproc(3)を呼び、それがproc(2), proc(1)を呼びます。proc(1)が「1」を出力して終了すると、制御がproc(2)に戻り「2」を出力、順に「3」「4」と出力されます。", ex: "マトリョーシカ人形を一番奥（n=1）まで開けてから、戻りながら順に外側（n=4）の数字をノートにメモしていくイメージです。そのため「1, 2, 3, 4」の順になります。" },
@@ -344,7 +344,7 @@ const allMasterQuestions = [
     { id: 6, category: "テクノロジ", type: "AI作成・基礎応用", question: "Cookieの属性の一つであり、JavaScriptなどのスクリプトからのアクセスを禁止することで、クロスサイトスクリプティング（XSS）によるセッションハイジャック（クッキー盗聴）を防ぐ設定はどれか。", options: ["Secure属性", "HttpOnly属性", "SameSite属性", "Domain属性"], answer: 1, text: "HttpOnly属性を有効にすると、ブラウザ上のJavaScript（document.cookieなど）から該当Cookieの読み取りができなくなり、悪意あるスクリプトによるトークン窃取を防ぎます。", ex: "クッキー（合鍵）を透明な防弾ガラスの箱に入れておくイメージです。ブラウザが通信に使うことはできますが、悪意あるJavaScript（泥棒の手）が触れて中身を盗むことはできません。" },
     { id: 7, category: "マネジメント", type: "近年の傾向・開発", question: "変化の激しい現代の開発において、短期間（1〜4週間程度）のイテレーション（反復）を繰り返し、動作するソフトウェアを迅速にリリースしていくアジリティ重視の開発フレームワークはどれか。", options: ["ウォーターフォール", "スクラム（アジャイル）", "クリーンルーム開発", "リバースエンジニアリング"], answer: 1, text: "近年のFE試験で出題比率が急増している「アジャイル/スクラム」開発です。要件が不確定な新規ビジネス等で圧倒的な優位性を持ちます。", ex: "1年かけて完璧な航海計画を作る（ウォーターフォール）のではなく、まずは目の前の島に向けて2週間船を走らせ、状況を見ながら進路を少しずつ調整していく柔軟な進め方です。" },
     { id: 8, category: "ストラテジ", type: "AI作成・最新トレンド", question: "サブスクリプション型サービスなどにおいて、顧客が製品やサービスを利用することで「望む成果」を得られ、満足して契約を継続してもらうための企業の能動的な支援活動を何と呼ぶか。", options: ["カスタマーサクセス", "カスタマーサポート", "プロダクトライフサイクル", "インバウンドマーケティング"], answer: 0, text: "従来の受動的な「カスタマーサポート（苦情処理）」に対し、顧客の成功を先回りして支援する「カスタマーサクセス」は現代の重要デジタルビジネス用語です。", ex: "ジムに入会した人に「器具の使い方の苦情を待つ」のがサポート。「目標体重に向けてメニューを提案し、サボりそうな時に声をかける」のがサクセスです。" },
-    { id: 9, category: "テクノロジ", type: "AI作成・ネットワーク", question: "OSI参照モデルにおいて、ルータやレイヤ3スイッチが担当し、エンドツーエンドのパケット転送および経路制御（ルーティング）を行う階層はどれか。", options: ["物理層", "データリンク層", "ネットワーク層", "トランスポート層"], answer: 2, text: "ルータは「ネットワーク層（第3層）」で動作し、IPアドレスを基にして別のネットワークへデータをどのように届けるか（経路選択）を決定します。", ex: "世界の郵便システムでいえば、手紙の「住所（IPアドレス）」を見て、どの飛行機やトラックに乗せるべきかを仕分ける中継拠点の役割です。" },
+    { id: 9, category: "テクノロジ", type: "AI作成・ネットワーク", question: "OSI参照モデルにおいて、ルータやレイヤ3スイッチが担当し、エンドツーエンドのパケット転送および経路制御（ルーティング）を行う階層はどれか。", options: ["物理層", "データリンク層", "ネットワーク層", "トランスポート層"], answer: 2, text: "ルータは「ネットワーク層（第3層）」で動作し、IPアドレスを基にして別のネットワークへデータをどのように届けるか（経路選択）を決定します。", ex: "世界の郵便システムでいえば、手紙の「住所（IPアドレス）」を見て、どの飛行機 or トラックに乗せるべきかを仕分ける中継拠点の役割です。" },
     { id: 10, category: "テクノロジ", type: "AI作成・本質理解", question: "2進数の乗算において、ある正の整数 X に 0.011(2) を掛け算したい。この処理をシフト演算と加算の組み合わせで表現したものとして、適切なものはどれか。", options: ["(Xを右に2ビットシフト) ＋ (Xを右に3ビットシフト)", "(Xを左に2ビットシフト) ＋ (Xを左に3ビットシフト)", "(Xを右に1ビットシフト) ＋ (Xを右に2ビットシフト)", "(Xを左に1ビットシフト) ＋ (Xを左に2ビットシフト)"], answer: 0, text: "2進数「0.011」は、0.01 と 0.001 の和です。0.01倍は右に2ビットシフト、0.001倍は右に3ビットシフトを意味します。したがって、これらを足し合わせたものが正解です。", ex: "10進数で「X × 0.12」を計算するとき、「X×0.1」と「X×0.02」を別々に計算して後からガッチャンコするのと同じ発想です。" },
     { id: 11, category: "テクノロジ", type: "AI作成・応用力", question: "CPUの性能指標であるMIPS（Million Instructions Per Second）において、1 instructionの平均実行時間が 20ナノ秒 であるCPUの性能は何MIPSか。", options: ["5 MIPS", "20 MIPS", "50 MIPS", "100 MIPS"], answer: 2, text: "1秒間に実行できる命令数を求めます。1秒 / (20 × 10^-9 秒) = 50,000,000命令。MIPSは「100万命令/秒」単位なので、5,000万 / 100万 = 50 MIPS となります。", ex: "1つの作業に20秒かかるロボットがいたら、100秒間で5回動けます。ナノ秒（10億分の1秒）という極小の世界ですが、計算の比率は全く同じです。" },
     { id: 12, category: "テクノロジ", type: "近年の傾向・DX", question: "クラウドコンピューティングのサービス形態のうち、アプリケーションを稼働させるためのOSやデータベース、ランタイム環境（プラットフォーム）までをインターネット経由で提供するものはどれか。", options: ["IaaS", "PaaS", "SaaS", "DaaS"], answer: 1, text: "PaaS（Platform as a Service）は開発環境・実行土台を提供します。インフラのみはIaaS、完成品アプリはSaaSです。", ex: "カレー作りに例えると、キッチンとコンロだけ借りるのがIaaS。下ごしらえ済みの具材と鍋（土台）まで用意してもらうのがPaaS。お店で完成したカレーを食べるのがSaaSです。" },
@@ -371,21 +371,36 @@ const allMasterQuestions = [
 let currentProgress = 0; 
 let activeQuestions = [];
 let totalHistory = [];
+let userRP = 0; // ランクポイント
 let isRetryMode = false;
 let isExamMode = false;
 let examTimerInterval = null;
-let examTimeLeft = 1200; // 20分（10問用模擬ショートテスト）
+let examTimeLeft = 1200; 
+
+// ランクマスタ定義
+const rankTiers = [
+    { name: "アイアン (Iron)", min: 0, max: 200, badge: "🪵" },
+    { name: "ブロンズ (Bronze)", min: 200, max: 400, badge: "🥉" },
+    { name: "シルバー (Silver)", min: 400, max: 600, badge: "🥈" },
+    { name: "ゴールド (Gold)", min: 600, max: 800, badge: "🥇" },
+    { name: "プラチナ (Platinum)", min: 800, max: 1000, badge: "💎" },
+    { name: "ダイヤ (Diamond)", min: 1000, max: 1200, badge: "🔮" },
+    { name: "プレデター (Predator)", min: 1200, max: 99999, badge: "👑" }
+];
 
 window.onload = function() {
     try {
-        totalHistory = JSON.parse(localStorage.getItem('fe_ultimate_history_v5') || '[]');
+        totalHistory = JSON.parse(localStorage.getItem('fe_ultimate_history_v60') || '[]');
+        userRP = parseInt(localStorage.getItem('fe_ultimate_rp_v60') || '0');
     } catch(e) {
         totalHistory = [];
+        userRP = 0;
     }
     loadCurrentSessionQuestions();
+    updateRankUI();
     calculateStats();
     updateHistoryDOM();
-    checkAchievements();
+    checkAchievements(false, false, false, 0);
 };
 
 function switchMainView(viewId) {
@@ -393,43 +408,78 @@ function switchMainView(viewId) {
     document.getElementById(viewId).classList.add('active');
     
     document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
-    if (viewId === 'main-study-view') document.getElementById('nav-btn-main').add ? document.getElementById('nav-btn-main').classList.add('active') : document.getElementById('nav-btn-main').classList.add('active');
+    if (viewId === 'main-study-view') document.getElementById('nav-btn-main').classList.add('active');
     if (viewId === 'stats-view') document.getElementById('nav-btn-stats').classList.add('active');
     if (viewId === 'ai-view') document.getElementById('nav-btn-ai').classList.add('active');
     if (viewId === 'past-history-view') document.getElementById('nav-btn-history').classList.add('active');
     
+    updateRankUI();
     calculateStats();
     updateHistoryDOM();
-    checkAchievements();
+    checkAchievements(false, false, false, 0);
 }
 
-// 問題のセッション読み込み
+// 👑 リアルタイム・ランク同期ロジック
+function updateRankUI() {
+    let currentTier = rankTiers[0];
+    for (let i = 0; i < rankTiers.length; i++) {
+        if (userRP >= rankTiers[i].min) {
+            currentTier = rankTiers[i];
+        }
+    }
+
+    // バッジとテキスト書き換え
+    const badgeEl = document.getElementById('top-rank-badge');
+    const oldBadge = badgeEl.innerText;
+    badgeEl.innerText = currentTier.badge;
+    
+    // 昇格エフェクト（バッジが変わったら一瞬跳ねる）
+    if(oldBadge !== currentTier.badge) {
+        badgeEl.style.transform = "scale(1.4) rotate(10deg)";
+        setTimeout(() => { badgeEl.style.transform = "scale(1) rotate(0deg)"; }, 600);
+    }
+
+    document.getElementById('top-rank-title').innerText = currentTier.name;
+    document.getElementById('stat-total-rp').innerText = userRP + " RP";
+
+    if (currentTier.name.includes("プレデター")) {
+        document.getElementById('top-rank-rp').innerText = `${userRP} RP (カンスト・神の領域)`;
+        document.getElementById('top-rank-bar').style.width = "100%";
+        document.getElementById('top-rank-next-text').innerText = "あなたは最高位の存在です";
+    } else {
+        document.getElementById('top-rank-rp').innerText = `${userRP} RP (プレデターまであと ${1200 - userRP} RP)`;
+        
+        // プログレスバー計算
+        const tierRange = currentTier.max - currentTier.min;
+        const tierProgress = userRP - currentTier.min;
+        const percent = Math.min(100, Math.max(0, (tierProgress / tierRange) * 100));
+        
+        document.getElementById('top-rank-bar').style.width = percent + "%";
+        document.getElementById('top-rank-next-text').innerText = `次のランクまで あと ${currentTier.max - userRP} RP`;
+    }
+}
+
 function loadCurrentSessionQuestions() {
     document.getElementById('submit-all-btn').style.display = 'block';
     document.getElementById('next-set-btn').style.display = 'none';
 
     if (isExamMode) {
-        // 模擬試験モード: 全30問からランダムに10問を抽出
         let shuffled = [...allMasterQuestions].sort(() => 0.5 - Math.random());
         activeQuestions = shuffled.slice(0, 10);
     } else if (isRetryMode) {
-        // 弱点リトライモード: 過去の全履歴の中で「一度でも間違えた問題ID」を抽出
         const wrongIds = [...new Set(totalHistory.filter(h => !h.isCorrect).map(h => h.id))];
-        // 直近で正解しているものは除外したい場合はさらに絞り込めますが、今回はシンプルに「過去に泥を塗った問題」を全抽出
         let wrongQuestions = allMasterQuestions.filter(q => wrongIds.includes(q.id));
         
         if (wrongQuestions.length === 0) {
-            alert("素晴らしい！現在、間違えた履歴のある弱点問題はありません。通常モードで演習を進めましょう！");
+            alert("過去に敗北した弱点問題はありません！通常マッチを回しましょう。");
             document.getElementById('retry-filter-toggle').checked = false;
             isRetryMode = false;
             let startIdx = currentProgress * 10;
             activeQuestions = allMasterQuestions.slice(startIdx, startIdx + 10);
         } else {
-            // 最大10問をリトライ用セットとして提示
             activeQuestions = wrongQuestions.slice(0, 10);
         }
     } else {
-        // 通常モード: 10問ずつ進行
         let startIdx = currentProgress * 10;
         activeQuestions = allMasterQuestions.slice(startIdx, startIdx + 10);
     }
@@ -440,7 +490,7 @@ function loadCurrentSessionQuestions() {
 function renderQuiz() {
     const container = document.getElementById('quiz-container');
     if (activeQuestions.length === 0) {
-        container.innerHTML = '<p style="text-align:center; padding:40px; color:#64748b; font-weight:700;">表示する問題がありません。</p>';
+        container.innerHTML = '<p style="text-align:center; padding:40px; color:#64748b; font-weight:700;">対戦カードがありません。</p>';
         return;
     }
     
@@ -455,7 +505,7 @@ function renderQuiz() {
                     <span class="badge">${q.category}</span>
                     <span class="badge badge-ai">${q.type}</span>
                 </div>
-                <div class="question-text">問 ${displayNum}. ${formattedQuestion}</div>
+                <div class="question-text">ROUND ${displayNum}. ${formattedQuestion}</div>
                 <div class="options-group">
         `;
         q.options.forEach((opt, oIdx) => {
@@ -470,11 +520,11 @@ function renderQuiz() {
                 </div>
                 <div id="ex-box-${q.id}" class="explanation-box">
                     <div class="ex-tabs">
-                        <button class="ex-tab-btn active" id="btn-tab-text-${q.id}" onclick="switchExTab(${q.id}, 'text')">💡 思考・本質解説</button>
-                        <button class="ex-tab-btn" id="btn-tab-ex-${q.id}" onclick="switchExTab(${q.id}, 'ex')">🏫 具体例イメージ</button>
+                        <button class="ex-tab-btn active" id="btn-tab-text-${q.id}" onclick="switchExTab(${q.id}, 'text')">💡 戦術・本質解説</button>
+                        <button class="ex-tab-btn" id="btn-tab-ex-${q.id}" onclick="switchExTab(${q.id}, 'ex')">🏫 脳内戦況イメージ</button>
                     </div>
-                    <div id="content-text-${q.id}" class="ex-content active"><strong>【AI解説】</strong> ${q.text}</div>
-                    <div id="content-ex-${q.id}" class="ex-content"><strong>【たとえば…】</strong> ${q.ex}</div>
+                    <div id="content-text-${q.id}" class="ex-content active"><strong>【AI戦術指導】</strong> ${q.text}</div>
+                    <div id="content-ex-${q.id}" class="ex-content"><strong>【直感的イメージ】</strong> ${q.ex}</div>
                 </div>
             </div>
         `;
@@ -492,10 +542,9 @@ function switchExTab(qId, type) {
     document.getElementById(`content-${type}-${qId}`).classList.add('active');
 }
 
-// 弱点リトライフィルタートグル
 function toggleRetryFilter() {
     if (isExamMode) {
-        alert("模擬試験モード中はリトライフィルターをONにできません。");
+        alert("模擬試験モード中はリトライフィルターを変更できません。");
         document.getElementById('retry-filter-toggle').checked = false;
         return;
     }
@@ -503,22 +552,20 @@ function toggleRetryFilter() {
     loadCurrentSessionQuestions();
 }
 
-// 模擬試験モード切り替え
 function toggleExamMode() {
     const btn = document.getElementById('exam-toggle-btn');
     const clock = document.getElementById('timer-clock');
 
     if (!isExamMode) {
-        // 模試開始
-        if (confirm("AI模擬試験モードを開始しますか？\n全30問から10問がランダムシャッフルで選出され、20分の制限時間タイマーが始動します。")) {
+        if (confirm("AIチャンピオンシップ模試を開始しますか？\n制限時間20分（10問ランダム）です。")) {
             isExamMode = true;
             isRetryMode = false;
             document.getElementById('retry-filter-toggle').checked = false;
-            btn.innerText = "❌ 模擬試験を中止する";
+            btn.innerText = "❌ 模試をリタイアする";
             btn.style.background = "linear-gradient(135deg, #f43f5e 0%, #be123c 100%)";
             clock.style.display = "block";
             
-            examTimeLeft = 1200; // 20分
+            examTimeLeft = 1200; 
             updateTimerDisplay();
             clearInterval(examTimerInterval);
             examTimerInterval = setInterval(() => {
@@ -526,7 +573,7 @@ function toggleExamMode() {
                 updateTimerDisplay();
                 if (examTimeLeft <= 0) {
                     clearInterval(examTimerInterval);
-                    alert("⏱️ タイムアップ！制限時間になりました。自動的に一括採点を行います。");
+                    alert("⏱️ タイムアップ！試合終了、自動採点を行います。");
                     gradeAll();
                 }
             }, 1000);
@@ -534,10 +581,9 @@ function toggleExamMode() {
             loadCurrentSessionQuestions();
         }
     } else {
-        // 模試中止
         clearInterval(examTimerInterval);
         isExamMode = false;
-        btn.innerText = "⏱️ 模擬試験(10問ランダム)開始";
+        btn.innerText = "⏱️ 模擬試験（10問ランダム）開始";
         btn.style.background = "linear-gradient(135deg, #a855f7 0%, #6366f1 100%)";
         clock.style.display = "none";
         loadCurrentSessionQuestions();
@@ -550,16 +596,25 @@ function updateTimerDisplay() {
     document.getElementById('timer-clock').innerText = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
 }
 
-// 一括採点
+// 採点 ＆ RPリアルタイム変動
 function gradeAll() {
     let score = 0;
-    const todayStr = new Date().toLocaleDateString();
+    const rightNow = new Date();
+    const todayStr = rightNow.toLocaleDateString();
+    const currentHour = rightNow.getHours();
+    
+    let isNight = (currentHour >= 23 || currentHour < 5);
     let unlocked不屈 = false;
+    let speedUnlocked = false;
 
     if (isExamMode) {
         clearInterval(examTimerInterval);
+        if (examTimeLeft >= 900) speedUnlocked = true;
     }
     
+    let roundRPGain = 0;
+    let streakCount = 0;
+
     activeQuestions.forEach(q => {
         const selected = document.querySelector(`input[name="question-${q.id}"]:checked`);
         const userAns = selected ? parseInt(selected.value) : -1;
@@ -571,16 +626,23 @@ function gradeAll() {
             score++;
             document.getElementById(`label-${q.id}-${q.answer}`).classList.add('correct');
             isCorrect = true;
-            // 過去に間違えた問題をリトライで正解したかチェック
-            if (isRetryMode) {
-                unlocked不屈 = true;
-            }
+            if (isRetryMode) unlocked不屈 = true;
+
+            // RP加算
+            roundRPGain += 30;
+            streakCount++;
+            if(streakCount >= 3) roundRPGain += 10; // 連勝ボーナス
         } else {
             if (userAns !== -1) document.getElementById(`label-${q.id}-${userAns}`).classList.add('incorrect');
             document.getElementById(`label-${q.id}-${q.answer}`).classList.add('correct');
+            streakCount = 0;
+
+            // アイアン帯(RP200未満)はマイナス免除
+            if (userRP >= 200) {
+                roundRPGain -= 10;
+            }
         }
         
-        // 履歴レコード保存
         const record = {
             id: q.id,
             category: q.category,
@@ -589,32 +651,38 @@ function gradeAll() {
             correctAnsText: q.options[q.answer],
             isCorrect: isCorrect,
             date: todayStr,
-            time: new Date().toLocaleTimeString(),
-            isExam: isExamMode
+            time: rightNow.toLocaleTimeString(),
+            isExam: isExamMode,
+            isNightStudy: isNight
         };
         
         totalHistory.unshift(record);
         document.getElementById(`ex-box-${q.id}`).style.display = 'block';
     });
     
-    localStorage.setItem('fe_ultimate_history_v5', JSON.stringify(totalHistory));
+    // レートの最終反映（マイナスになっても0でストップ）
+    userRP = Math.max(0, userRP + roundRPGain);
+    
+    localStorage.setItem('fe_ultimate_history_v60', JSON.stringify(totalHistory));
+    localStorage.setItem('fe_ultimate_rp_v60', userRP.toString());
     
     document.getElementById('submit-all-btn').style.display = 'none';
     if (!isExamMode) {
         document.getElementById('next-set-btn').style.display = 'block';
     } else {
-        // 模試モード終了処理
-        document.getElementById('exam-toggle-btn').innerText = "⏱️ 別の模擬試験に挑む";
+        document.getElementById('exam-toggle-btn').innerText = "⏱️ 次の試合へエントリー";
         document.getElementById('exam-toggle-btn').style.background = "linear-gradient(135deg, #a855f7 0%, #6366f1 100%)";
         document.getElementById('timer-clock').style.display = "none";
         isExamMode = false;
     }
     
+    updateRankUI();
     calculateStats();
     updateHistoryDOM();
-    checkAchievements(score === activeQuestions.length, unlocked不屈);
+    checkAchievements(score === activeQuestions.length, unlocked不屈, speedUnlocked, score);
     
-    alert(`【採点完了】今回のセット結果：${activeQuestions.length}問中 ${score}問正解！\nデータが統合ダッシュボードに同期されました。`);
+    const rpSign = roundRPGain >= 0 ? `+${roundRPGain}` : `${roundRPGain}`;
+    alert(`【試合終了】 ${activeQuestions.length}戦 ${score}勝！ レート変動: ${rpSign} RP`);
 }
 
 function loadNextSet() {
@@ -627,31 +695,25 @@ function loadNextSet() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// 統計データ集計
 function calculateStats() {
     const totalCount = totalHistory.length;
     document.getElementById('stat-total-count').innerText = totalCount + "問";
     
+    const todayStr = new Date().toLocaleDateString();
+    const todayLogs = totalHistory.filter(h => h.date === todayStr);
+    document.getElementById('stat-today-count').innerText = todayLogs.length + "問";
+
     if (totalCount === 0) {
-        document.getElementById('live-counter-banner').innerText = `現在の累計スコア: 0問解答 / 正解 0問 (正答率 0%)`;
+        document.getElementById('live-counter-banner').innerText = `現在の戦績: 0戦 0勝 (勝率 0%)`;
         generateAIFeedback(0, 0, 0);
         return;
     }
     
-    const todayStr = new Date().toLocaleDateString();
     const correctCount = totalHistory.filter(h => h.isCorrect).length;
     const totalRate = Math.round((correctCount / totalCount) * 100);
     document.getElementById('stat-total-rate').innerText = totalRate + "%";
     
-    document.getElementById('live-counter-banner').innerText = `現在の累計スコア: ${totalCount}問解答 / 正解 ${correctCount}問 (正答率 ${totalRate}%)`;
-    
-    const todayLogs = totalHistory.filter(h => h.date === todayStr);
-    const todayRate = todayLogs.length > 0 ? Math.round((todayLogs.filter(h => h.isCorrect).length / todayLogs.length) * 100) : 0;
-    document.getElementById('stat-today-rate').innerText = todayRate + "%";
-    
-    const pastLogs = totalHistory.filter(h => h.date !== todayStr);
-    const pastRate = pastLogs.length > 0 ? Math.round((pastLogs.filter(h => h.isCorrect).length / pastLogs.length) * 100) : 0;
-    document.getElementById('stat-past-rate').innerText = pastRate + "%";
+    document.getElementById('live-counter-banner').innerText = `現在の戦績: ${totalCount}戦 ${correctCount}勝 (勝率 ${totalRate}%)`;
     
     const cats = ["テクノロジ", "マネジメント", "ストラテジ"];
     cats.forEach(c => {
@@ -663,75 +725,60 @@ function calculateStats() {
         document.getElementById(`per-${idMap[c]}`).innerText = rate + "%";
     });
     
-    generateAIFeedback(totalRate, todayRate, totalCount);
+    generateAIFeedback(totalRate, todayLogs.length, totalCount);
 }
 
-// 実績のリアルタイムロック解除システム
-function checkAchievements(isCurrentPerfect = false, unlocked不屈 = false) {
-    if (totalHistory.length >= 1) {
-        document.getElementById('ach-first').classList.add('unlocked');
-    }
+function checkAchievements(isCurrentPerfect = false, unlocked不屈 = false, speedUnlocked = false, lastScore = 5) {
+    let unlockCounter = 0;
+    if (totalHistory.length >= 1) { document.getElementById('ach-first').classList.add('unlocked'); unlockCounter++; }
     
-    // テクノロジ80%以上判定
     const techLogs = totalHistory.filter(h => h.category === "テクノロジ");
-    if (techLogs.length >= 5) {
-        const techRate = (techLogs.filter(h => h.isCorrect).length / techLogs.length) * 100;
-        if (techRate >= 80) {
-            document.getElementById('ach-tech').classList.add('unlocked');
-        }
+    if (techLogs.length >= 4 && (techLogs.filter(h => h.isCorrect).length / techLogs.length) * 100 >= 80) {
+        document.getElementById('ach-tech').classList.add('unlocked'); unlockCounter++;
     }
     
-    if (isCurrentPerfect) {
-        document.getElementById('ach-perfect').classList.add('unlocked');
+    const stratMgmtLogs = totalHistory.filter(h => h.category === "マネジメント" || h.category === "ストラテジ");
+    if (stratMgmtLogs.length >= 3 && (stratMgmtLogs.filter(h => h.isCorrect).length / stratMgmtLogs.length) * 100 >= 80) {
+        document.getElementById('ach-strategy').classList.add('unlocked'); unlockCounter++;
     }
     
-    // 過去の全履歴から、一度失敗したIDに対して後から正解レコードがあるか走査
+    if (isCurrentPerfect && activeQuestions.length === 10) { document.getElementById('ach-perfect').classList.add('unlocked'); unlockCounter++; }
+    
     const wrongIds = totalHistory.filter(h => !h.isCorrect).map(h => h.id);
-    const hasRecovered = totalHistory.some(h => h.isCorrect && wrongIds.includes(h.id));
-    if (unlocked不屈 || hasRecovered) {
-        document.getElementById('ach-revival').classList.add('unlocked');
+    if (unlocked不屈 || totalHistory.some(h => h.isCorrect && wrongIds.includes(h.id))) {
+        document.getElementById('ach-revival').classList.add('unlocked'); unlockCounter++;
     }
+
+    if (speedUnlocked) { document.getElementById('ach-speed').classList.add('unlocked'); unlockCounter++; }
+    if (totalHistory.some(h => h.isNightStudy)) { document.getElementById('ach-night').classList.add('unlocked'); unlockCounter++; }
+    if (totalHistory.length >= 50) { document.getElementById('ach-collector').classList.add('unlocked'); unlockCounter++; }
+    if (lastScore <= 2 && lastScore !== 0 && activeQuestions.length === 10) { document.getElementById('ach-badluck').classList.add('unlocked'); unlockCounter++; }
+    if (unlockCounter >= 5) { document.getElementById('ach-grand').classList.add('unlocked'); }
 }
 
-function generateAIFeedback(totalRate, todayRate, totalCount) {
+function generateAIFeedback(totalRate, todayCount, totalCount) {
     const aiTarget = document.getElementById('ai-analysis-text');
-    if (totalCount === 0) {
-        aiTarget.innerHTML = "現在の演習セットを採点すると、ここに解答の偏りや、新傾向問題に対する耐性の分析レポートが出力されます。まずは1セット解いてみましょう！";
-        return;
-    }
+    if (totalCount === 0) return;
 
-    let msg = `<h4 style="margin-top:0; color:#4c1d95; font-size:16px;">📊 AIデータパルス：あなたの思考特性分析</h4>`;
-    if (totalRate >= 75) {
-        msg += `<p><strong>【思考タイプ：ロジカル・アーキテクト（高適性）】</strong><br>素晴らしい成績です。過去問の単純流用ではない問題の本質を綺麗に見抜いています。近年のFE試験が最も求める『初見の問題への対応力』が備わっています。模擬試験モードの活用により、時間的な圧力下でもブレないパフォーマンスが構築されつつあります。</p>`;
-    } else if (totalRate >= 55) {
-        msg += `<p><strong>【思考タイプ：ハイブリッド・ラーナー（合格ボーダー）】</strong><br>基礎知識は頭に入っていますが、計算問題や新概念の応用で失点しやすい傾向があります。丸暗記を排し、解説にある「具体例イメージ」を頭の中に深く描き、さらに『弱点リトライモード』を周回して苦手パターンを徹底的に破壊してください。</p>`;
+    let msg = `<h4 style="margin-top:0; color:#4c1d95; font-size:16px;">⚔️ AIコーチング：現在のメタ分析</h4>`;
+    if (userRP >= 1000) {
+        msg += `<p><strong>【現在のプレイスタイル：無双のプレデター級】</strong><br>圧倒的な知識マッピングです。罠選択肢を完全に回避できています。この調子で競技レートをさらに伸ばし、サーバー最上位を目指してください！</p>`;
+    } else if (userRP >= 600) {
+        msg += `<p><strong>【現在のプレイスタイル：安定のゴールド〜プラチナ帯】</strong><br>FE合格点をキープしています。ここからダイヤ帯に上がるには、計算問題の速度向上とマネジメント系の完全なノーミスが求められます。連勝ボーナスを狙いましょう！</p>`;
     } else {
-        msg += `<p><strong>【思考タイプ：インプット先行型（基礎要補強）】</strong><br>用語の文字面を追ってしまい、システムの本質構造への理解が浅い可能性があります。点数は一切気にせず、『不正解問題のみリトライ』にチェックを入れて、間違えた問題を繰り返し解き直すことで、脳内のニューラルネットワークを強引にアップデートしましょう。</p>`;
+        msg += `<p><strong>【現在のプレイスタイル：エイム調整中（アイアン〜シルバー）】</strong><br>まだ知識のヒットボックスがブレています。特に『具体例イメージ』の解説を読み込み、リトライフィルターを活用して負け筋を消していきましょう。</p>`;
     }
-    
-    msg += `
-        <h4 style="margin-top:18px; margin-bottom:8px; color:#6d28d9; font-size:15px;">🎯 近年のトレンドを見据えたAI強化命令</h4>
-        <ul style="margin:0; padding-left:20px;">
-            <li style="margin-bottom:6px;">本日の正答率: <strong>${todayRate}%</strong>（アチーブメントの完全解放を目指すことで、モチベーションを高水準に維持してください）</li>
-            <li><strong>【対策戦略】</strong>模擬試験モードを活用し、1問1分半ペースの「決断のスピード感」を身体に叩き込みましょう。</li>
-        </ul>
-    `;
     aiTarget.innerHTML = msg;
 }
 
 function updateHistoryDOM() {
     const logContainer = document.getElementById('history-log-container');
-    if (!totalHistory || totalHistory.length === 0) {
-        logContainer.innerHTML = '<p style="color: #94a3b8; text-align: center; padding: 40px 0;">まだ履歴はありません。</p>';
-        return;
-    }
+    if (!totalHistory || totalHistory.length === 0) return;
     
     let html = "";
     totalHistory.forEach(item => {
-        const typeLabel = item.isExam ? `<span style="background:#7c3aed; color:white; padding:2px 6px; border-radius:4px; font-size:10px; margin-right:6px; font-weight:800;">模試</span>` : "";
-        const badge = item.isCorrect 
-            ? `<span class="history-badge-correct">正解</span>` 
-            : `<span class="history-badge-incorrect">不正解</span>`;
+        const typeLabel = item.isExam ? `<span style="background:#7c3aed; color:white; padding:2px 6px; border-radius:4px; font-size:10px; margin-right:6px; font-weight:800;">RANK MATCH</span>` : "";
+        const badge = item.isCorrect ? `<span class="history-badge-correct">WIN</span>` : `<span class="history-badge-incorrect">LOSE</span>`;
             
         html += `
             <div class="history-log-card">
