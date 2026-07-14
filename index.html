@@ -327,61 +327,19 @@
     let masterQuestionBank = [];
     
     // 🧠 【ランダム性の向上：400問のバリエーション自動生成】
-   // 🧠 【同じ問題が連続しないよう、バリエーションを物理的にバラバラにする新ロジック】
     function generateLargeQuestionBank() {
         masterQuestionBank = [];
         let idCounter = 1;
-        
-        // 400問に達するまでループ
         while(masterQuestionBank.length < 400) {
             seedQuestionTemplates.forEach((base) => {
                 if(masterQuestionBank.length >= 400) return;
-                
-                // 1. 選択肢をコピーしてシャッフル（正解位置を毎回変える）
                 let optionsCopy = [...base.options];
                 let correctStr = optionsCopy[base.answer];
+                
                 for (let i = optionsCopy.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [optionsCopy[i], optionsCopy[j]] = [optionsCopy[j], optionsCopy[i]];
                 }
-                
-                // 2. 出題パターンに完全なランダム変化を加えるための素材
-                let techs = ["社内ファイルサーバー", "顧客管理システム", "勤怠管理アプリ", "ECサイト基盤"];
-                let attackers = ["外部の攻撃者", "元従業員の悪意ある第三者", "競合他社のクラッカー"];
-                let networks = ["セグメントA", "サブネットVLAN10", "DMZ領域", "開発用ネットワーク"];
-                let baseDates = ["2026年1月", "2026年春期", "2026年秋期", "次期プロジェクト"];
-                
-                let selectedTech = techs[idCounter % techs.length];
-                let selectedAttacker = attackers[idCounter % attackers.length];
-                let selectedNet = networks[idCounter % networks.length];
-                let selectedDate = baseDates[idCounter % baseDates.length];
-
-                // 3. 問題文をバリエーション豊かに書き換える
-                let alteredQuestion = base.question
-                    .replace("Aさん", `エンジニアの「開発者_${idCounter}号」`)
-                    .replace("Bさん", `クライアントの「端末_${idCounter}型」`)
-                    .replace("社員テーブル", `従業員マスター_${idCounter}`)
-                    .replace("部署テーブル", `所属部門テーブル_${idCounter}`)
-                    .replace("Webアプリケーション", `${selectedTech}`)
-                    .replace("悪意のあるSQLコマンド", `${selectedAttacker}による不正なSQL構文`)
-                    .replace("インターネットにおける", `${selectedNet}における`)
-                    .replace("プロジェクト管理", `${selectedDate}のプロジェクト管理`);
-
-                // 4. 配列に注入
-                masterQuestionBank.push({
-                    id: idCounter,
-                    category: base.category,
-                    title: `${base.title} (パターン-${idCounter})`,
-                    question: alteredQuestion,
-                    options: optionsCopy,
-                    answer: optionsCopy.indexOf(correctStr),
-                    explanation: base.explanation,
-                    analogy: base.analogy
-                });
-                idCounter++;
-            });
-        }
-     }
                 
                 let dynamicName = `システムエンジニア_${idCounter}型`;
                 let alteredQuestion = base.question
