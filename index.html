@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>基本情報技術者 科目A 試験対策レジェンド ONLINE</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
             --bg-main: #f4f7fc;
@@ -21,6 +22,7 @@
             --rank-goldmenkyo: #d69e2e;
             --rank-chukensha: #319795;
             --rank-diamond: #00bfff;
+            --rank-master: #d946ef; /* MASTERカラー */
             --rank-legend: #ff003c; 
             --banner-default: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --banner-emerald: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
@@ -57,7 +59,6 @@
             height: 110px;
             margin: 0 auto;
         }
-        /* ダッシュボード用の少し大きめのコンテナ */
         .rank-display-box .rank-badge-container {
             width: 130px;
             height: 130px;
@@ -96,9 +97,12 @@
             width: 60px; height: 60px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: bold;
             transform: rotate(45deg); animation: badgeFloatDiamond 3s ease-in-out infinite alternate; border: 3px solid #00e1ff; box-shadow: 0 0 30px rgba(0, 191, 255, 0.9); color: #e6ffff; background: linear-gradient(135deg, #005f73, #0a1128); border-radius: 8px;
         }
+        .badge-master {
+            width: 65px; height: 65px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: bold;
+            border-radius: 35% 35% 35% 35%; border: 3px solid #d946ef; box-shadow: 0 0 28px rgba(217, 70, 239, 0.9), inset 0 0 15px rgba(255,255,255,0.2); color: #fdf4ff; background: linear-gradient(135deg, #6b21a8, #d946ef); animation: badgeFloat 3s ease-in-out infinite alternate;
+        }
         
-        /* 大きめサイズ上書き（ダッシュボード等用） */
-        .rank-display-box .badge-bronze, .rank-display-box .badge-silver, .rank-display-box .badge-gold, .rank-display-box .badge-platinum { width: 75px; height: 75px; font-size: 2rem; }
+        .rank-display-box .badge-bronze, .rank-display-box .badge-silver, .rank-display-box .badge-gold, .rank-display-box .badge-platinum, .rank-display-box .badge-master { width: 75px; height: 75px; font-size: 2rem; }
         .rank-display-box .badge-diamond { width: 72px; height: 72px; font-size: 2rem; }
 
         @keyframes badgeFloatDiamond { 
@@ -108,76 +112,48 @@
         .badge-diamond span { transform: rotate(-45deg); display: inline-block; }
 
         /* -------------------------------------------------- */
-        /* 🔥 新世代：Legend 超越神極ロゴ・デザイン (魅了する3D) */
+        /* 🔥 Legend 超越神極ロゴ・デザイン */
         /* -------------------------------------------------- */
         .badge-legend {
-            width: 75px;
-            height: 75px;
+            width: 75px; height: 75px;
             background: radial-gradient(circle, #ff003c 0%, #1a0005 80%, #000000 100%);
             clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: bold;
+            position: relative; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: bold;
             animation: legendPredatorPulse 1.8s infinite ease-in-out;
             box-shadow: 0 0 35px rgba(255, 0, 60, 0.95), inset 0 0 25px rgba(255, 0, 60, 0.5);
-            z-index: 5;
-            border: 2px solid #ff0055;
+            z-index: 5; border: 2px solid #ff0055;
         }
         .rank-display-box .badge-legend { width: 85px; height: 85px; font-size: 2.2rem; }
 
-        /* 翼（サイドウイングアウラ）の強化 */
         .badge-legend::before, .badge-legend::after {
-            content: '';
-            position: absolute;
-            background: linear-gradient(45deg, #ff003c, #ffaa00);
-            width: 90px;
-            height: 15px;
-            top: 28px;
-            left: -10px;
+            content: ''; position: absolute; background: linear-gradient(45deg, #ff003c, #ffaa00);
+            width: 90px; height: 15px; top: 28px; left: -10px;
             clip-path: polygon(0% 0%, 100% 30%, 75% 70%, 100% 100%, 15% 60%);
-            transform: rotate(-25deg);
-            filter: drop-shadow(0 0 12px #ff003c);
-            z-index: -1;
+            transform: rotate(-25deg); filter: drop-shadow(0 0 12px #ff003c); z-index: -1;
             animation: wingFlutter 0.9s infinite alternate;
         }
         .rank-display-box .badge-legend::before, .rank-display-box .badge-legend::after { width: 105px; height: 18px; top: 32px; left: -12px; }
         
         .badge-legend::after {
-            left: auto;
-            right: -10px;
-            transform: scaleX(-1) rotate(-25deg);
+            left: auto; right: -10px; transform: scaleX(-1) rotate(-25deg);
             animation: wingFlutterAlt 0.9s infinite alternate;
         }
         .rank-display-box .badge-legend::after { right: -12px; left: auto; }
 
-        /* 漆黒の結晶（インナークリスタルコア） */
         .legend-core {
-            position: absolute;
-            width: 45px;
-            height: 45px;
+            position: absolute; width: 45px; height: 45px;
             background: radial-gradient(circle, #0a0002 40%, #ff003c 100%);
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            border: 1px solid #ffd700;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+            display: flex; justify-content: center; align-items: center; z-index: 10;
+            border: 1px solid #ffd700; box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
         }
         .rank-display-box .legend-core { width: 55px; height: 55px; }
 
         .legend-core span {
-            color: #ffffff;
-            font-style: italic;
-            text-shadow: 0 0 10px #ff0055, 0 0 20px #ffaa00;
-            animation: coreLightVibe 2s infinite ease-in-out;
-            display: inline-block;
+            color: #ffffff; font-style: italic; text-shadow: 0 0 10px #ff0055, 0 0 20px #ffaa00;
+            animation: coreLightVibe 2s infinite ease-in-out; display: inline-block;
         }
 
-        /* 超美麗アニメーションキーフレーム */
         @keyframes legendPredatorPulse {
             0%, 100% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 20px rgba(255, 0, 60, 0.85)) brightness(1); }
             50% { transform: scale(1.08) translateY(-4px); filter: drop-shadow(0 0 35px rgba(255, 0, 60, 1.3)) brightness(1.25); }
@@ -194,14 +170,12 @@
             0%, 100% { text-shadow: 0 0 8px #ff0055, 0 0 15px #ffaa00; transform: scale(1); }
             50% { text-shadow: 0 0 15px #ff0055, 0 0 30px #ffffff, 0 0 40px #ffaa00; transform: scale(1.15); }
         }
-
         @keyframes badgeFloat {
             0% { transform: translateY(0px) rotate(0deg); }
             100% { transform: translateY(-6px) rotate(3deg); }
         }
 
         /* -------------------------------------------------- */
-
         .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .status-item { background: white; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid var(--border-color); }
         .status-item .label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 5px; }
@@ -217,7 +191,6 @@
         .sync-input { padding: 6px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; margin-right: 5px; }
         
         .question-block { background: white; border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .question-num { font-weight: bold; color: var(--accent-blue); margin-bottom: 10px; font-size: 14px; }
         .question-text { font-size: 16px; margin-bottom: 20px; font-weight: 500; white-space: pre-wrap; }
         .options-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
         .option-label { display: flex; align-items: center; gap: 10px; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
@@ -238,13 +211,11 @@
         .leaderboard-table tbody tr { cursor: pointer; transition: background 0.2s; }
         .leaderboard-table tbody tr:hover { background-color: #f7fafc; }
         
-        /* 📊 ランク解説テーブル専用スタイル */
         .rank-info-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; text-align: center; }
         .rank-info-table th, .rank-info-table td { padding: 12px; border: 1px solid var(--border-color); vertical-align: middle; }
         .rank-info-table th { background-color: #f7fafc; color: var(--text-main); font-weight: bold; }
         .rank-name-cell { font-weight: bold; font-size: 15px; }
 
-        /* 📊 ランク分布用のゲージデザイン */
         .rank-distribution-bar-bg { background-color: #e2e8f0; border-radius: 4px; height: 12px; width: 100%; overflow: hidden; position: relative; margin-top: 4px; }
         .rank-distribution-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
         
@@ -266,8 +237,13 @@
         .tab-btn { background: none; border: none; padding: 12px 0; width: 100%; font-size: 11px; font-weight: bold; color: var(--text-muted); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .tab-btn.active { color: var(--accent-blue); }
         .tab-btn svg { width: 20px; height: 20px; }
+        
         .effect-legend { animation: legendGlow 1.5s infinite alternate; font-weight: bold; }
         @keyframes legendGlow { from { text-shadow: 0 0 6px #ff0055, 0 0 12px #ffaa00; } to { text-shadow: 0 0 12px #ff0055, 0 0 25px #ffffff, 0 0 35px #ff4500; } }
+        
+        .effect-master { animation: masterGlow 1.5s infinite alternate; font-weight: bold; }
+        @keyframes masterGlow { from { text-shadow: 0 0 6px #6b21a8, 0 0 12px #d946ef; } to { text-shadow: 0 0 12px #d946ef, 0 0 20px #ffffff; } }
+        
         .ai-box { background: #f0fff4; border: 1px solid #c6f6d5; padding: 15px; border-radius: 8px; font-size: 13.5px; color: #22543d; margin-top: 10px; line-height: 1.6; }
         .history-list { font-size: 13px; }
         .history-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); }
@@ -279,13 +255,52 @@
         .modal-body { padding: 20px; }
         .modal-close-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.3); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
         .modal-close-btn:hover { background: rgba(0,0,0,0.5); }
+
+        .visual-feedback {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6);
+            padding: 12px 35px; border-radius: 10px; font-size: 1.5rem; font-weight: 900; z-index: 9999; opacity: 0;
+            pointer-events: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: white;
+        }
+        .visual-feedback.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .visual-feedback.success-popup { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+        .visual-feedback.info-popup { background: linear-gradient(135deg, #3b82f6, #2563eb); box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+        .visual-feedback.clear-popup { background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+
+        .security-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(17, 24, 39, 0.96);
+            z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px; box-sizing: border-box;
+        }
+        .security-card { background: #ffffff; border-top: 5px solid #ef4444; border-radius: 12px; padding: 30px; max-width: 400px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+
+        .confetti { position: fixed; width: 10px; height: 10px; z-index: 9998; top: -10px; border-radius: 2px; animation: fall linear forwards; pointer-events: none; }
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
+<div id="securityOverlay" class="security-overlay">
+    <div class="security-card">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; color: #ef4444; margin-bottom: 12px;"></i>
+        <h2 style="margin: 0 0 10px 0; color: #111827; font-size: 1.2rem;">重複ログインを検知しました</h2>
+        <p style="color: #4b5563; font-size: 0.85rem; line-height: 1.6; margin: 0;">
+            別のタブまたはウィンドウで既にこのダッシュボードが開かれています。<br>
+            データの同時編集による破損を防ぐため、画面を自動ロックしました。
+        </p>
+    </div>
+</div>
+
+<div id="visualFeedback" class="visual-feedback"></div>
+
 <header>
     <div class="logo">🎯 FE試験対策 ONLINE <span style="font-size: 11px; background:#edf2f7; padding:2px 6px; border-radius:4px;" id="season-timer-display">⏳ 残り --日 --:--:--</span></div>
     <div style="display: flex; align-items: center; gap: 10px;">
+        <button class="btn-sync-alt" style="background-color: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; padding: 4px 10px;" onclick="triggerLogoutAndResetDisplay()">
+            <i class="fa-solid fa-right-from-bracket"></i> ログアウトしてリセット
+        </button>
         <span id="account-id-text" style="font-size: 12px; color: var(--text-muted);"></span>
         <div id="sync-badge" class="sync-badge">👤 ローカルモード</div>
         <div id="sync-controls" style="display: flex; align-items: center;"></div>
@@ -376,10 +391,9 @@
     </div>
 
     <div id="rank-mode" class="tab-content">
-        <!-- 📊 修正機能：全6段階のランクシステム早見表 -->
         <div class="card">
             <h2>🛡️ ランクシステム一覧・昇格条件</h2>
-            <p style="color:var(--text-muted); font-size:13px; margin-bottom:10px;">当システムは全6段階のランクで構成されています。ランクマッチでRPを稼ぎ、最高位のLegendを目指しましょう！</p>
+            <p style="color:var(--text-muted); font-size:13px; margin-bottom:10px;">当システムは全7段階のランクで構成されています。ランクマッチでRPを稼ぎ、最高位のLegendを目指しましょう！</p>
             <table class="rank-info-table">
                 <thead>
                     <tr>
@@ -388,19 +402,14 @@
                         <th style="width: 30%;">必要ポイント</th>
                     </tr>
                 </thead>
-                <tbody id="rank-info-table-body">
-                    <!-- JavaScriptによりロゴ付きで自動生成 -->
-                </tbody>
+                <tbody id="rank-info-table-body"></tbody>
             </table>
         </div>
 
-        <!-- 📊 人数・比率を非表示にし、純粋に段階が分かる進行ゲージへ変更 -->
         <div class="card">
             <h2>📊 現在のランク進行分布イメージ</h2>
             <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">全ランク帯の階層構造イメージです。上のランクへ行くほど、より強固なスキルが証明されます。</p>
-            <div id="rank-distribution-container" style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
-                <!-- JavaScriptにより動的生成 -->
-            </div>
+            <div id="rank-distribution-container" style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;"></div>
         </div>
 
         <div class="card">
@@ -488,7 +497,7 @@
         ホーム
     </button>
     <button class="tab-btn" onclick="switchTab('quiz-modes')">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 002-2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
         演習
     </button>
     <button class="tab-btn" onclick="switchTab('rank-mode')">
@@ -562,7 +571,7 @@
         { category: "mgmt", title: "マネジメント: SLA", question: "ITサービスの提供者と顧客の間で、提供されるサービスの内容や品質レベルについて合意した文書はどれか。", options: ["SLA", "RFP", "NDA", "BCP"], answer: 0, explanation: "SLA（Service Level Agreement）は、「稼働率99.9%を保証します」といったサービスの品質保証契約です。", analogy: "出前館などの「30分以内にお届けできなければ全額返金します」という、お店とお客さんの間の約束事のようなものです。" },
         { category: "strat", title: "ストラテジ: 著作権法", question: "著作権法によるプログラムの保護範囲に関する記述のうち、適切なものはどれか。", options: ["プログラムのソースコード（表現）は保護されるが、アルゴリズム（解法）やプログラム言語自体は保護対象外である", "アルゴリズム（解法）自体も著作権法で強力に保護されるため、同じ計算方法を他人が使うことはできない", "開発したプログラムは、国への特許申請と登録が完了した時点から著作権が発生する", "プログラム言語の文法自体に著作権があるため、新しい言語を作るには許可必要である"], answer: 0, explanation: "著作権法は「具体的な表現」を保護する法律であり、アルゴリズムなどの「アイデア・仕組み」は保護対象外です。", analogy: "小説の「文章の丸コピー」は著作権違反ですが、「主人公が魔王を倒しに行く」という設定は誰が真似して書いても自由であることと同じです。" },
         { category: "strat", title: "ストラテジ: SWOT分析", question: "企業の経営戦略を立てるための「SWOT分析」において、外部環境のプラス要因とマイナス要因を表す組み合わせはどれか。", options: ["機会 ／ 脅威", "強み ／ 弱み", "強み ／ 脅威", "機会 ／ 弱み"], answer: 0, explanation: "SWOTのSとWは企業自身の内部環境、O（機会）とT（脅威）は市場や法律の変動などの外部環境を指します。", analogy: "自チームの「足が速い」「スタミナ不足」は自分たちの話。しかし「明日大雨が降る」「相手のエースが欠場」は、自分たちでは操作できない外の環境要因ですよね。" },
-        { category: "strat", title: "ストラテジ: 不正競争防止法", question: "企業の秘密情報（営業秘密）を不正に取得・使用する行為を規制し、公正な競争を守る法律はどれか。", options: ["不正競争防止法", "個人情報保護法", "著作権法", "特許法"], answer: 0, explanation: "顧客名簿や門外不出のレシピなど、企業の利益につながる「営業秘密」を盗み出す行為を取り締まる法律です。", analogy: "某ファストフード店の「秘伝のスパイスの配合比率」や、秘匿されたコーラのレシピをライバル社に転売するのを禁止する法律です。" },
+        { category: "strat", title: "ストラテジ: 不正競争防止法", question: "企業の秘密情報（営業秘密）を不正に取得・使用する行為を規制し、公正な競争を守る法律はどれか。", options: ["不正競争防止法", "個人情報保護法", "著作権法", "特許法"], answer: 0, explanation: "顧客名簿や門外不出のレシピなど、企業の利益につながる「営業秘密」を盗み出す行為を取り煙る法律です。", analogy: "某ファストフード店の「秘伝のスパイスの配合比率」や、秘匿されたコーラのレシピをライバル社に転売するのを禁止する法律です。" },
         { category: "strat", title: "ストラテジ: パレート図", question: "データを値の大きい順に棒グラフで並べ、その累積比率を折れ線グラフで組み合わせた、重要課題の特定に使う図はどれか。", options: ["パレート図", "散布図", "ヒストグラム", "レーダーチャート"], answer: 0, explanation: "パレート図は「全体の8割のトラブルは、2割の重要原因から発生している」という分析（80:20の法則）などに使われます。", analogy: "「お店のクレーム集計」です。件数が多い順に並べると、『接客態度』と『異物混入』の2つだけで全体の80%を占めている, といった重要箇所を暴き出すグラフです。" },
         { category: "strat", title: "ストラテジ: BCP", question: "災害やテロなどの緊急事態が発生した際に、企業の重要業務を中断させず、早期に復旧させるための行動計画はどれか。", options: ["BCP（事業継続計画）", "M&A", "CSR", "ERP"], answer: 0, explanation: "BCP（Business Continuity Plan）は、予期せぬ大災害でも会社を潰さずに事業を継続させるためのバックアップ・避難計画です。", analogy: "「お家の防災避難マニュアル＋予備の備蓄」です。地震が起きた時、どこの避難所に集まってどう連絡を取り合うかを決めておく会社版の作戦です。" }
     ];
@@ -666,13 +675,15 @@
     let onlineLeaderboardCache = []; 
     let totalGlobalUsersCount = 1;
 
+    // 全7段階への階層定義
     const ranks = [
         { name: "無知者", min: 0, color: "var(--rank-muchisha)" },
         { name: "ホワイトサバイバー", min: 150, color: "var(--rank-whitesurvivor)" },
         { name: "ゴールド免許", min: 300, color: "var(--rank-goldmenkyo)" },
         { name: "中堅者", min: 500, color: "var(--rank-chukensha)" },
         { name: "DIAMOND", min: 750, color: "var(--rank-diamond)" },
-        { name: "Legend", min: 1000, color: "var(--rank-legend)", specialClass: "effect-legend" }
+        { name: "MASTER", min: 1000, color: "var(--rank-master)", specialClass: "effect-master" },
+        { name: "Legend", min: 1300, color: "var(--rank-legend)", specialClass: "effect-legend" }
     ];
 
     const titleList = [
@@ -685,34 +696,72 @@
         { name: "グランド・レジェンド", minRp: 1300 }
     ];
 
+    function showPopupNotification(text, className) {
+        const popup = document.getElementById('visualFeedback');
+        if (popup) {
+            popup.innerText = text;
+            popup.className = `visual-feedback show ${className}`;
+            setTimeout(() => popup.classList.remove('show'), 1200);
+        }
+    }
+
+    function triggerConfettiEffect() {
+        const colors = ['#ff003c', '#ffaa00', '#3182ce', '#38a169', '#d946ef', '#ffd700', '#00bff7'];
+        for (let i = 0; i < 90; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            confetti.style.animationDelay = (Math.random() * 0.4) + 's';
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 4000);
+        }
+    }
+
+    function triggerLogoutAndResetDisplay() {
+        if (confirm("🚪【サインアウト確認】\nアカウントからログアウトし、画面上の表示状態を初期状態に戻します。よろしいですか？\n（※ローカル上の基本データや進行状況は保持されます）")) {
+            // 1. オンラインユーザーセッションの解除
+            state.currentUserId = null;
+            state.isSynced = false;
+            
+            // 2. 画面表示用オブジェクトのみ一時リセット（保存データは破壊しない）
+            state.rp = 100;
+            state.history = [];
+            state.wrongQuestions = [];
+            state.profile = { 
+                nickname: "名無しの受験生", 
+                bannerTheme: "default",
+                bio: "合格目指して勉強中です！",
+                title: "駆け出しの学習者",
+                frame: "none"
+            };
+            for (let key in state.achievements) { state.achievements[key] = false; }
+
+            // 3. 画面リフレッシュと同期パネルの再構成
+            renderSyncPanel();
+            updateUI();
+            renderAchievements();
+            renderRankDistribution();
+            
+            showPopupNotification("🚪 ログアウト & 画面リセット完了", "info-popup");
+            switchTab('dashboard');
+        }
+    }
+
     function getRankBadgeHTML(rankName, frameStyle = "none") {
         let badgeClass = "badge-bronze";
-        let isLegend = false;
+        let isSpecial = false;
         let icon = "🌱"; 
 
-        if (rankName.includes("ホワイトサバイバー")) { 
-            badgeClass = "badge-silver"; 
-            icon = "🛡️"; 
-        }
-        else if (rankName.includes("ゴールド免許")) { 
-            badgeClass = "badge-gold"; 
-            icon = "🚗"; 
-        }
-        else if (rankName.includes("中堅者")) { 
-            badgeClass = "badge-platinum"; 
-            icon = "⚔️"; 
-        }
-        else if (rankName.includes("DIAMOND")) { 
-            badgeClass = "badge-diamond"; 
-            icon = "💎"; 
-        }
-        else if (rankName.includes("Legend")) { 
-            isLegend = true;
-            badgeClass = "badge-legend"; 
-            icon = "👑"; 
-        }
+        if (rankName.includes("ホワイトサバイバー")) { badgeClass = "badge-silver"; icon = "🛡️"; }
+        else if (rankName.includes("ゴールド免許")) { badgeClass = "badge-gold"; icon = "🚗"; }
+        else if (rankName.includes("中堅者")) { badgeClass = "badge-platinum"; icon = "⚔️"; }
+        else if (rankName.includes("DIAMOND")) { badgeClass = "badge-diamond"; icon = "💎"; }
+        else if (rankName.includes("MASTER")) { badgeClass = "badge-master"; icon = "⚡"; }
+        else if (rankName.includes("Legend")) { isSpecial = true; badgeClass = "badge-legend"; icon = "👑"; }
 
-        if (isLegend) {
+        if (isSpecial) {
             return `
                 <div class="rank-badge-container frame-${frameStyle}">
                     <div class="rank-badge ${badgeClass}">
@@ -735,6 +784,19 @@
 
     async function initOnlineSystem() {
         console.log("⚡ オンライン動的クイズシステムを起動中...");
+        
+        const loginChannel = new BroadcastChannel('dashboard_security_sync');
+        loginChannel.postMessage({ type: 'CHECK_NEW_TAB_OPEN' });
+        loginChannel.onmessage = function(e) {
+            if (e.data.type === 'CHECK_NEW_TAB_OPEN') {
+                loginChannel.postMessage({ type: 'DENY_DUPLICATE' });
+            }
+            if (e.data.type === 'DENY_DUPLICATE') {
+                const overlay = document.getElementById('securityOverlay');
+                if (overlay) overlay.style.display = 'flex';
+            }
+        };
+
         generateLargeQuestionBank();
         shuffleArray(masterQuestionBank);
         loadLocalData();
@@ -850,22 +912,17 @@
     }
 
     function getPlayerRankObject(points, uidToCheck) {
-        if (points >= 1000) {
-            return ranks[5]; 
-        }
-        for (let i = ranks.length - 2; i >= 0; i--) {
+        for (let i = ranks.length - 1; i >= 0; i--) {
             if (points >= ranks[i].min) return ranks[i];
         }
         return ranks[0];
     }
 
-    /* 📊 新機能：ランク一覧システムのテーブル生成ロジック（ロゴバッジ配置） */
     function renderRankSystemTable() {
         const tableBody = document.getElementById('rank-info-table-body');
         if (!tableBody) return;
 
         let html = '';
-        // 上位ランクから順番に表示
         [...ranks].reverse().forEach((r) => {
             let specialSpanClass = r.specialClass ? `class="${r.specialClass}"` : '';
             html += `
@@ -883,14 +940,12 @@
         tableBody.innerHTML = html;
     }
 
-    /* 📊 ランク分布デザインの修正（人口・割合データを排除し、段階のみを分かりやすく表示） */
     function renderRankDistribution() {
         const container = document.getElementById('rank-distribution-container');
         if (!container) return;
 
         let html = '';
-        // 固定の基準ゲージ（上位から下位へ綺麗なグラデーション段階を表現）
-        const mockRatios = [15, 30, 50, 70, 85, 100]; 
+        const mockRatios = [15, 30, 45, 60, 75, 88, 100]; 
 
         ranks.forEach((r, idx) => {
             let widthRatio = mockRatios[idx];
@@ -1022,6 +1077,7 @@
                 state.profile.frame = cloudData.frame || "none";
                 initSettingsInputs();
                 alert("データを同期・復元しました！");
+                showPopupNotification("☁️ 同期完了", "success-popup");
             } else { await pushDataToFirebase(); }
             await fetchOnlineLeaderboard();
         }
@@ -1033,6 +1089,7 @@
         saveLocalData();
         renderSyncPanel();
         updateUI();
+        showPopupNotification("🚪 ログアウトしました", "info-popup");
     }
 
     function initSettingsInputs() {
@@ -1078,7 +1135,7 @@
             await fetchOnlineLeaderboard();
         }
         updateUI();
-        alert("設定を保存しました！");
+        showPopupNotification("⚙️ 設定を保存しました", "success-popup");
         switchTab('dashboard');
     }
 
@@ -1296,6 +1353,7 @@
             return;
         }
 
+        const oldRank = getPlayerRankObject(state.rp, state.currentUserId).name; 
         const endTime = Date.now();
         let correctCount = 0;
         currentSession.tempLogs = [];
@@ -1357,6 +1415,14 @@
 
         updateUI();
         renderAchievements();
+
+        const newRank = getPlayerRankObject(state.rp, state.currentUserId).name;
+        if (oldRank !== "Legend" && newRank === "Legend") {
+            triggerConfettiEffect();
+            showPopupNotification("👑 HIGHEST RANK: LEGEND!!", "success-popup");
+        } else {
+            showPopupNotification("📊 採点が完了しました", "info-popup");
+        }
 
         const actionArea = document.getElementById('session-action-area');
         if (actionArea) {
