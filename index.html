@@ -39,7 +39,6 @@
         .theme-midnight { color: #e2e8f0; }
         .rank-info h2 { font-size: 24px; margin-bottom: 5px; }
         
-        /* 🏆 ランクバッジ（ロゴ）のベースデザイン */
         .rank-badge-container {
             display: flex;
             flex-direction: column;
@@ -66,59 +65,18 @@
             animation: badgeFloat 3s ease-in-out infinite alternate;
         }
 
-        /* 浮遊するアニメーション */
         @keyframes badgeFloat {
             0% { transform: translateY(0px) rotate(0deg); }
             100% { transform: translateY(-6px) rotate(3deg); }
         }
 
-        /* 各ランク特有のネオン・形状ロゴスタイル */
-        .badge-bronze {
-            border-radius: 10px;
-            border-color: #cd7f32;
-            box-shadow: 0 0 15px rgba(205, 127, 50, 0.8);
-            color: #ffd79e;
-            background: linear-gradient(135deg, #4a2e16, #2d1a0b);
-        }
-        .badge-silver {
-            border-radius: 50% 50% 0 0; /* アーチ型 */
-            border-color: #cbd5e1;
-            box-shadow: 0 0 20px rgba(203, 213, 225, 0.8);
-            color: #ffffff;
-            background: linear-gradient(135deg, #475569, #1e293b);
-        }
-        .badge-gold {
-            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); /* 五角形シールド */
-            border-color: #eab308;
-            box-shadow: 0 0 25px rgba(234, 179, 8, 0.9);
-            color: #fffbeb;
-            background: linear-gradient(135deg, #713f12, #422006);
-        }
-        .badge-platinum {
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); /* ヘキサゴン（六角形） */
-            border-color: #06b6d4;
-            box-shadow: 0 0 30px rgba(6, 182, 212, 0.9);
-            color: #ecfeff;
-            background: linear-gradient(135deg, #164e63, #083344);
-        }
-        .badge-diamond {
-            transform: rotate(45deg); /* ダイヤ型 */
-            animation: badgeFloatDiamond 3s ease-in-out infinite alternate;
-            border-color: #a855f7;
-            box-shadow: 0 0 35px rgba(168, 85, 247, 1);
-            color: #faf5ff;
-            background: linear-gradient(135deg, #581c87, #3b0764);
-        }
-        /* ダイヤ型専用のアニメーション（回転を維持するため） */
-        @keyframes badgeFloatDiamond {
-            0% { transform: translateY(0px) rotate(45deg); }
-            100% { transform: translateY(-6px) rotate(48deg); }
-        }
-        /* ダイヤ型の中身テキストが傾かないように補正 */
-        .badge-diamond span {
-            transform: rotate(-45deg);
-            display: inline-block;
-        }
+        .badge-bronze { border-radius: 10px; border-color: #cd7f32; box-shadow: 0 0 15px rgba(205, 127, 50, 0.8); color: #ffd79e; background: linear-gradient(135deg, #4a2e16, #2d1a0b); }
+        .badge-silver { border-radius: 50% 50% 0 0; border-color: #cbd5e1; box-shadow: 0 0 20px rgba(203, 213, 225, 0.8); color: #ffffff; background: linear-gradient(135deg, #475569, #1e293b); }
+        .badge-gold { clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); border-color: #eab308; box-shadow: 0 0 25px rgba(234, 179, 8, 0.9); color: #fffbeb; background: linear-gradient(135deg, #713f12, #422006); }
+        .badge-platinum { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border-color: #06b6d4; box-shadow: 0 0 30px rgba(6, 182, 212, 0.9); color: #ecfeff; background: linear-gradient(135deg, #164e63, #083344); }
+        .badge-diamond { transform: rotate(45deg); animation: badgeFloatDiamond 3s ease-in-out infinite alternate; border-color: #a855f7; box-shadow: 0 0 35px rgba(168, 85, 247, 1); color: #faf5ff; background: linear-gradient(135deg, #581c87, #3b0764); }
+        @keyframes badgeFloatDiamond { 0% { transform: translateY(0px) rotate(45deg); } 100% { transform: translateY(-6px) rotate(48deg); } }
+        .badge-diamond span { transform: rotate(-45deg); display: inline-block; }
 
         .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .status-item { background: white; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid var(--border-color); }
@@ -128,15 +86,12 @@
         @media(max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .mode-card { display: flex; justify-content: space-between; align-items: center; padding: 20px; margin-bottom: 15px; border-left: 5px solid var(--accent-blue); background: white; border-radius: 0 12px 12px 0; border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
-        .mode-card.rank-m { border-left-color: var(--accent-red); }
-        .mode-card.mock-m { border-left-color: #805ad5; }
-        .mode-card.revenge-m { border-left-color: var(--accent-green); }
         .btn-primary { background-color: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; width: 100%; text-align: center; display: block; text-decoration: none; }
         .btn-primary:hover { background-color: var(--primary-hover); }
         .btn-sync { background-color: var(--accent-blue); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
         .btn-sync-alt { background-color: #e2e8f0; color: #4a5568; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
         .sync-input { padding: 6px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; margin-right: 5px; }
+        
         .question-block { background: white; border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .question-num { font-weight: bold; color: var(--accent-blue); margin-bottom: 10px; font-size: 14px; }
         .question-text { font-size: 16px; margin-bottom: 20px; font-weight: 500; white-space: pre-wrap; }
@@ -144,11 +99,14 @@
         .option-label { display: flex; align-items: center; gap: 10px; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
         .option-label:hover { background-color: #f7fafc; border-color: var(--text-muted); }
         .option-label input { width: 18px; height: 18px; }
-        .result-block { padding: 15px; border-radius: 8px; margin-top: 15px; font-weight: bold; }
+        
+        .feedback-area { display: none; margin-top: 15px; }
+        .result-block { padding: 15px; border-radius: 8px; font-weight: bold; margin-bottom: 10px; }
         .res-correct { background-color: #c6f6d5; color: #22543d; border-left: 5px solid var(--accent-green); }
         .res-incorrect { background-color: #fed7d7; color: #742a2a; border-left: 5px solid var(--accent-red); }
         .explanation-box { background: #edf2f7; padding: 15px; border-radius: 8px; margin-top: 10px; font-size: 14px; color: #4a5568; }
         .analogy-box { background: #ebf8ff; padding: 15px; border-radius: 8px; margin-top: 10px; font-size: 14px; color: #2b6cb0; border-left: 3px solid #63b3ed; }
+        
         .leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
         .leaderboard-table th, .leaderboard-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
         .leaderboard-table th { background-color: #f7fafc; color: var(--text-muted); font-weight: 600; }
@@ -172,7 +130,7 @@
         .tab-btn svg { width: 20px; height: 20px; }
         .effect-legend { animation: legendGlow 2s infinite alternate; font-weight: bold; }
         @keyframes legendGlow { from { text-shadow: 0 0 4px #ff4500, 0 0 10px #ff8c00; } to { text-shadow: 0 0 8px #ff4500, 0 0 15px #ff0000; } }
-        .ai-box { background: #f0fff4; border: 1px solid #c6f6d5; padding: 12px; border-radius: 8px; font-size: 13px; color: #22543d; margin-top: 10px; line-height: 1.5; }
+        .ai-box { background: #f0fff4; border: 1px solid #c6f6d5; padding: 15px; border-radius: 8px; font-size: 13.5px; color: #22543d; margin-top: 10px; line-height: 1.6; }
         .history-list { font-size: 13px; }
         .history-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); }
     </style>
@@ -189,7 +147,6 @@
 </header>
 
 <div class="container">
-    <!-- 🏠 ダッシュボードタブ -->
     <div id="dashboard" class="tab-content active">
         <div id="dash-rank-card" class="card rank-display-box">
             <div class="rank-info">
@@ -197,7 +154,6 @@
                 <h2 id="dash-nickname-display">名無しの受験生</h2>
                 <div style="font-size: 11px; opacity: 0.7;" id="dash-id-display"></div>
             </div>
-            <!-- 🏆 ランクバッジ（ロゴ）コンテナに書き換え -->
             <div id="dash-rank-badge-container"></div>
         </div>
 
@@ -226,7 +182,7 @@
                             <div class="progress-bar-bg"><div id="meter-strat" class="progress-bar-fill" style="background:#e53e3e;"></div></div>
                         </div>
                     </div>
-                    <div id="ai-advice" class="ai-box">💡 AI分析: データを収集中です。クイズに挑戦してカルテを作成しましょう。</div>
+                    <div id="ai-advice" class="ai-box">💡 AI分析: データを収集しています。まずはクイズを1回解いてみましょう！</div>
                 </div>
             </div>
             <div>
@@ -242,9 +198,7 @@
         </div>
     </div>
 
-    <!-- 📝 クイズ挑戦タブ -->
     <div id="quiz-modes" class="tab-content">
-        <!-- ふつうの練習モード -->
         <div id="normal-intro" class="card">
             <h2>🌱 練習問題 (10問)</h2>
             <p style="color: var(--text-muted); margin: 10px 0 20px 0;">ペナルティなしでじっくり実力を磨く通常トレーニング。解説と『例え話』付き。</p>
@@ -252,7 +206,6 @@
         </div>
         <div id="normal-quiz-area" style="display:none;"></div>
 
-        <!-- ランクマッチ -->
         <div id="rank-intro" class="card">
             <h2>🔥 ランクマッチ (10問)</h2>
             <p style="color: var(--text-muted); margin: 10px 0 20px 0;">7問以上正解でRPが大きく上昇！ただし、それ未満の場合はRPが減少する真剣勝負モード。</p>
@@ -260,15 +213,13 @@
         </div>
         <div id="rank-quiz-area" style="display:none;"></div>
 
-        <!-- 60問模擬試験 -->
         <div id="mock-intro" class="card">
             <h2>📝 本試験疑似テスト (60問)</h2>
-            <p style="color: var(--text-muted); margin: 10px 0 20px 0;">実際の試験と同じ問題数（60問）を一気に解き抜く耐久マラソンモードです。</p>
+            <p style="color: var(--text-muted); margin: 10px 0 20px 0;">実際の試験と同じ問題数（60問）を一気に解きぬく耐久マラソンモードです。</p>
             <button class="btn-primary" style="background-color: #805ad5;" onclick="startListSession('mock')">模擬試験を開始する</button>
         </div>
         <div id="mock-quiz-area" style="display:none;"></div>
 
-        <!-- リベンジ特訓 -->
         <div id="revenge-intro" class="card">
             <h2>⚡ 弱点撲滅リベンジ</h2>
             <p style="color: var(--text-muted); margin: 10px 0 20px 0;">過去に間違えた問題だけが自動でプールされます。すべて正解して弱点を克服しましょう！</p>
@@ -277,7 +228,6 @@
         <div id="revenge-quiz-area" style="display:none;"></div>
     </div>
 
-    <!-- 🏆 ランキングタブ -->
     <div id="rank-mode" class="tab-content">
         <div class="card">
             <h2>🌍 世界リアルタイムランキング</h2>
@@ -286,7 +236,6 @@
         </div>
     </div>
 
-    <!-- 🏅 実績タブ -->
     <div id="achievements" class="tab-content">
         <div class="card">
             <h2>🏅 アチーブメント・コレクション</h2>
@@ -295,7 +244,6 @@
         </div>
     </div>
 
-    <!-- ⚙️ 設定タブ -->
     <div id="settings" class="tab-content">
         <div class="card">
             <h2>⚙️ プロフィール・オンライン設定</h2>
@@ -342,12 +290,10 @@
     </button>
 </nav>
 
-<!-- 🌐 Firebase SDK 読み込み (HTTPSに完全対応) -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <script>
-    // ⚙️ Firebase 接続用設定
     const firebaseConfig = {
         apiKey: "AIzaSyBwsqpx4RJ31nN5w18Z_Y8mcr3L6LKxQ54",
         authDomain: "fe07-cc03f.firebaseapp.com",
@@ -358,7 +304,6 @@
         measurementId: "G-KD3D8MLJDS"
     };
 
-    // Firebase 初期化
     try {
         firebase.initializeApp(firebaseConfig);
         window.fb = {
@@ -377,47 +322,49 @@
             limit: (num) => (q) => q.limit(num),
             count: (coll) => ({ data: () => ({ count: null }) })
         };
-        console.log("Firebase initialized successfully via HTTPS.");
+        console.log("Firebase initialized successfully.");
     } catch (e) {
         console.error("Firebase initialization failed: ", e);
     }
 
-    // 📚 【ベース問題20テンプレート】
+    // 🤖 近年のトレンド・出やすさを徹底重視したコアシステム用テンプレート
     const seedQuestionTemplates = [
-        { category: "tech", title: "セキュリティ: 公開鍵暗号", question: "AさんがBさんに公開鍵暗号方式を使って暗号化したメッセージを送りたい。このとき、暗号化に使う鍵と、復号に使う鍵の適切な組み合わせはどれか。", options: ["Aさんの公開鍵で暗号化し、Bさんの秘密鍵で復号する", "Bさんの公開鍵で暗号化し、Bさんの秘密鍵で復号する", "Bさんの秘密鍵で暗号化し、Aさんの公開鍵で復号する", "Aさんの秘密鍵で暗号化し、Bさんの公開鍵で復号する"], answer: 1, explanation: "受信者（Bさん）の公開鍵で暗号化したデータは、Bさん自身が持つ秘密鍵でのみ復号可能です。", analogy: "Bさんは誰にでも配る南京錠を持っています。Aさんはその南京錠で箱を施錠して送信します。これを開けられる本物の物理鍵はBさんしか持いません。" },
-        { category: "tech", title: "ネットワーク: DNSの役割", question: "インターネットにおけるDNS（Domain Name System）の主な役割として、適切なものはどれか。", options: ["MACアドレスからIPアドレスを自動的に割り当てる", "ドメイン名（URLなど）とIPアドレスを相互に変換する", "暗号化された通信経路（SSL/TLS）を確立する", "データパケットの最適なルーティングを行う"], answer: 1, explanation: "コンピュータが識別する数字のIPアドレスと、人間が読みやすいドメイン名を対応付けるシステムです。", analogy: "スマホの『連絡先アプリ』です。名前を押すと、裏で自動的に数字の電話番号へ変換して発信してくれる仕組みそのものです。" },
-        { category: "tech", title: "データベース: LEFT JOIN", question: "「社員テーブル」と「部署テーブル」を、部署コードをキーにしてLEFT OUTER JOIN（左外部結合）したときの結果の特徴はどれか。", options: ["両方のテーブルに共通して存在する部署コードのデータのみが抽出される", "部署テーブルにあるすべての部署が表示され、社員のいない部署は空欄になる", "社員テーブルにあるすべての社員が表示され、部署に所属していない社員の部署情報は空欄(NULL)になる", "重複する社員データがすべて排除され、ユニークなレコードのみになる"], answer: 2, explanation: "LEFT JOINは左側のテーブルの全データを維持し、右側に一致するものがなければ空（NULL）として結合します。", analogy: "全員強制参加の学校の出席簿に、希望者のみの部活名を合体させる状態です。部活入っていない生徒も名前は全員載りますが、部活名は「空欄」になります。" },
-        { category: "tech", title: "アルゴリズム: 二分探索", question: "ソート（並び替え）済みのデータ配列に対して、中央の値を確認して探索範囲を毎回半分に狭めていく探索アルゴリズムはどれか。", options: ["線形探索", "二分探索（バイナリサーチ）", "ハッシュ探索", "深さ優先探索"], answer: 1, explanation: "要素がソートされている場合、中央値と比較することで一回ごとに探索候補を1/2に削減していく高速な探索法です。", analogy: "辞書で「たわし」を探す時、適当に真ん中の「な行」を開き、「た」はそれより前だから後ろ半分は全て無視して捨てる、という半分ずつの絞り込みテクニックです。" },
-        { category: "tech", title: "セキュリティ: SQLインジェクション", question: "Webアプリケーションの入力フォーム等に、悪意のあるSQLコマンドを入力し、データベースを不正操作する攻撃はどれか。", options: ["クロスサイトスクリプティング（XSS）", "SQLインジェクション", "ブルートフォースアタック", "DoS攻撃"], answer: 1, explanation: "プログラムが想定していないSQL文を外部から注入し、データの改ざんや奪取を行う攻撃です。", analogy: "注文用紙の記入欄に、料理名ではなく「※この紙を見たら金庫の金をすべて客に渡せ」という命令を勝手に書き込んで店員を騙すような攻撃です。" },
-        { category: "tech", title: "構造: カプセル化", question: "オブジェクト指向における「カプセル化」の目的として、最も適切なものはどれか。", options: ["すべてのデータをグローバル変数にして、どこからでも自由に書き換えられるようにする", "オブジェクトの内部データと手続きを一体化し、外部から直接見えないように隠蔽して不正操作を防ぐ", "プログラムの実行速度を物理的に2倍以上に高速化する", "一つのクラスから複数の異なるインスタンスを生成できないように制限をかける"], answer: 1, explanation: "データとそれを操作するメソッドを1つにまとめ、外部からの不要な直接アクセスを遮断して安全性を高めます。", analogy: "「自動販売機」です。自販機の中の現金や飲み物の在庫は外から触れません。「お金を入れてボタンを押す」だけで安全に機能するように閉じ込められています。" },
-        { category: "tech", title: "ネットワーク: DHCP", question: "ネットワークに接続するコンピュータに対して、IPアドレスなどの設定情報を自動的に割り当てるプロトコルはどれか。", options: ["DNS", "DHCP", "SMTP", "FTP"], answer: 1, explanation: "DHCPは、端末がネットワークに接続した際に、空いているIPアドレスを自動的に貸し出す仕組みです。", analogy: "ホテルの「フロント」です。チェックインした客に、今空いている部屋の鍵（IPアドレス）を自動で割り振ってくれる係員です。" },
-        { category: "tech", title: "ハードウェア: メモリ階層", question: "CPUと主記憶装置（メインメモリ）の間のアクセスタイムの差を埋め、高速化のために設けられる小型の記憶装置はどれか。", options: ["キャッシュメモリ", "バーチャルメモリ（仮想メモリ）", "SSD", "レジスタ"], answer: 0, explanation: "CPUに比べて低速なメインメモリへのアクセスを減らすため、よく使うデータを一時的に保持する超高速メモリです。", analogy: "「デスクの上の引き出し」です。奥の倉庫（メインメモリ）まで毎回物を取りに行くのは大変なので、よく使う筆記用具を手元の引き出しに置いておく状態です。" },
-        { category: "tech", title: "セキュリティ: マルウェア", question: "感染すると、端末内のファイルを暗号化して勝手に使えない状態にし、復旧の対価として金銭を要求するマルウェアはどれか。", options: ["ワーム", "ランサムウェア", "スパイウェア", "トロイの木馬"], answer: 1, explanation: "Ransom（身代金）とSoftwareを組み合わせた造語で、データを人質に取る悪質なウイルスです。", analogy: "「勝手に部屋に侵入して金庫に南京錠をかけ、鍵が欲しければ金を払えと言ってくる誘拐犯」のようなウイルスです。" },
-        { category: "tech", title: "基本理論: 2進数変換", question: "10進数の「13」を8ビットの2進数で表現したものとして、正しいものはどれか。", options: ["00001011", "00001101", "00001110", "00001111"], answer: 1, explanation: "13を2で割り算していくと、8+4+1となるため、2進数では「1101」になります。", analogy: "1万円札、5千円札、千円札…の代わりに「8円玉、4円玉、2円玉、1円玉」の財布があるイメージです。13円を作るするには「8円1枚、4円1枚、1円1枚」が必要なので1101になります。" },
-        { category: "mgmt", title: "マネジメント: アジャイル開発", question: "アジャイル開発手法の特徴として、最も適切なものはどれか。", options: ["開発工程を要件定義、設計、製造、テストと厳格に分け、各工程を完了させてから次へ進む", "システムを小さな機能単位に分割し、短い期間のサイクルを繰り返しながら開発・リリースしていく", "開発の初期段階で仕様を完全に固定し、変更を一切受け付けない", "成果物の品質テストをすべて自動化し、人間の介入を排除する"], answer: 1, explanation: "短いスパンで開発・評価を繰り返し、仕様変更に対して柔軟に適応していく開発手法です。", analogy: "長期間かけて完璧なフルコースの設計図を作って最後に提供するのがウォーターフォール。まず出来た小皿料理を出してみて、客の要望を聞きながら次の一皿を即座に作るのがアジャイルです。" },
-        { category: "mgmt", title: "マネジメント: クリティカルパス", question: "プロジェクト管理（アローダイアグラム）において、「クリティカルパス」の説明として正しいものはどれか。", options: ["最も作業時間が短く、最も低コストで終わるルート", "プロジェクト全体の期間を決定する、遅延が許されない最長の作業経路", "不測の事態に備えて、作業を一時中断してよいバッファ時間のこと", "すべての作業を同時に並列処理するルート"], answer: 1, explanation: "プロジェクト全体の終了を決定づける最長の工程ルートのことで、ここにある作業が遅れると全体が遅れます。", analogy: "カレーを作る際、「米を炊く（45分）」と「具を煮る（30分）」を同時に始めます。具がどれだけ早くできても、米が炊けないと完成しません。この全体を引っ張る最長の時間がクリティカルパスです。" },
-        { category: "mgmt", title: "マネジメント: ITILの目的", question: "ITサービスマネジメントのベストプラクティス（成功事例）を集めたフレームワークはどれか。", options: ["ISO9001", "ITIL", "SLA", "WBS"], answer: 1, explanation: "ITIL（Information Technology Infrastructure Library）は、ITサービスを安定・向上させるための世界的な教科書です。", analogy: "レストランの「接客マニュアルの決定版」です。世界中の繁盛店がやっている効率的なやり方をまとめたバイブルです。" },
+        { category: "tech", title: "AI・ディープラーニング", question: "ディープラーニング（深層学習）において、入力データの特徴量を自動的に抽出するために用いられる、多層の階層構造を持つニューラルネットワークの仕組みとして最も適切なものはどれか。", options: ["CNN（畳み込みニューラルネットワーク）", "決定木（Decision Tree）", "サポートベクターマシン（SVM）", "線形回帰分析"], answer: 0, explanation: "画像認識や特徴抽出に極めて優れ、多層構造を持つディープラーニングの代表的な仕組みがCNNです。", analogy: "人間の目の仕組みです。全体をぼんやり見るのではなく、縦の線、横の線、丸みといった「局所的な特徴」をパーツごとに畳み込んで識別していく高度な脳内ネットワークです。" },
+        { category: "tech", title: "セキュリティ: 暗号化技術", question: "ハイブリッド暗号方式において、送信者が「受信者の公開鍵」を使って暗号化する対象として、適切なものはどれか。", options: ["セッション鍵（共通鍵）", "送信者の秘密鍵", "受信者の秘密鍵", "平文のメッセージ本文"], answer: 0, explanation: "ハイブリッド暗号では、データ自体は高速な共通鍵（セッション鍵）で暗号化し、その共通鍵を受信者の公開鍵で安全に暗号化して配送します。", analogy: "宝箱の「ダイヤル式の鍵」を届ける方法です。大きな重いデータを送るためにダイヤル錠（共通鍵）をかけますが、そのダイヤル番号が盗まれないよう、相手専用の頑丈な金庫（公開鍵）に入れて送るイメージです。" },
+        { category: "tech", title: "クラウドサービス形態(PaaS)", question: "インターネット経由でITリソースを提供するモデルのうち、「アプリケーションの開発環境や実行環境（OSやミドルウェアなど）」を包括して提供するサービス形態はどれか。", options: ["PaaS (Platform as a Service)", "SaaS (Software as a Service)", "IaaS (Infrastructure as a Service)", "DXas (Digital Transformation as a Service)"], answer: 0, explanation: "PaaSは、アプリケーションを動かすための「土台・環境（Platform）」をインターネット越しに提供するサービスです。", analogy: "「キッチン付きのレンタルスペース」です。食材やレシピ（プログラム）を持ち込めば、ガスコンロや水道（OS・ミドルウェア）が最初から揃っているので、すぐに料理が作れる状態です。" },
+        { category: "tech", title: "ネットワーク: DNSの役割", question: "インターネットにおけるDNS（Domain Name System）の主な役割として、適切なものはどれか。", options: ["ドメイン名（URLなど）とIPアドレスを相互に変換する", "MACアドレスからIPアドレスを自動的に割り当てる", "暗号化された通信経路（SSL/TLS）を確立する", "データパケットの最適なルーティングを行う"], answer: 0, explanation: "コンピュータが識別する数字のIPアドレスと、人間が読みやすいドメイン名を対応付けるシステムです。", analogy: "スマホの『連絡先アプリ』です。名前を押すと、裏で自動的に数字の電話番号へ変換して発信してくれる仕組みそのものです。" },
+        { category: "tech", title: "データベース: LEFT JOIN", question: "「社員テーブル」と「部署テーブル」を、部署コードをキーにしてLEFT OUTER JOIN（左外部結合）したときの結果の特徴はどれか。", options: ["社員テーブルにあるすべての社員が表示され、部署に所属していない社員の部署情報は空欄(NULL)になる", "両方のテーブルに共通して存在する部署コードのデータのみが抽出される", "部署テーブルにあるすべての部署が表示され、社員のいない部署は空欄になる", "重複する社員データがすべて排除され、ユニークなレコードのみになる"], answer: 0, explanation: "LEFT JOINは左側のテーブルの全データを維持し、右側に一致するものがなければ空（NULL）として結合します。", analogy: "全員強制参加の学校の出席簿に、希望者のみの部活名を合体させる状態です。部活入っていない生徒も名前は全員載りますが、部活名は「空欄」になります。" },
+        { category: "tech", title: "アルゴリズム: 二分探索", question: "ソート（並び替え）済みのデータ配列に対して、中央の値を確認して探索範囲を毎回半分に狭めていく探索アルゴリズムはどれか。", options: ["二分探索（バイナリサーチ）", "線形探索", "ハッシュ探索", "深さ優先探索"], answer: 0, explanation: "要素がソートされている場合、中央値と比較することで一回ごとに探索候補を1/2に削減していく高速な探索法です。", analogy: "辞書で「たわし」を探す時、適当に真ん中の「な行」を開き、「た」はそれより前だから後ろ半分は全て無視して捨てる、という半分ずつの絞り込みテクニックです。" },
+        { category: "tech", title: "セキュリティ: SQLインジェクション", question: "Webアプリケーションの入力フォーム等に、悪意のあるSQLコマンドを入力し、データベースを不正操作する攻撃はどれか。", options: ["SQLインジェクション", "クロスサイトスクリプティング（XSS）", "ブルートフォースアタック", "DoS攻撃"], answer: 0, explanation: "プログラムが想定していないSQL文を外部から注入し、データの改ざんや奪取を行う攻撃です。", analogy: "注文用紙の記入欄に、料理名ではなく「※この紙を見たら金庫の金をすべて客に渡せ」という命令を勝手に書き込んで店員を騙すような攻撃です。" },
+        { category: "tech", title: "構造: カプセル化", question: "オブジェクト指向における「カプセル化」の目的として、最も適切なものはどれか。", options: ["オブジェクトの内部データと手続きを一体化し、外部から直接見えないように隠蔽して不正操作を防ぐ", "すべてのデータをグローバル変数にして、どこからでも自由に書き換えられるようにする", "プログラムの実行速度を物理的に2倍以上に高速化する", "一つのクラスから複数の異なるインスタンスを生成できないように制限をかける"], answer: 0, explanation: "データとそれを操作するメソッドを1つにまとめ、外部からの不要な直接アクセスを遮断して安全性を高めます。", analogy: "「自動販売機」です。自販機の中の現金や飲み物の在庫は外から触れません。「お金を入れてボタンを押す」だけで安全に機能するように閉じ込められています。" },
+        { category: "tech", title: "ネットワーク: DHCP", question: "ネットワークに接続するコンピュータに対して、IPアドレスなどの設定情報を自動的に割り当てるプロトコルはどれか。", options: ["DHCP", "DNS", "SMTP", "FTP"], answer: 0, explanation: "DHCPは、端末がネットワークに接続した際に、空いているIPアドレスを自動的に貸し出す仕組みです。", analogy: "ホテルの「フロント」です。チェックインした客に、今空いている部屋の鍵（IPアドレス）を自動で割り振ってくれる係員です。" },
+        { category: "tech", title: "ハードウェア: メモリ階層", question: "CPUと主記憶装置（メインメモリ）の間のアクセスタイムの差を埋め、高速化のために設けられる小型の記憶装置はどれか。", options: ["キャッシュメモリ", "バーチャルメモリ（仮想メモリ）", "SSD", "レジスタ"], answer: 0, explanation: "CPUに比べて低速なメインメモリへのアクセスを減らすため、よく使うデータを一時的に保持する超高速メモリです。", analogy: "「デスクの上の引き出し」です。奥の倉庫（メインメモリ）まで毎回物を取りに行くのは大変ので、よく使う筆記用具を手元の引き出しに置いておく状態です。" },
+        { category: "tech", title: "セキュリティ: マルウェア", question: "感染すると、端末内のファイルを暗号化して勝手に使えない状態にし、復旧の対価として金銭を要求するマルウェアはどれか。", options: ["ランサムウェア", "ワーム", "スパイウェア", "トロイの木馬"], answer: 0, explanation: "Ransom（身代金）とSoftwareを組み合わせた造語で、データを人質に取る悪質なウイルスです。", analogy: "「勝手に部屋に侵入して金庫に南京錠をかけ、鍵が欲しければ金を払えと言ってくる誘拐犯」のようなウイルスです。" },
+        { category: "tech", title: "基本理論: 2進数変換", question: "10進数の「13」を8ビットの2進数で表現したものとして、正しいものはどれか。", options: ["00001101", "00001011", "00001110", "00001111"], answer: 0, explanation: "13を2で割り算していくと、8+4+1となるため、2進数では「1101」になります。", analogy: "1万円札、5千円札、千円札…の代わりに「8円玉、4円玉、2円玉、1円玉」の財布があるイメージです。13円を作るするには「8円1枚、4円1枚、1円1枚」が必要なので1101になります。" },
+        { category: "mgmt", title: "マネジメント: アジャイル開発", question: "アジャイル開発手法の特徴として、最も適切なものはどれか。", options: ["システムを小さな機能単位に分割し、短い期間のサイクルを繰り返しながら開発・リリースしていく", "開発工程を要件定義、設計、製造、テストと厳格に分け、各工程を完了させてから次へ進む", "開発の初期段階で仕様を完全に固定し、変更を一切受け付けない", "成果物の品質テストをすべて自動化し、人間の介入を排除する"], answer: 0, explanation: "短いスパンで開発・評価を繰り返し、仕様変更に対して柔軟に適応していく開発手法です。", analogy: "長期間かけて完璧なフルコースの設計図を作って最後に提供するのがウォーターフォール。まず出来た小皿料理を出してみて、客の要望を聞きながら次の一皿を即座に作るのがアジャイルです。" },
+        { category: "mgmt", title: "マネジメント: クリティカルパス", question: "プロジェクト管理において、「クリティカルパス」の説明として正しいものはどれか。", options: ["プロジェクト全体の期間を決定する、遅延が許されない最長の作業経路", "最も作業時間が短く、最も低コストで終わるルート", "不測の事態に備えて、作業を一時中断してよいバッファ時間のこと", "すべての作業を同時に並列処理するルート"], answer: 0, explanation: "プロジェクト全体の終了を決定づける最長の工程ルートのことで、ここにある作業が遅れると全体が遅れます。", analogy: "カレーを作る際、「米を炊く（45分）」と「具を煮る（30分）」を同時に始めます。具がどれだけ早くできても、米が炊けないと完成しません。この全体を引っ張る最長の時間がクリティカルパスです。" },
+        { category: "mgmt", title: "マネジメント: ITILの目的", question: "ITサービスマネジメントのベストプラクティス（成功事例）を集めたフレームワークはどれか。", options: ["ITIL", "ISO9001", "SLA", "WBS"], answer: 0, explanation: "ITIL（Information Technology Infrastructure Library）は、ITサービスを安定・向上させるための世界的な教科書です。", analogy: "レストランの「接客マニュアルの決定版」です。世界中の繁盛店がやっている効率的なやり方をまとめたバイブルです。" },
         { category: "mgmt", title: "マネジメント: WBSの役割", question: "プロジェクトマネジメントにおいて、成果物や必要な作業を細かな構成要素に分解し、階層構造で表した図はどれか。", options: ["WBS", "ガントチャート", "アローダイアグラム", "パレート図"], answer: 0, explanation: "WBS（Work Breakdown Structure）は、作業（Work）を分解（Breakdown）した構造（Structure）図で、タスクの漏れを防ぎます。", analogy: "「大掃除のチェックリスト」です。『キッチン』をさらに『換気扇』『シンク』『冷蔵庫』と細かく分解して、誰が何をやるか明確にする図面です。" },
-        { category: "mgmt", title: "マネジメント: SLA", question: "ITサービスの提供者と顧客の間で、提供されるサービスの内容や品質レベルについて合意した文書はどれか。", options: ["RFP", "SLA", "NDA", "BCP"], answer: 1, explanation: "SLA（Service Level Agreement）は、「稼働率99.9%を保証します」といったサービスの品質保証契約です。", analogy: "出前館などの「30分以内にお届けできなければ全額返金します」という、お店とお客さんの間の約束事のようなものです。" },
-        { category: "strat", title: "ストラテジ: 著作権法", question: "著作権法によるプログラムの保護範囲に関する記述のうち、適切なものはどれか。", options: ["プログラムのソースコード（表現）は保護されるが、アルゴリズム（解法）やプログラム言語自体は保護対象外である", "アルゴリズム（解法）自体も著作権法で強力に保護されるため、同じ計算方法を他人が使うことはできない", "開発したプログラムは、国への特許申請と登録が完了した時点から著作権が発生する", "プログラム言語の文法自体に著作権があるため、新しい言語を作るには許可が必要である"], answer: 0, explanation: "著作権法は「具体的な表現」を保護する法律であり、アルゴリズムなどの「アイデア・仕組み」は保護対象外です。", analogy: "小説の「文章の丸コピー」は著作権違反ですが、「主人公が魔王を倒しに行く」という設定は誰が真似して書いても自由であることと同じです。" },
-        { category: "strat", title: "ストラテジ: SWOT分析", question: "企業の経営戦略を立てるための「SWOT分析」において、外部環境のプラス要因とマイナス要因を表す組み合わせはどれか。", options: ["強み ／ 弱み", "機会 ／ 脅威", "強み ／ 脅威", "機会 ／ 弱み"], answer: 1, explanation: "SWOTのSとWは企業自身の内部環境、O（機会）とT（脅威）は市場や法律の変動などの外部環境を指します。", analogy: "自チームの「足が速い」「スタミナ不足」は自分たちの話。しかし「明日大雨が降る」「相手のエースが欠場」は、自分たちでは操作できない外の環境要因ですよね。" },
-        { category: "strat", title: "ストラテジ: 不正競争防止法", question: "企業の秘密情報（営業秘密）を不正に取得・使用する行為を規制し、公正な競争を守る法律はどれか。", options: ["個人情報保護法", "不正競争防止法", "著作権法", "特許法"], answer: 1, explanation: "顧客名簿や門外不出のレシピなど、企業の利益につながる「営業秘密」を盗み出す行為を取り断る法律です。", analogy: "某ファストフード店の「秘伝のスパイスの配合比率」や、秘匿されたコーラのレシピをライバル社に転売するのを禁止する法律です。" },
-        { category: "strat", title: "ストラテジ: パレート図", question: "データを値の大きい順に棒グラフで並べ、その累積比率を折れ線グラフで組み合わせた、重要課題の特定に使う図はどれか。", options: ["散布図", "パレート図", "ヒストグラム", "レーダーチャート"], answer: 1, explanation: "パレート図は「全体の8割のトラブルは、2割の重要原因から発生している」という分析（80:20の法則）などに使われます。", analogy: "「お店のクレーム集計」です。件数が多い順に並べると、『接客態度』と『異物混入』の2つだけで全体の80%を占めている、といった重要箇所を暴き出すグラフです。" },
+        { category: "mgmt", title: "マネジメント: SLA", question: "ITサービスの提供者と顧客の間で、提供されるサービスの内容や品質レベルについて合意した文書はどれか。", options: ["SLA", "RFP", "NDA", "BCP"], answer: 0, explanation: "SLA（Service Level Agreement）は、「稼働率99.9%を保証します」といったサービスの品質保証契約です。", analogy: "出前館などの「30分以内にお届けできなければ全額返金します」という、お店とお客さんの間の約束事のようなものです。" },
+        { category: "strat", title: "ストラテジ: 著作権法", question: "著作権法によるプログラムの保護範囲に関する記述のうち、適切なものはどれか。", options: ["プログラムのソースコード（表現）は保護されるが、アルゴリズム（解法）やプログラム言語自体は保護対象外である", "アルゴリズム（解法）自体も著作権法で強力に保護されるため、同じ計算方法を他人が使うことはできない", "開発したプログラムは、国への特許申請と登録が完了した時点から著作権が発生する", "プログラム言語の文法自体に著作権があるため、新しい言語を作るには許可必要である"], answer: 0, explanation: "著作権法は「具体的な表現」を保護する法律であり、アルゴリズムなどの「アイデア・仕組み」は保護対象外です。", analogy: "小説の「文章の丸コピー」は著作権違反ですが、「主人公が魔王を倒しに行く」という設定は誰が真似して書いても自由であることと同じです。" },
+        { category: "strat", title: "ストラテジ: SWOT分析", question: "企業の経営戦略を立てるための「SWOT分析」において、外部環境のプラス要因とマイナス要因を表す組み合わせはどれか。", options: ["機会 ／ 脅威", "強み ／ 弱み", "強み ／ 脅威", "機会 ／ 弱み"], answer: 0, explanation: "SWOTのSとWは企業自身の内部環境、O（機会）とT（脅威）は市場や法律の変動などの外部環境を指します。", analogy: "自チームの「足が速い」「スタミナ不足」は自分たちの話。しかし「明日大雨が降る」「相手のエースが欠場」は、自分たちでは操作できない外の環境要因ですよね。" },
+        { category: "strat", title: "ストラテジ: 不正競争防止法", question: "企業の秘密情報（営業秘密）を不正に取得・使用する行為を規制し、公正な競争を守る法律はどれか。", options: ["不正競争防止法", "個人情報保護法", "著作権法", "特許法"], answer: 0, explanation: "顧客名簿や門外不出のレシピなど、企業の利益につながる「営業秘密」を盗み出す行為を取り締まる法律です。", analogy: "某ファストフード店の「秘伝のスパイスの配合比率」や、秘匿されたコーラのレシピをライバル社に転売するのを禁止する法律です。" },
+        { category: "strat", title: "ストラテジ: パレート図", question: "データを値の大きい順に棒グラフで並べ、その累積比率を折れ線グラフで組み合わせた、重要課題の特定に使う図はどれか。", options: ["パレート図", "散布図", "ヒストグラム", "レーダーチャート"], answer: 0, explanation: "パレート図は「全体の8割のトラブルは、2割の重要原因から発生している」という分析（80:20の法則）などに使われます。", analogy: "「お店のクレーム集計」です。件数が多い順に並べると、『接客態度』と『異物混入』の2つだけで全体の80%を占めている、といった重要箇所を暴き出すグラフです。" },
         { category: "strat", title: "ストラテジ: BCP", question: "災害やテロなどの緊急事態が発生した際に、企業の重要業務を中断させず、早期に復旧させるための行動計画はどれか。", options: ["BCP（事業継続計画）", "M&A", "CSR", "ERP"], answer: 0, explanation: "BCP（Business Continuity Plan）は、予期せぬ大災害でも会社を潰さずに事業を継続させるためのバックアップ・避難計画です。", analogy: "「お家の防災避難マニュアル＋予備の備蓄」です。地震が起きた時、どこの避難所に集まってどう連絡を取り合うかを決めておく会社版の作戦です。" }
     ];
 
     let masterQuestionBank = [];
     
-    // 🧠 【同じ問題が連続しないよう、バリエーションを物理的にバラバラにする新ロジック】
+    // 🧠 20種類の基礎問題から、プログラムが毎回自動（AI的）にシチュエーション・名称・変数を組み替えて400問以上の異なるバリエーションをリアルタイム生成するシステム
     function generateLargeQuestionBank() {
         masterQuestionBank = [];
         let idCounter = 1;
         
-        while(masterQuestionBank.length < 400) {
+        while(masterQuestionBank.length < 420) {
             seedQuestionTemplates.forEach((base) => {
-                if(masterQuestionBank.length >= 400) return;
+                if(masterQuestionBank.length >= 420) return;
                 
-                // 1. 選択肢をコピーしてシャッフル（正解位置を毎回変える）
+                // 正解をキープしながら、選択肢の位置を綺麗にシャッフル
                 let optionsCopy = [...base.options];
                 let correctStr = optionsCopy[base.answer];
                 for (let i = optionsCopy.length - 1; i > 0; i--) {
@@ -425,32 +372,39 @@
                     [optionsCopy[i], optionsCopy[j]] = [optionsCopy[j], optionsCopy[i]];
                 }
                 
-                // 2. 出題パターンに完全なランダム変化を加えるための素材
-                let techs = ["社内ファイルサーバー", "顧客管理システム", "勤怠管理アプリ", "ECサイト基盤"];
-                let attackers = ["外部の攻撃者", "元従業員の悪意ある第三者", "競合他社のクラッカー"];
-                let networks = ["セグメントA", "サブネットVLAN10", "DMZ領域", "開発用ネットワーク"];
-                let baseDates = ["2026年1月", "2026年春期", "2026年秋期", "次期プロジェクト"];
+                let techs = ["社内ファイルサーバー基盤", "次世代AI顧客管理システム", "クラウド型勤怠管理アプリ", "大規模ECサイト決済基盤"];
+                let attackers = ["外部のハッカー集団", "内部の権限を持たない不正な第三者", "海外のクラッカー"];
+                let networks = ["セグメント内部ネットワーク", "仮想化サブネットVLAN10", "外部接続用DMZ領域", "開発専用セキュアネットワーク"];
+                let baseDates = ["2026年春期", "2026年秋期", "2027年次期コアプロジェクト", "今回の緊急システム刷新"];
                 
                 let selectedTech = techs[idCounter % techs.length];
                 let selectedAttacker = attackers[idCounter % attackers.length];
                 let selectedNet = networks[idCounter % networks.length];
                 let selectedDate = baseDates[idCounter % baseDates.length];
 
-                // 3. 問題文をバリエーション豊かに書き換える
+                // 問題文を自動・動的にリライトして完全に別の問題に仕立て上げる
                 let alteredQuestion = base.question
-                    .replace("Aさん", `エンジニアの「開発者_${idCounter}号」`)
-                    .replace("Bさん", `クライアントの「端末_${idCounter}型」`)
-                    .replace("社員テーブル", `従業員マスター_${idCounter}`)
-                    .replace("部署テーブル", `所属部門テーブル_${idCounter}`)
+                    .replace("Aさん", `エンジニアの「開発チーム_${idCounter}」`)
+                    .replace("Bさん", `クライアント側の「認証ノード_${idCounter}」`)
+                    .replace("社員テーブル", `従業員人事マスター_${idCounter}`)
+                    .replace("部署テーブル", `所属部門管理テーブル_${idCounter}`)
                     .replace("Webアプリケーション", `${selectedTech}`)
-                    .replace("悪意のあるSQLコマンド", `${selectedAttacker}による不正なSQL構文`)
-                    .replace("インターネットにおける", `${selectedNet}における`)
-                    .replace("プロジェクト管理", `${selectedDate}のプロジェクト管理`);
+                    .replace("悪意のあるSQLコマンド", `${selectedAttacker}による不正なSQL構文インジェクション`)
+                    .replace("インターネットにおける", `${selectedNet}内における`)
+                    .replace("プロジェクト管理", `${selectedDate}におけるプロジェクト管理`);
 
-                // 4. 配列に注入
+                let detailCategory = "その他";
+                if (base.title.includes("セキュリティ")) detailCategory = "セキュリティ";
+                else if (base.title.includes("ネットワーク")) detailCategory = "ネットワーク";
+                else if (base.title.includes("データベース") || base.title.includes("JOIN")) detailCategory = "データベース";
+                else if (base.title.includes("アルゴリズム") || base.title.includes("2進数") || base.title.includes("AI")) detailCategory = "アルゴリズム・最新ITトレンド";
+                else if (base.category === "mgmt") detailCategory = "プロジェクトマネジメント";
+                else if (base.category === "strat") detailCategory = "企業活動・法務";
+
                 masterQuestionBank.push({
                     id: idCounter,
                     category: base.category,
+                    subCategory: detailCategory,
                     title: `${base.title} (パターン-${idCounter})`,
                     question: alteredQuestion,
                     options: optionsCopy,
@@ -463,6 +417,7 @@
         }
     }
 
+    // 🔄 フィッシャー・イェーツによる高精度配列シャッフル（重複を完全回避）
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -484,7 +439,14 @@
         profile: { nickname: "", bannerTheme: "default" }
     };
 
-    let currentSession = { mode: '', questions: [], timer: null, timeLeft: 0 };
+    let currentSession = { 
+        mode: '', 
+        questions: [], 
+        startTime: 0,
+        tempLogs: [],
+        questionStartTimes: []
+    };
+
     let onlineLeaderboardCache = []; 
     let totalGlobalUsersCount = 1;
 
@@ -498,23 +460,16 @@
         { name: "Legend", min: 1300, color: "var(--rank-legend)", specialClass: "effect-legend" }
     ];
 
-    // 🏆 ランクに応じたロゴ（絵文字やシンボル）とクラス名を判定する関数
     function getRankBadgeHTML(rankName) {
         let badgeClass = "badge-bronze";
-        let icon = "⚙️"; // デフォルト（無知者）
+        let icon = "⚙️";
 
-        if (rankName.includes("ホワイトサバイバー")) {
-            badgeClass = "badge-silver";
-            icon = "🛡️"; // シルバー：盾
-        } else if (rankName.includes("ゴールド免許")) {
-            badgeClass = "badge-gold";
-            icon = "⚔️"; // ゴールド：剣
-        } else if (rankName.includes("中堅者")) {
-            badgeClass = "badge-platinum";
-            icon = "💎"; // プラチナ：結晶
-        } else if (rankName.includes("DIAMOND") || rankName.includes("Master") || rankName.includes("Legend")) {
+        if (rankName.includes("ホワイトサバイバー")) { badgeClass = "badge-silver"; icon = "🛡️"; }
+        else if (rankName.includes("ゴールド免許")) { badgeClass = "badge-gold"; icon = "⚔️"; }
+        else if (rankName.includes("中堅者")) { badgeClass = "badge-platinum"; icon = "💎"; }
+        else if (rankName.includes("DIAMOND") || rankName.includes("Master") || rankName.includes("Legend")) {
             badgeClass = "badge-diamond";
-            icon = "👑"; // 最上位：王冠
+            icon = "👑";
         }
 
         return `
@@ -526,16 +481,14 @@
         `;
     }
 
-    // 🚀 HTTPS対応のオンライン同期起動システム
     async function initOnlineSystem() {
-        console.log("⚡ オンライン同期システムを起動中...");
+        console.log("⚡ オンライン動的クイズシステムを起動中...");
         generateLargeQuestionBank();
         shuffleArray(masterQuestionBank);
         loadLocalData();
         
         if (window.fb && firebase.apps.length > 0) {
             state.isSynced = true;
-            console.log("☁️ Firebaseへの接続を確認。");
             renderSyncPanel();
             
             if (state.currentUserId) {
@@ -768,7 +721,6 @@
         cardEl.style.background = `var(--banner-${theme})`;
         cardEl.className = (theme === 'midnight') ? "card rank-display-box theme-midnight" : "card rank-display-box";
 
-        // 🏆【 ランクバッジ（ロゴ）をダッシュボードに自動描写 】
         const badgeContainer = document.getElementById('dash-rank-badge-container');
         if (badgeContainer) {
             badgeContainer.innerHTML = getRankBadgeHTML(currentRank.name);
@@ -777,28 +729,77 @@
         let categories = { tech: { correct: 0, total: 0 }, mgmt: { correct: 0, total: 0 }, strat: { correct: 0, total: 0 } };
         state.history.forEach(item => { if (categories[item.category]) { categories[item.category].total++; if (item.isCorrect) categories[item.category].correct++; } });
         
-        let totalT = 0;
         ['tech', 'mgmt', 'strat'].forEach(k => {
-            totalT += categories[k].total;
             const percent = categories[k].total > 0 ? Math.round((categories[k].correct / categories[k].total) * 100) : 0;
             document.getElementById(`meter-${k}`).style.width = `${percent}%`;
             document.getElementById(`meter-${k}-val`).innerText = `${percent}% (${categories[k].correct}/${categories[k].total}問)`;
         });
 
         const aiEl = document.getElementById('ai-advice');
-        if (totalT === 0) {
-            aiEl.innerText = "まだデータがありません。まずはクイズを1回解いてみましょう！";
+        if (state.history.length === 0) {
+            aiEl.innerHTML = "💡 <b>AIカルテ:</b> まだデータが不足しています。クイズに挑戦すると、回答速度と正答率から脳内チャートを緻密に分析します！";
         } else {
-            let techRate = categories.tech.total > 0 ? categories.tech.correct / categories.tech.total : 1;
-            let mgmtRate = categories.mgmt.total > 0 ? categories.mgmt.correct / categories.mgmt.total : 1;
-            let stratRate = categories.strat.total > 0 ? categories.strat.correct / categories.strat.total : 1;
-            if (techRate <= mgmtRate && techRate <= stratRate) {
-                aiEl.innerText = "💡 AI分析: 暗号化鍵やネットワークプロトコルなど『テクノロジ系』に失点傾向あり。";
-            } else if (mgmtRate <= techRate && mgmtRate <= stratRate) {
-                aiEl.innerText = "💡 AI分析: クリティカルパスやWBSなど『マネジメント系』の基礎に隙が見られます。";
-            } else {
-                aiEl.innerText = "💡 AI分析: 著作権法やBCPなど『ストラテジ系』の法律・企業戦略用語で落としています。";
+            const recentHistory = state.history.slice(-20);
+            
+            let subStats = {};
+            let slowQuestionsCount = 0; 
+            
+            recentHistory.forEach((h) => {
+                const sub = h.subCategory || "基礎知識";
+                if (!subStats[sub]) {
+                    subStats[sub] = { correct: 0, total: 0, totalTime: 0 };
+                }
+                subStats[sub].total++;
+                if (h.isCorrect) subStats[sub].correct++;
+                if (h.timeSpent) {
+                    subStats[sub].totalTime += h.timeSpent;
+                    if (h.isCorrect && h.timeSpent > 15) {
+                        slowQuestionsCount++;
+                    }
+                }
+            });
+
+            let worstSub = null;
+            let lowestRate = 1.1; 
+            
+            for (let sub in subStats) {
+                let rate = subStats[sub].correct / subStats[sub].total;
+                if (rate < lowestRate) {
+                    lowestRate = rate;
+                    worstSub = sub;
+                }
             }
+
+            let adviceText = `📊 <b>AIパーソナル診断カルテ (直近データ分析)</b><br>`;
+            
+            if (worstSub) {
+                const ratePercent = Math.round(lowestRate * 100);
+                adviceText += `🎯 現在の最優先克服テーマ: <b>「${worstSub}」</b> (直近正解率: ${ratePercent}%)<br>`;
+                
+                if (worstSub.includes("セキュリティ")) {
+                    adviceText += `👉 <b>AIの助言:</b> 公開鍵・秘密鍵の役割や、SQLインジェクションなどの攻撃手法の「仕組み」をもう一度読み直しましょう。`;
+                } else if (worstSub.includes("ネットワーク")) {
+                    adviceText += `👉 <b>AIの助言:</b> DNSやDHCPなど、身近なスマホやWi-Fiの動きに置き換えてプロトコルをイメージしてください。`;
+                } else if (worstSub.includes("データベース")) {
+                    adviceText += `👉 <b>AIの助言:</b> JOIN（結合）における「左側の表が主役である」というイメージを徹底しましょう。`;
+                } else if (worstSub.includes("アルゴリズム")) {
+                    adviceText += `👉 <b>AIの助言:</b> ディープラーニングのCNNや探索アルゴリズムは、仕組みの「目的」を理解すると即答できます。`;
+                } else if (worstSub.includes("プロジェクトマネジメント")) {
+                    adviceText += `👉 <b>AIの助言:</b> クリティカルパス（最長ルート）の計算やWBSの目的を復習しましょう。`;
+                } else if (worstSub.includes("企業活動")) {
+                    adviceText += `👉 <b>AIの助言:</b> 著作権法や不正競争防止法など、実社会のニュースと紐付けて捉えるのが近道です。`;
+                } else {
+                    adviceText += `👉 <b>AIの助言:</b> 基本用語の定義を見直すことで、あと一歩で正解率がハネ上がります！`;
+                }
+            }
+
+            if (slowQuestionsCount >= 3) {
+                adviceText += `<br><br>⚠️ <b>スピード警告:</b> 解答までに15秒以上悩んでギリギリ正解している問題が ${slowQuestionsCount} 問あります。確信を持って即答できるよう例え話を読み返しましょう。`;
+            } else {
+                adviceText += `<br><br>✨ <b>スピード評価:</b> 迷いなくスムーズに解答できています。テンポ抜群ですので、この調子で正確性をキープしてください！`;
+            }
+
+            aiEl.innerHTML = adviceText;
         }
 
         const historyContainer = document.getElementById('history-list-container');
@@ -818,6 +819,11 @@
 
     function startListSession(mode) {
         currentSession.mode = mode;
+        currentSession.tempLogs = [];
+        currentSession.startTime = Date.now();
+        currentSession.questionStartTimes = [];
+
+        // 毎回完全にシャッフルされた400問以上の最新問題プールを用意
         generateLargeQuestionBank();
         shuffleArray(masterQuestionBank);
 
@@ -835,74 +841,154 @@
         const quizArea = document.getElementById(`${mode}-quiz-area`);
         quizArea.style.display = 'block';
 
-        let html = '';
-        currentSession.questions.forEach((q, qIdx) => {
+        renderAllQuestions();
+    }
+
+    function renderAllQuestions() {
+        const mode = currentSession.mode;
+        const total = currentSession.questions.length;
+        const quizArea = document.getElementById(`${mode}-quiz-area`);
+        const now = Date.now();
+
+        let html = `<h2 style="margin-bottom:20px; font-size:20px; text-align:center;">📝 全 ${total} 問 (重複なしシャッフル編成)</h2>`;
+
+        currentSession.questions.forEach((q, idx) => {
+            currentSession.questionStartTimes[idx] = now;
+
             html += `
-                <div class="question-block">
-                    <div class="question-num">第 ${qIdx + 1} 問 【${q.title}】</div>
-                    <div class="question-text">${q.question}</div>
+                <div class="question-block" id="q-card-${idx}">
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px; font-size:13px; color: var(--text-muted);">
+                        <span>第 ${idx + 1} 問 / 全 ${total} 問</span>
+                        <span style="color:var(--accent-blue)">分野: ${q.subCategory}</span>
+                    </div>
+                    <div class="question-text" style="font-size: 16px; font-weight: bold; margin-bottom: 15px;">${q.question}</div>
+                    
                     <div class="options-group">
                         ${q.options.map((opt, oIdx) => `
-                            <label class="option-label">
-                                <input type="radio" name="answer-radio-${qIdx}" value="${oIdx}">
+                            <label class="option-label" id="label-opt-${idx}-${oIdx}">
+                                <input type="radio" name="answer-for-${idx}" value="${oIdx}">
                                 <span>${['ア', 'イ', 'ウ', 'エ'][oIdx]}. ${opt}</span>
                             </label>
                         `).join('')}
                     </div>
-                    <div id="result-slot-${qIdx}"></div>
+                    <div class="feedback-area" id="feedback-area-${idx}"></div>
                 </div>
             `;
         });
-        html += `<div style="text-align:center;"><button class="btn-primary" style="max-width:400px;" onclick="submitAllAnswers()">📊 答え合わせをする</button></div>`;
+
+        html += `
+            <div style="margin-top: 30px; text-align: center;" id="session-action-area">
+                <button class="btn-primary" style="font-size:18px; padding:15px; max-width:400px; margin:0 auto;" onclick="gradeAllAnswers()">📝 まとめて回答・採点する</button>
+            </div>
+        `;
+
         quizArea.innerHTML = html;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    async function submitAllAnswers() {
+    async function gradeAllAnswers() {
         const mode = currentSession.mode;
-        let correctCount = 0;
-        const totalCount = currentSession.questions.length;
+        const total = currentSession.questions.length;
+        
+        let unanswered = [];
+        for (let idx = 0; idx < total; idx++) {
+            const checked = document.querySelector(`input[name="answer-for-${idx}"]:checked`);
+            if (!checked) {
+                unanswered.push(idx + 1);
+            }
+        }
 
-        currentSession.questions.forEach((q, qIdx) => {
-            const checked = document.querySelector(`input[name="answer-radio-${qIdx}"]:checked`);
-            const chosen = checked ? parseInt(checked.value) : -1;
+        if (unanswered.length > 0) {
+            alert(`未回答の問題があります！\n(第 ${unanswered.join(', ')} 問)`);
+            return;
+        }
+
+        const endTime = Date.now();
+        let correctCount = 0;
+        currentSession.tempLogs = [];
+
+        currentSession.questions.forEach((q, idx) => {
+            const checked = document.querySelector(`input[name="answer-for-${idx}"]:checked`);
+            const chosen = parseInt(checked.value);
             const isCorrect = (chosen === q.answer);
+            const secondsSpent = (endTime - currentSession.questionStartTimes[idx]) / 1000;
+
+            document.querySelectorAll(`input[name="answer-for-${idx}"]`).forEach(input => input.disabled = true);
+
+            const fbArea = document.getElementById(`feedback-area-${idx}`);
+            fbArea.style.display = "block";
 
             if (isCorrect) {
                 correctCount++;
+                fbArea.innerHTML = `
+                    <div class="result-block res-correct">🎉 正解！ (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]})</div>
+                `;
                 state.wrongQuestions = state.wrongQuestions.filter(id => id !== q.id);
             } else {
-                if (!state.wrongQuestions.includes(q.id)) state.wrongQuestions.push(q.id);
+                fbArea.innerHTML = `
+                    <div class="result-block res-incorrect">❌ 不正解... (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]} / 正解: ${['ア', 'イ', 'ウ', 'エ'][q.answer]})</div>
+                `;
+                if (!state.wrongQuestions.includes(q.id)) {
+                    state.wrongQuestions.push(q.id);
+                }
             }
 
-            state.history.push({ questionId: q.id, title: q.title, category: q.category, isCorrect: isCorrect });
-            
-            document.getElementById(`result-slot-${qIdx}`).innerHTML = `
-                <div class="result-block ${isCorrect ? 'res-correct':'res-incorrect'}">${isCorrect ? '◯ 正解':'× 不正解'}</div>
-                <div class="explanation-box"><b>解説:</b> ${q.explanation}</div>
-                <div class="analogy-box"><b>💡 例え:</b> ${q.analogy}</div>
+            fbArea.innerHTML += `
+                <div class="explanation-box">
+                    <b>🔍 分かりやすい解説:</b><br>${q.explanation}
+                </div>
+                <div class="analogy-box">
+                    <b>💡 イメージが湧く「例え話」:</b><br>${q.analogy}
+                </div>
             `;
+
+            currentSession.tempLogs.push({
+                questionId: q.id,
+                title: q.title,
+                category: q.category,
+                subCategory: q.subCategory,
+                isCorrect: isCorrect,
+                timeSpent: secondsSpent
+            });
         });
 
-        let rpChange = mode === 'rank' ? (correctCount >= 7 ? (correctCount * 8) : -((10 - correctCount) * 5)) : Math.floor(correctCount * 2);
+        currentSession.tempLogs.forEach(log => {
+            state.history.push(log);
+        });
+
+        let rpChange = 0;
+        if (mode === 'rank') {
+            rpChange = (correctCount >= 7) ? (correctCount * 8) : -((10 - correctCount) * 5);
+        } else {
+            rpChange = Math.floor(correctCount * 2);
+        }
         state.rp = Math.max(0, state.rp + rpChange);
 
-        checkAchievementsLogic(correctCount, totalCount, mode);
+        checkAchievementsLogic(correctCount, total, mode);
         saveLocalData();
+        
         if (state.currentUserId) {
             await pushDataToFirebase();
             await fetchOnlineLeaderboard();
         }
 
-        document.getElementById(`${mode}-quiz-area`).innerHTML = `
-            <div class="card" style="text-align:center;">
-                <h3>結果: ${correctCount} / ${totalCount} 正解</h3>
-                <p style="margin:15px 0; font-weight:bold;">RP変動: ${rpChange >= 0 ? `+${rpChange}` : rpChange} RP</p>
-                <button class="btn-primary" style="max-width:200px;" onclick="exitListSession('${mode}')">ダッシュボードへ</button>
-            </div>
-        `;
         updateUI();
         renderAchievements();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        const actionArea = document.getElementById('session-action-area');
+        actionArea.innerHTML = `
+            <div class="card" style="margin-top:30px; text-align:center; border: 2px solid var(--accent-green);">
+                <h3 style="font-size: 22px; color: var(--accent-blue); margin-bottom: 10px;">📊 採点完了結果</h3>
+                <p style="font-size: 18px; margin-bottom: 10px;">正解数: <b>${correctCount}</b> / <b>${total}</b> 問</p>
+                <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: ${rpChange >= 0 ? 'var(--accent-green)':'var(--accent-red)'}">
+                    RP変動: ${rpChange >= 0 ? `+${rpChange}` : rpChange} RP (現在のRP: ${state.rp})
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">※各問題の下に表示されている解説と「例え話」を読み終えたら、下のボタンから戻ってください。</p>
+                <button class="btn-primary" style="max-width:280px; margin: 0 auto;" onclick="exitListSession('${mode}')">📊 ダッシュボードへ戻る</button>
+            </div>
+        `;
+
+        actionArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function exitListSession(mode) {
