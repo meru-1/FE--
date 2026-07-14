@@ -21,14 +21,14 @@
             --rank-goldmenkyo: #d69e2e;
             --rank-chukensha: #319795;
             --rank-diamond: #00bfff;
-            --rank-legend: #ff4500; /* 旧Master帯も含めてLegendに統一 */
+            --rank-legend: #ff003c; 
             --banner-default: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --banner-emerald: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             --banner-sunset: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
             --banner-midnight: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; padding-bottom: 60px; }
+        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; padding-bottom: 80px; }
         header { background-color: #ffffff; border-bottom: 1px solid var(--border-color); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo { font-size: 18px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 8px; }
         .sync-badge { font-size: 12px; padding: 4px 8px; border-radius: 12px; color: white; font-weight: bold; }
@@ -49,17 +49,22 @@
             justify-content: center;
             perspective: 500px;
             z-index: 2;
-            padding: 18px;
+            padding: 10px;
             border-radius: 50%;
             transition: all 0.3s;
             position: relative;
+            width: 110px;
+            height: 110px;
+            margin: 0 auto;
+        }
+        /* ダッシュボード用の少し大きめのコンテナ */
+        .rank-display-box .rank-badge-container {
             width: 130px;
             height: 130px;
         }
 
         .frame-none { border: 3px solid transparent; }
         .frame-neon { border: 3px solid #3182ce; box-shadow: 0 0 15px #3182ce, inset 0 0 15px #3182ce; background: rgba(49, 130, 206, 0.1); }
-        /* 👑 ゴールデン・オーラ */
         .frame-gold-aura { border: 3px solid #ffaa00; box-shadow: 0 0 25px #ffd700, inset 0 0 15px #ffd700; background: rgba(255, 215, 0, 0.15); animation: goldenPulse 2s infinite alternate; }
         .frame-sakura { border: 3px solid #fbb6ce; box-shadow: 0 0 15px #f687b3, inset 0 0 10px #fbb6ce; background: rgba(246, 135, 179, 0.1); }
 
@@ -69,179 +74,130 @@
         }
 
         /* -------------------------------------------------- */
-        /* 🛡️ 新世代：3D・極尖ランクバッジグラフィックシステム */
+        /* 🛡️ 3Dランクバッジグラフィックシステム */
         /* -------------------------------------------------- */
-        
-        /* 1. 無知者 (ブロンズ盾 - 重量感あふれるベース) */
         .badge-bronze { 
-            width: 75px;
-            height: 75px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            border-radius: 10px 10px 25px 25px; 
-            border: 3px solid #cd7f32; 
-            box-shadow: 0 0 15px rgba(205, 127, 50, 0.6); 
-            color: #ffd79e; 
-            background: linear-gradient(135deg, #5c3a1a, #2d1a0b); 
-            animation: badgeFloat 3s ease-in-out infinite alternate;
+            width: 65px; height: 65px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: bold;
+            border-radius: 10px 10px 25px 25px; border: 3px solid #cd7f32; box-shadow: 0 0 15px rgba(205, 127, 50, 0.6); color: #ffd79e; background: linear-gradient(135deg, #5c3a1a, #2d1a0b); animation: badgeFloat 3s ease-in-out infinite alternate;
         }
-        
-        /* 2. ホワイトサバイバー (シルバーアーチ - 鋭利なシールド) */
         .badge-silver { 
-            width: 75px;
-            height: 75px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            border-radius: 50% 50% 10px 10px; 
-            border: 3px solid #cbd5e1; 
-            box-shadow: 0 0 18px rgba(203, 213, 225, 0.7); 
-            color: #ffffff; 
-            background: linear-gradient(135deg, #475569, #1e293b); 
-            animation: badgeFloat 3s ease-in-out infinite alternate;
+            width: 65px; height: 65px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: bold;
+            border-radius: 50% 50% 10px 10px; border: 3px solid #cbd5e1; box-shadow: 0 0 18px rgba(203, 213, 225, 0.7); color: #ffffff; background: linear-gradient(135deg, #475569, #1e293b); animation: badgeFloat 3s ease-in-out infinite alternate;
         }
-        
-        /* 3. ゴールド免許 (ゴールド・ペンタゴン - シャープカット) */
         .badge-gold { 
-            width: 75px;
-            height: 75px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); 
-            border: 3px solid #eab308; 
-            box-shadow: 0 0 25px rgba(234, 179, 8, 0.8); 
-            color: #fffbeb; 
-            background: linear-gradient(135deg, #713f12, #422006); 
-            animation: badgeFloat 3s ease-in-out infinite alternate;
+            width: 65px; height: 65px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: bold;
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); border: 3px solid #eab308; box-shadow: 0 0 25px rgba(234, 179, 8, 0.8); color: #fffbeb; background: linear-gradient(135deg, #713f12, #422006); animation: badgeFloat 3s ease-in-out infinite alternate;
         }
-        
-        /* 4. 中堅者 (プラチナ・ヘキサゴン - サイバーカット) */
         .badge-platinum { 
-            width: 75px;
-            height: 75px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-            border: 3px solid #06b6d4; 
-            box-shadow: 0 0 28px rgba(6, 182, 212, 0.8); 
-            color: #ecfeff; 
-            background: linear-gradient(135deg, #164e63, #083344); 
-            animation: badgeFloat 3s ease-in-out infinite alternate;
+            width: 65px; height: 65px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: bold;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border: 3px solid #06b6d4; box-shadow: 0 0 28px rgba(6, 182, 212, 0.8); color: #ecfeff; background: linear-gradient(135deg, #164e63, #083344); animation: badgeFloat 3s ease-in-out infinite alternate;
+        }
+        .badge-diamond { 
+            width: 60px; height: 60px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: bold;
+            transform: rotate(45deg); animation: badgeFloatDiamond 3s ease-in-out infinite alternate; border: 3px solid #00e1ff; box-shadow: 0 0 30px rgba(0, 191, 255, 0.9); color: #e6ffff; background: linear-gradient(135deg, #005f73, #0a1128); border-radius: 8px;
         }
         
-        /* 5. DIAMOND (極光シアン・ローバス - 回転フローティング) */
-        .badge-diamond { 
-            width: 72px;
-            height: 72px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            transform: rotate(45deg); 
-            animation: badgeFloatDiamond 3s ease-in-out infinite alternate; 
-            border: 3px solid #00e1ff; 
-            box-shadow: 0 0 30px rgba(0, 191, 255, 0.9); 
-            color: #e6ffff; 
-            background: linear-gradient(135deg, #005f73, #0a1128); 
-            border-radius: 8px;
-        }
+        /* 大きめサイズ上書き（ダッシュボード等用） */
+        .rank-display-box .badge-bronze, .rank-display-box .badge-silver, .rank-display-box .badge-gold, .rank-display-box .badge-platinum { width: 75px; height: 75px; font-size: 2rem; }
+        .rank-display-box .badge-diamond { width: 72px; height: 72px; font-size: 2rem; }
+
         @keyframes badgeFloatDiamond { 
             0% { transform: translateY(0px) rotate(45deg); } 
             100% { transform: translateY(-6px) rotate(48deg); } 
         }
-        .badge-diamond span { 
-            transform: rotate(-45deg); 
-            display: inline-block; 
-        }
+        .badge-diamond span { transform: rotate(-45deg); display: inline-block; }
 
-        /* 6. Legend (紅蓮鳳凰プレデター・レディアント仕様 - 超最上位) */
+        /* -------------------------------------------------- */
+        /* 🔥 新世代：Legend 超越神極ロゴ・デザイン (魅了する3D) */
+        /* -------------------------------------------------- */
         .badge-legend {
             width: 75px;
             height: 75px;
-            background: linear-gradient(135deg, #1a0000 0%, #ff003c 50%, #110003 100%);
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: radial-gradient(circle, #ff003c 0%, #1a0005 80%, #000000 100%);
+            clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            animation: pulse-red-predator 2s infinite ease-in-out;
-            filter: drop-shadow(0 0 15px rgba(255, 0, 60, 0.9));
+            animation: legendPredatorPulse 1.8s infinite ease-in-out;
+            box-shadow: 0 0 35px rgba(255, 0, 60, 0.95), inset 0 0 25px rgba(255, 0, 60, 0.5);
             z-index: 5;
+            border: 2px solid #ff0055;
         }
+        .rank-display-box .badge-legend { width: 85px; height: 85px; font-size: 2.2rem; }
 
-        /* プレデター特有の禍々しく尖ったツノ・ウイングを疑似要素で両脇に配置 */
+        /* 翼（サイドウイングアウラ）の強化 */
         .badge-legend::before, .badge-legend::after {
             content: '';
             position: absolute;
-            background: #ff003c;
+            background: linear-gradient(45deg, #ff003c, #ffaa00);
             width: 90px;
             height: 15px;
             top: 28px;
-            left: -12px;
-            clip-path: polygon(0% 0%, 100% 40%, 80% 60%, 100% 100%, 30% 60%);
-            transform: rotate(-30deg);
-            filter: drop-shadow(0 0 8px #ff003c);
+            left: -10px;
+            clip-path: polygon(0% 0%, 100% 30%, 75% 70%, 100% 100%, 15% 60%);
+            transform: rotate(-25deg);
+            filter: drop-shadow(0 0 12px #ff003c);
             z-index: -1;
+            animation: wingFlutter 0.9s infinite alternate;
         }
+        .rank-display-box .badge-legend::before, .rank-display-box .badge-legend::after { width: 105px; height: 18px; top: 32px; left: -12px; }
+        
         .badge-legend::after {
-            transform: scaleX(-1) rotate(-30deg);
+            left: auto;
+            right: -10px;
+            transform: scaleX(-1) rotate(-25deg);
+            animation: wingFlutterAlt 0.9s infinite alternate;
         }
+        .rank-display-box .badge-legend::after { right: -12px; left: auto; }
 
-        /* レディアント・コア (インナークリスタル) */
+        /* 漆黒の結晶（インナークリスタルコア） */
         .legend-core {
             position: absolute;
-            width: 48px;
-            height: 48px;
-            background: #000;
+            width: 45px;
+            height: 45px;
+            background: radial-gradient(circle, #0a0002 40%, #ff003c 100%);
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 10;
-            border: 2px solid #ff003c;
+            border: 1px solid #ffd700;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
         }
+        .rank-display-box .legend-core { width: 55px; height: 55px; }
 
         .legend-core span {
-            color: #fff;
-            text-shadow: 0 0 8px #ff003c, 0 0 15px #ff003c;
+            color: #ffffff;
             font-style: italic;
-            letter-spacing: 1px;
-            animation: legendSpin 8s linear infinite;
+            text-shadow: 0 0 10px #ff0055, 0 0 20px #ffaa00;
+            animation: coreLightVibe 2s infinite ease-in-out;
             display: inline-block;
         }
 
-        @keyframes pulse-red-predator {
-            0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 15px rgba(255, 0, 60, 0.8)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 28px rgba(255, 0, 60, 1.2)) brightness(1.3); }
+        /* 超美麗アニメーションキーフレーム */
+        @keyframes legendPredatorPulse {
+            0%, 100% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 20px rgba(255, 0, 60, 0.85)) brightness(1); }
+            50% { transform: scale(1.08) translateY(-4px); filter: drop-shadow(0 0 35px rgba(255, 0, 60, 1.3)) brightness(1.25); }
+        }
+        @keyframes wingFlutter {
+            0% { transform: rotate(-20deg) scaleY(0.9); }
+            100% { transform: rotate(-30deg) scaleY(1.1); }
+        }
+        @keyframes wingFlutterAlt {
+            0% { transform: scaleX(-1) rotate(-20deg) scaleY(0.9); }
+            100% { transform: scaleX(-1) rotate(-30deg) scaleY(1.1); }
+        }
+        @keyframes coreLightVibe {
+            0%, 100% { text-shadow: 0 0 8px #ff0055, 0 0 15px #ffaa00; transform: scale(1); }
+            50% { text-shadow: 0 0 15px #ff0055, 0 0 30px #ffffff, 0 0 40px #ffaa00; transform: scale(1.15); }
         }
 
         @keyframes badgeFloat {
             0% { transform: translateY(0px) rotate(0deg); }
             100% { transform: translateY(-6px) rotate(3deg); }
-        }
-
-        @keyframes legendSpin {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(10deg); }
         }
 
         /* -------------------------------------------------- */
@@ -276,11 +232,21 @@
         .analogy-box { background: #ebf8ff; padding: 15px; border-radius: 8px; margin-top: 10px; font-size: 14px; color: #2b6cb0; border-left: 3px solid #63b3ed; }
         
         .leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-        .leaderboard-table th, .leaderboard-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .leaderboard-table th, .leaderboard-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
         .leaderboard-table th { background-color: #f7fafc; color: var(--text-muted); font-weight: 600; }
         .leaderboard-table tr.user-row { background-color: #ebf8ff; font-weight: bold; }
         .leaderboard-table tbody tr { cursor: pointer; transition: background 0.2s; }
         .leaderboard-table tbody tr:hover { background-color: #f7fafc; }
+        
+        /* 📊 ランク解説テーブル専用スタイル */
+        .rank-info-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; text-align: center; }
+        .rank-info-table th, .rank-info-table td { padding: 12px; border: 1px solid var(--border-color); vertical-align: middle; }
+        .rank-info-table th { background-color: #f7fafc; color: var(--text-main); font-weight: bold; }
+        .rank-name-cell { font-weight: bold; font-size: 15px; }
+
+        /* 📊 ランク分布用のゲージデザイン */
+        .rank-distribution-bar-bg { background-color: #e2e8f0; border-radius: 4px; height: 12px; width: 100%; overflow: hidden; position: relative; margin-top: 4px; }
+        .rank-distribution-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
         
         .achievement-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 15px; }
         .achievement-card { background: #f7fafc; border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; text-align: center; opacity: 0.4; filter: grayscale(100%); transition: all 0.3s; }
@@ -300,8 +266,8 @@
         .tab-btn { background: none; border: none; padding: 12px 0; width: 100%; font-size: 11px; font-weight: bold; color: var(--text-muted); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .tab-btn.active { color: var(--accent-blue); }
         .tab-btn svg { width: 20px; height: 20px; }
-        .effect-legend { animation: legendGlow 2s infinite alternate; font-weight: bold; }
-        @keyframes legendGlow { from { text-shadow: 0 0 4px #ff4500, 0 0 10px #ff8c00; } to { text-shadow: 0 0 8px #ff4500, 0 0 15px #ff0000; } }
+        .effect-legend { animation: legendGlow 1.5s infinite alternate; font-weight: bold; }
+        @keyframes legendGlow { from { text-shadow: 0 0 6px #ff0055, 0 0 12px #ffaa00; } to { text-shadow: 0 0 12px #ff0055, 0 0 25px #ffffff, 0 0 35px #ff4500; } }
         .ai-box { background: #f0fff4; border: 1px solid #c6f6d5; padding: 15px; border-radius: 8px; font-size: 13.5px; color: #22543d; margin-top: 10px; line-height: 1.6; }
         .history-list { font-size: 13px; }
         .history-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); }
@@ -410,6 +376,33 @@
     </div>
 
     <div id="rank-mode" class="tab-content">
+        <!-- 📊 修正機能：全6段階のランクシステム早見表 -->
+        <div class="card">
+            <h2>🛡️ ランクシステム一覧・昇格条件</h2>
+            <p style="color:var(--text-muted); font-size:13px; margin-bottom:10px;">当システムは全6段階のランクで構成されています。ランクマッチでRPを稼ぎ、最高位のLegendを目指しましょう！</p>
+            <table class="rank-info-table">
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">階級・段階</th>
+                        <th style="width: 40%;">ランクエンブレム</th>
+                        <th style="width: 30%;">必要ポイント</th>
+                    </tr>
+                </thead>
+                <tbody id="rank-info-table-body">
+                    <!-- JavaScriptによりロゴ付きで自動生成 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 📊 人数・比率を非表示にし、純粋に段階が分かる進行ゲージへ変更 -->
+        <div class="card">
+            <h2>📊 現在のランク進行分布イメージ</h2>
+            <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">全ランク帯の階層構造イメージです。上のランクへ行くほど、より強固なスキルが証明されます。</p>
+            <div id="rank-distribution-container" style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+                <!-- JavaScriptにより動的生成 -->
+            </div>
+        </div>
+
         <div class="card">
             <h2>🌍 世界リアルタイムランキング</h2>
             <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">同期IDをお持ちの全ユーザーのトップ20です。名前をタップするとプロフィールを閲覧できます。</p>
@@ -554,7 +547,7 @@
         { category: "tech", title: "セキュリティ: 暗号化技術", question: "ハイブリッド暗号方式において、送信者が「受信者の公開鍵」を使って暗号化する対象として、適切なものはどれか。", options: ["セッション鍵（共通鍵）", "送信者の秘密鍵", "受信者の秘密鍵", "平文 of メッセージ本文"], answer: 0, explanation: "ハイブリッド暗号では、データ自体は高速な共通鍵（セッション鍵）で暗号化し、その共通鍵を受信者の公開鍵で安全に暗号化して配送します。", analogy: "宝箱 of 「ダイヤル式の鍵」を届ける方法です。大きな重いデータを送るためにダイヤル錠（共通鍵）をかけますが、そのダイヤル番号が盗まれないよう、相手専用の頑丈な金庫（公開鍵）に入れて送るイメージです。" },
         { category: "tech", title: "クラウドサービス形態(PaaS)", question: "インターネット経由でITリソースを提供するモデルのうち、「アプリケーションの開発環境や実行環境（OSやミドルウェアなど）」を包括して提供するサービス形態はどれか。", options: ["PaaS (Platform as a Service)", "SaaS (Software as a Service)", "IaaS (Infrastructure as a Service)", "DXas (Digital Transformation as a Service)"], answer: 0, explanation: "PaaSは、アプリケーションを動かすための「土台・環境（Platform）」をインターネット越しに提供するサービスです。", analogy: "「キッチン付きのレンタルスペース」です。食材やレシピ（プログラム）を持ち込めば、ガスコンロや水道（OS・ミドルウェア）が最初から揃っているので、すぐに料理が作れる状態です。" },
         { category: "tech", title: "ネットワーク: DNSの役割", question: "インターネットにおけるDNS（Domain Name System）の主な役割として、適切なものはどれか。", options: ["ドメイン名（URLなど）とIPアドレスを相互に変換する", "MACアドレスからIPアドレスを自動的に割り当てる", "暗号化された通信経路（SSL/TLS）を確立する", "データパケットの最適なルーティングを行う"], answer: 0, explanation: "コンピュータが識別する数字のIPアドレスと、人間が読みやすいドメイン名を対応付けるシステムです。", analogy: "スマホの『連絡先アプリ』です。名前を押すと、裏で自動的に数字の電話番号へ変換して発信してくれる仕組みそのものです。" },
-        { category: "tech", title: "データベース: LEFT JOIN", question: "「社員テーブル」と「部署テーブル」を、部署コードをキーにしてLEFT OUTER JOIN（左外部結合）したときの結果の特徴はどれか。", options: ["社員テーブルにあるすべての社員が表示され、部署に所属していない社員の部署情報は空欄(NULL)になる", "両方のテーブルに共通して存在する部署コード의データのみが抽出される", "部署テーブルにあるすべての部署が表示され、社員のいない部署は空欄になる", "重複する社員データがすべて排除され、ユニークなレコードのみになる"], answer: 0, explanation: "LEFT JOINは左側のテーブルの全データを維持し、右側に一致するものがなければ空（NULL）として結合します。", analogy: "全員強制参加の学校の出席簿に、希望者のみの部活名を合体させる状態です。部活入っていない生徒も名前は全員載りますが、部活名は「空欄」になります。" },
+        { category: "tech", title: "データベース: LEFT JOIN", question: "「社員テーブル」と「部署テーブル」を、部署コードをキーにしてLEFT OUTER JOIN（左外部結合）したときの結果の特徴はどれか。", options: ["社員テーブルにあるすべての社員が表示され、部署に所属していない社員の部署情報は空欄(NULL)になる", "両方のテーブルに共通して存在する部署コードのデータのみが抽出される", "部署テーブルにあるすべての部署が表示され、社員のいない部署は空欄になる", "重複する社員データがすべて排除され、ユニークなレコードのみになる"], answer: 0, explanation: "LEFT JOINは左側のテーブルの全データを維持し、右側に一致するものがなければ空（NULL）として結合します。", analogy: "全員強制参加の学校の出席簿に、希望者のみの部活名を合体させる状態です。部活入っていない生徒も名前は全員載りますが、部活名は「空欄」になります。" },
         { category: "tech", title: "アルゴリズム: 二分探索", question: "ソート（並び替え）済みのデータ配列に対して、中央の値を確認して探索範囲を毎回半分に狭めていく探索アルゴリズムはどれか。", options: ["二分探索（バイナリサーチ）", "線形探索", "ハッシュ探索", "深さ優先探索"], answer: 0, explanation: "要素がソートされている場合、中央値と比較することで一回ごとに探索候補を1/2に削減していく高速な探索法です。", analogy: "辞書で「たわし」を探す時、適当に真ん中の「な行」を開き、「た」はそれより前だから後ろ半分は全て無視して捨てる、という半分ずつの絞り込みテクニックです。" },
         { category: "tech", title: "セキュリティ: SQLインジェクション", question: "Webアプリケーションの入力フォーム等に、悪意のあるSQLコマンドを入力し、データベースを不正操作する攻撃はどれか。", options: ["SQLインジェクション", "クロスサイトスクリプティング（XSS）", "ブルートフォースアタック", "DoS攻撃"], answer: 0, explanation: "プログラムが想定していないSQL文を外部から注入し、データの改ざんや奪取を行う攻撃です。", analogy: "注文用紙の記入欄に、料理名ではなく「※この紙を見たら金庫の金をすべて客に渡せ」という命令を勝用に書き込んで店員を騙すような攻撃です。" },
         { category: "tech", title: "構造: カプセル化", question: "オブジェクト指向における「カプセル化」の目的として、最も適切なものはどれか。", options: ["オブジェクトの内部データと手続きを一体化し、外部から直接見えないように隠蔽して不正操作を防ぐ", "すべてのデータをグローバル変数にして、どこからでも自由に書き換えられるようにする", "プログラムの実行速度を物理的に2倍以上に高速化する", "一つのクラスから複数の異なるインスタンスを生成できないように制限をかける"], answer: 0, explanation: "データとそれを操作するメソッドを1つにまとめ、外部からの不要な直接アクセスを遮断して安全性を高めます。", analogy: "「自動販売機」です。自販機の中の現金や飲み物の在庫は外から触れません。「お金を入れてボタンを押す」だけで安全に機能するように閉じ込められています。" },
@@ -564,12 +557,12 @@
         { category: "tech", title: "基本理論: 2進数変換", question: "10進数の「13」を8ビットの2進数で表現したものとして、正しいものはどれか。", options: ["00001101", "00001011", "00001110", "00001111"], answer: 0, explanation: "13を2で割り算していくと、8+4+1となるため、2進数では「1101」になります。", analogy: "1万円札、5千円札、千円札…の代わりに「8円玉、4円玉、2円玉、1円玉」の財布があるイメージです。13円を作るするには「8円1枚、4円1枚、1円1枚」が必要ので1101になります。" },
         { category: "mgmt", title: "マネジメント: アジャイル開発", question: "アジャイル開発手法の特徴として、最も適切なものはどれか。", options: ["システムを小さな機能単位に分割し、短い期間のサイクルを繰り返しながら開発・リリースしていく", "開発工程を要件定義、設計、製造、テストと厳格に分け、各工程を完了させてから次へ進む", "開発の初期段階で仕様を完全に固定し、変更を一切受け付けない", "成果物の品質テストをすべて自動化し、人間の介入を排除する"], answer: 0, explanation: "短いスパンで開発・評価を繰り返し、仕様変更に対して柔軟に適応していく開発手法です。", analogy: "長期間かけて完璧なフルコースの設計図を作って最後に提供するのがウォーターフォール。まず出来た小皿料理を出してみて、客の要望を聞きながら次の一皿を即座に作るのがアジャイルです。" },
         { category: "mgmt", title: "マネジメント: クリティカルパス", question: "プロジェクト管理において、「クリティカルパス」の説明として正しいものはどれか。", options: ["プロジェクト全体の期間を決定する、遅延が許されない最長の作業経路", "最も作業時間が短く、最も低コストで終わるルート", "不測の事態に備えて、作業を一時中断してよいバッファ時間のこと", "すべての作業を同時に並列処理するルート"], answer: 0, explanation: "プロジェクト全体の終了を決定づける最長の工程ルートのことで、ここにある作業が遅れると全体が遅れます。", analogy: "カレーを作る際、「米を炊く（45分）」と「具を煮る（30分）」を同時に始めます。具がどれだけ早くできても、米が炊けないと完成しません。この全体を引っ張る最長の時間がクリティカルパスです。" },
-        { category: "mgmt", title: "マネジメント: ITILの目的", question: "ITサービスマネジメントのベストプラクティス（成功事例）を集めたフレームワークはどれか。", options: ["ITIL", "ISO9001", "SLA", "WBS"], answer: 0, explanation: "ITIL（Information Technology Infrastructure Library）は、ITサービスを安定・向上させるための世界的な教科書です。", analogy: "レストランの「接客マニュアルの決定版」です。世界中の繁盛店がやっている効率的なやり方をまとめたバイブルです。" },
+        { category: "mgmt", title: "マネジメント: ITILの目的", question: "IT service managementのベストプラクティス（成功事例）を集めたフレームワークはどれか。", options: ["ITIL", "ISO9001", "SLA", "WBS"], answer: 0, explanation: "ITIL（Information Technology Infrastructure Library）は、ITサービスを安定・向上させるための世界的な教科書です。", analogy: "レストランの「接客マニュアルの決定版」です。世界中の繁盛店がやっている効率的なやり方をまとめたバイブルです。" },
         { category: "mgmt", title: "マネジメント: WBSの役割", question: "プロジェクトマネジメントにおいて、成果物や必要な作業を細かな構成要素に分解し、階層構造で表した図はどれか。", options: ["WBS", "ガントチャート", "アローダイアグラム", "パレート図"], answer: 0, explanation: "WBS（Work Breakdown Structure）は、作業（Work）を分解（Breakdown）した構造（Structure）図で、タスクの漏れを防ぎます。", analogy: "「大掃除のチェックリスト」です。『キッチン』をさらに『換気扇』『シンク』『冷蔵庫』と細かく分解して、誰が何をやるか明確にする図面です。" },
         { category: "mgmt", title: "マネジメント: SLA", question: "ITサービスの提供者と顧客の間で、提供されるサービスの内容や品質レベルについて合意した文書はどれか。", options: ["SLA", "RFP", "NDA", "BCP"], answer: 0, explanation: "SLA（Service Level Agreement）は、「稼働率99.9%を保証します」といったサービスの品質保証契約です。", analogy: "出前館などの「30分以内にお届けできなければ全額返金します」という、お店とお客さんの間の約束事のようなものです。" },
         { category: "strat", title: "ストラテジ: 著作権法", question: "著作権法によるプログラムの保護範囲に関する記述のうち、適切なものはどれか。", options: ["プログラムのソースコード（表現）は保護されるが、アルゴリズム（解法）やプログラム言語自体は保護対象外である", "アルゴリズム（解法）自体も著作権法で強力に保護されるため、同じ計算方法を他人が使うことはできない", "開発したプログラムは、国への特許申請と登録が完了した時点から著作権が発生する", "プログラム言語の文法自体に著作権があるため、新しい言語を作るには許可必要である"], answer: 0, explanation: "著作権法は「具体的な表現」を保護する法律であり、アルゴリズムなどの「アイデア・仕組み」は保護対象外です。", analogy: "小説の「文章の丸コピー」は著作権違反ですが、「主人公が魔王を倒しに行く」という設定は誰が真似して書いても自由であることと同じです。" },
         { category: "strat", title: "ストラテジ: SWOT分析", question: "企業の経営戦略を立てるための「SWOT分析」において、外部環境のプラス要因とマイナス要因を表す組み合わせはどれか。", options: ["機会 ／ 脅威", "強み ／ 弱み", "強み ／ 脅威", "機会 ／ 弱み"], answer: 0, explanation: "SWOTのSとWは企業自身の内部環境、O（機会）とT（脅威）は市場や法律の変動などの外部環境を指します。", analogy: "自チームの「足が速い」「スタミナ不足」は自分たちの話。しかし「明日大雨が降る」「相手のエースが欠場」は、自分たちでは操作できない外の環境要因ですよね。" },
-        { category: "strat", title: "ストラテジ: 不正競争防止法", question: "企業の秘密情報（営業秘密）を不正に取得・使用する行為を規制し、公正な競争を守る法律はどれか。", options: ["不正競争防止法", "個人情報保護法", "著作権法", "特許法"], answer: 0, explanation: "顧客名簿や門外不出のレシピなど、企業の利益につながる「営業秘密」を盗み出す行為を取り傷まる法律です。", analogy: "某ファストフード店の「秘伝のスパイスの配合比率」や、秘匿されたコーラのレシピをライバル社に転売するのを禁止する法律です。" },
+        { category: "strat", title: "ストラテジ: 不正競争防止法", question: "企業の秘密情報（営業秘密）を不正に取得・使用する行為を規制し、公正な競争を守る法律はどれか。", options: ["不正競争防止法", "個人情報保護法", "著作権法", "特許法"], answer: 0, explanation: "顧客名簿や門外不出のレシピなど、企業の利益につながる「営業秘密」を盗み出す行為を取り締まる法律です。", analogy: "某ファストフード店の「秘伝のスパイスの配合比率」や、秘匿されたコーラのレシピをライバル社に転売するのを禁止する法律です。" },
         { category: "strat", title: "ストラテジ: パレート図", question: "データを値の大きい順に棒グラフで並べ、その累積比率を折れ線グラフで組み合わせた、重要課題の特定に使う図はどれか。", options: ["パレート図", "散布図", "ヒストグラム", "レーダーチャート"], answer: 0, explanation: "パレート図は「全体の8割のトラブルは、2割の重要原因から発生している」という分析（80:20の法則）などに使われます。", analogy: "「お店のクレーム集計」です。件数が多い順に並べると、『接客態度』と『異物混入』の2つだけで全体の80%を占めている, といった重要箇所を暴き出すグラフです。" },
         { category: "strat", title: "ストラテジ: BCP", question: "災害やテロなどの緊急事態が発生した際に、企業の重要業務を中断させず、早期に復旧させるための行動計画はどれか。", options: ["BCP（事業継続計画）", "M&A", "CSR", "ERP"], answer: 0, explanation: "BCP（Business Continuity Plan）は、予期せぬ大災害でも会社を潰さずに事業を継続させるためのバックアップ・避難計画です。", analogy: "「お家の防災避難マニュアル＋予備の備蓄」です。地震が起きた時、どこの避難所に集まってどう連絡を取り合うかを決めておく会社版の作戦です。" }
     ];
@@ -673,7 +666,6 @@
     let onlineLeaderboardCache = []; 
     let totalGlobalUsersCount = 1;
 
-    /* 👑 ランク定義からMasterを排除し、1000 RP以上を「Legend」に統合 */
     const ranks = [
         { name: "無知者", min: 0, color: "var(--rank-muchisha)" },
         { name: "ホワイトサバイバー", min: 150, color: "var(--rank-whitesurvivor)" },
@@ -683,7 +675,6 @@
         { name: "Legend", min: 1000, color: "var(--rank-legend)", specialClass: "effect-legend" }
     ];
 
-    /* 👑 称号一覧の「基本情報の覇王」を「レジェンド・マスター」へ調整 */
     const titleList = [
         { name: "駆け出しの学習者", minRp: 0 },
         { name: "二進法の旅人", minRp: 100 },
@@ -694,11 +685,10 @@
         { name: "グランド・レジェンド", minRp: 1300 }
     ];
 
-    /* 🛠️ 【修正・最適化】各ランクバッジデザインを完全に差別化マッピング */
     function getRankBadgeHTML(rankName, frameStyle = "none") {
         let badgeClass = "badge-bronze";
         let isLegend = false;
-        let icon = "🌱"; // 無知者デフォルト
+        let icon = "🌱"; 
 
         if (rankName.includes("ホワイトサバイバー")) { 
             badgeClass = "badge-silver"; 
@@ -722,7 +712,6 @@
             icon = "👑"; 
         }
 
-        // 最上位ランク（Legend）はプレデター/レディアント仕様の特別な多角形＆コア構成でレンダリング
         if (isLegend) {
             return `
                 <div class="rank-badge-container frame-${frameStyle}">
@@ -779,6 +768,8 @@
         updateUI();
         renderAchievements();
         initSeasonCountdown();
+        renderRankSystemTable();
+        renderRankDistribution();
     }
 
     window.onload = function() {
@@ -854,29 +845,68 @@
             snapshot.forEach((doc) => { onlineLeaderboardCache.push(doc.data()); });
             totalGlobalUsersCount = onlineLeaderboardCache.length || 1;
             renderLeaderboards();
+            renderRankDistribution();
         } catch(e) { console.error("Leaderboard fetch error: ", e); }
     }
 
-    /* 👑 1000 RP以上なら、オンラインキャッシュに関係なく「100% Legend」に固定するロジック */
     function getPlayerRankObject(points, uidToCheck) {
         if (points >= 1000) {
-            return ranks[5]; // Legend
+            return ranks[5]; 
         }
-        
-        let percentage = 1.0; 
-        let hasLeaderboard = (onlineLeaderboardCache && onlineLeaderboardCache.length > 0);
-        
-        if (uidToCheck && hasLeaderboard) {
-            let targetIdx = onlineLeaderboardCache.findIndex(p => p.uid === uidToCheck);
-            if (targetIdx !== -1) {
-                percentage = (targetIdx + 1) / onlineLeaderboardCache.length;
-            }
-        }
-        
         for (let i = ranks.length - 2; i >= 0; i--) {
             if (points >= ranks[i].min) return ranks[i];
         }
         return ranks[0];
+    }
+
+    /* 📊 新機能：ランク一覧システムのテーブル生成ロジック（ロゴバッジ配置） */
+    function renderRankSystemTable() {
+        const tableBody = document.getElementById('rank-info-table-body');
+        if (!tableBody) return;
+
+        let html = '';
+        // 上位ランクから順番に表示
+        [...ranks].reverse().forEach((r) => {
+            let specialSpanClass = r.specialClass ? `class="${r.specialClass}"` : '';
+            html += `
+                <tr>
+                    <td class="rank-name-cell"><span ${specialSpanClass} style="color:${r.color};">${r.name}</span></td>
+                    <td>
+                        <div style="transform: scale(0.85); width: 110px; margin: 0 auto;">
+                            ${getRankBadgeHTML(r.name, "none")}
+                        </div>
+                    </td>
+                    <td style="font-weight: bold; font-size: 15px;">${r.min} RP ～</td>
+                </tr>
+            `;
+        });
+        tableBody.innerHTML = html;
+    }
+
+    /* 📊 ランク分布デザインの修正（人口・割合データを排除し、段階のみを分かりやすく表示） */
+    function renderRankDistribution() {
+        const container = document.getElementById('rank-distribution-container');
+        if (!container) return;
+
+        let html = '';
+        // 固定の基準ゲージ（上位から下位へ綺麗なグラデーション段階を表現）
+        const mockRatios = [15, 30, 50, 70, 85, 100]; 
+
+        ranks.forEach((r, idx) => {
+            let widthRatio = mockRatios[idx];
+            html += `
+                <div style="font-size:13px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:2px; font-weight:bold;">
+                        <span style="color:${r.color};">${r.name}</span>
+                        <span style="color:var(--text-muted); font-size:11px;">必要基準: ${r.min} RP</span>
+                    </div>
+                    <div class="rank-distribution-bar-bg">
+                        <div class="rank-distribution-bar-fill" style="width: ${widthRatio}%; background-color: ${r.color};"></div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
     }
 
     function renderLeaderboards() {
@@ -903,8 +933,10 @@
             `;
         });
         html += `</tbody></table>`;
-        document.getElementById('dash-leaderboard-container').innerHTML = html;
-        document.getElementById('rank-leaderboard-container').innerHTML = html;
+        const dashContainer = document.getElementById('dash-leaderboard-container');
+        const rankContainer = document.getElementById('rank-leaderboard-container');
+        if(dashContainer) dashContainer.innerHTML = html;
+        if(rankContainer) rankContainer.innerHTML = html;
     }
 
     async function openProfileModal(uid) {
@@ -1009,16 +1041,18 @@
         document.getElementById('setting-frame').value = state.profile.frame || "none";
         
         const titleSelect = document.getElementById('setting-title');
-        titleSelect.innerHTML = "";
-        titleList.forEach(t => {
-            const isLocked = state.rp < t.minRp;
-            const opt = document.createElement('option');
-            opt.value = t.name;
-            opt.innerText = isLocked ? `🔒 ${t.name} (必要RP: ${t.minRp})` : `🔓 ${t.name}`;
-            opt.disabled = isLocked;
-            if (t.name === state.profile.title) { opt.selected = true; }
-            titleSelect.appendChild(opt);
-        });
+        if(titleSelect) {
+            titleSelect.innerHTML = "";
+            titleList.forEach(t => {
+                const isLocked = state.rp < t.minRp;
+                const opt = document.createElement('option');
+                opt.value = t.name;
+                opt.innerText = isLocked ? `🔒 ${t.name} (必要RP: ${t.minRp})` : `🔓 ${t.name}`;
+                opt.disabled = isLocked;
+                if (t.name === state.profile.title) { opt.selected = true; }
+                titleSelect.appendChild(opt);
+            });
+        }
 
         selectBannerTheme(state.profile.bannerTheme || "default");
     }
@@ -1150,7 +1184,7 @@
                 } else if (worstSub.includes("企業活動")) {
                     adviceText += `👉 <b>AIの助言:</b> 著作権法や不正競争防止法など、実社会のニュースと紐付けて捉えるのが近道です。`;
                 } else {
-                    adviceText += `👉 <b>AIの助言:</b> 基本用語の定義を見直すことで、あと一歩で正解率がハネ上がります！`;
+                    adviceText += `👉 <b>AIの助言:</b> 基本用語の定義を見整えることで、あと一歩で正解率がハネ上がります！`;
                 }
             }
 
@@ -1163,9 +1197,12 @@
         }
 
         const historyContainer = document.getElementById('history-list-container');
-        historyContainer.innerHTML = state.history.slice(-5).reverse().map(h => `
-            <div class="history-item"><span>${h.title}</span><span style="color:${h.isCorrect ? 'var(--accent-green)':'var(--accent-red)'}; font-weight:bold;">${h.isCorrect ? '◯':'×'}</span></div>
-        `).join('');
+        if (historyContainer) {
+            historyContainer.innerHTML = state.history.slice(-5).reverse().map(h => `
+                <div class="history-item"><span>${h.title}</span><span style="color:${h.isCorrect ? 'var(--accent-green)':'var(--accent-red)'}; font-weight:bold;">${h.isCorrect ? '◯':'×'}</span></div>
+            `).join('');
+        }
+        renderRankDistribution();
     }
 
     function switchTab(tabId) {
@@ -1255,7 +1292,7 @@
         }
 
         if (unanswered.length > 0) {
-            alert(`未回答の問題があります！\n(第 ${unanswered.join(', ')} 問)`);
+            alert(`未回答の問題があります！回答を完了してください。\n(未回答: 第 ${unanswered.join(', ')} 問)`);
             return;
         }
 
@@ -1270,22 +1307,25 @@
             const secondsSpent = (endTime - currentSession.questionStartTimes[idx]) / 1000;
 
             document.querySelectorAll(`input[name="answer-for-${idx}"]`).forEach(input => input.disabled = true);
+            
             const fbArea = document.getElementById(`feedback-area-${idx}`);
-            fbArea.style.display = "block";
+            if (fbArea) {
+                fbArea.style.display = "block";
 
-            if (isCorrect) {
-                correctCount++;
-                fbArea.innerHTML = `<div class="result-block res-correct">🎉 正解！ (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]})</div>`;
-                state.wrongQuestions = state.wrongQuestions.filter(id => id !== q.id);
-            } else {
-                fbArea.innerHTML = `<div class="result-block res-incorrect">❌ 不正解... (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]} / 正解: ${['ア', 'イ', 'ウ', 'エ'][q.answer]})</div>`;
-                if (!state.wrongQuestions.includes(q.id)) { state.wrongQuestions.push(q.id); }
+                if (isCorrect) {
+                    correctCount++;
+                    fbArea.innerHTML = `<div class="result-block res-correct">🎉 正解！ (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]})</div>`;
+                    state.wrongQuestions = state.wrongQuestions.filter(id => id !== q.id);
+                } else {
+                    fbArea.innerHTML = `<div class="result-block res-incorrect">❌ 不正解... (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]} / 正解: ${['ア', 'イ', 'ウ', 'エ'][q.answer]})</div>`;
+                    if (!state.wrongQuestions.includes(q.id)) { state.wrongQuestions.push(q.id); }
+                }
+
+                fbArea.innerHTML += `
+                    <div class="explanation-box"><b>🔍 分かりやすい解説:</b><br>${q.explanation}</div>
+                    <div class="analogy-box"><b>💡 イメージが湧く「例え話」:</b><br>${q.analogy}</div>
+                `;
             }
-
-            fbArea.innerHTML += `
-                <div class="explanation-box"><b>🔍 分かりやすい解説:</b><br>${q.explanation}</div>
-                <div class="analogy-box"><b>💡 イメージが湧く「例え話」:</b><br>${q.analogy}</div>
-            `;
 
             currentSession.tempLogs.push({
                 questionId: q.id,
@@ -1319,18 +1359,20 @@
         renderAchievements();
 
         const actionArea = document.getElementById('session-action-area');
-        actionArea.innerHTML = `
-            <div class="card" style="margin-top:30px; text-align:center; border: 2px solid var(--accent-green);">
-                <h3 style="font-size: 22px; color: var(--accent-blue); margin-bottom: 10px;">📊 採点完了結果</h3>
-                <p style="font-size: 18px; margin-bottom: 10px;">正解数: <b>${correctCount}</b> / <b>${total}</b> 問</p>
-                <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: ${rpChange >= 0 ? 'var(--accent-green)':'var(--accent-red)'}">
-                    RP変動: ${rpChange >= 0 ? `+${rpChange}` : rpChange} RP (現在のRP: ${state.rp})
+        if (actionArea) {
+            actionArea.innerHTML = `
+                <div class="card" style="margin-top:30px; text-align:center; border: 2px solid var(--accent-green);">
+                    <h3 style="font-size: 22px; color: var(--accent-blue); margin-bottom: 10px;">📊 採点完了結果</h3>
+                    <p style="font-size: 18px; margin-bottom: 10px;">正解数: <b>${correctCount}</b> / <b>${total}</b> 問</p>
+                    <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: ${rpChange >= 0 ? 'var(--accent-green)':'var(--accent-red)'}">
+                        RP変動: ${rpChange >= 0 ? `+${rpChange}` : rpChange} RP (現在のRP: ${state.rp})
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">※各問題の下に表示されている解説と「例え話」を読み終えたら、下のボタンから戻ってください。</p>
+                    <button class="btn-primary" style="max-width:280px; margin: 0 auto;" onclick="exitListSession('${mode}')">📊 ダッシュボードへ戻る</button>
                 </div>
-                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">※各問題の下に表示されている解説と「例え話」を読み終えたら、下のボタンから戻ってください。</p>
-                <button class="btn-primary" style="max-width:280px; margin: 0 auto;" onclick="exitListSession('${mode}')">📊 ダッシュボードへ戻る</button>
-            </div>
-        `;
-        actionArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            `;
+            actionArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     }
 
     function exitListSession(mode) {
@@ -1356,7 +1398,10 @@
             { id: 'mgmtMaster', name: '最高経営管理者', desc: 'マネジメント系を累計15問正解', icon: '📊' },
             { id: 'stratMaster', name: '一流の軍師', desc: 'ストラテジ系を累計15問正解', icon: '🎯' }
         ];
-        document.getElementById('achievement-grid-container').innerHTML = list.map(a => `<div class="achievement-card ${state.achievements[a.id] ? 'unlocked':''}" title="${a.desc}"><div class="achievement-icon">${a.icon}</div><strong>${a.name}</strong><p style="font-size:11px; margin-top:4px;">${a.desc}</p></div>`).join('');
+        const container = document.getElementById('achievement-grid-container');
+        if (container) {
+            container.innerHTML = list.map(a => `<div class="achievement-card ${state.achievements[a.id] ? 'unlocked':''}" title="${a.desc}"><div class="achievement-icon">${a.icon}</div><strong>${a.name}</strong><p style="font-size:11px; margin-top:4px;">${a.desc}</p></div>`).join('');
+        }
     }
 </script>
 </body>
