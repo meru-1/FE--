@@ -38,7 +38,9 @@
         .rank-display-box { background: var(--banner-default); color: white; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s; position: relative; overflow: hidden; }
         .theme-midnight { color: #e2e8f0; }
         .rank-info h2 { font-size: 24px; margin-bottom: 5px; }
+        .user-title-tag { font-size: 12px; font-weight: bold; padding: 2px 8px; background: rgba(255,255,255,0.25); border-radius: 4px; display: inline-block; margin-bottom: 6px; }
         
+        /* 👑 デコレーションフレーム効果 */
         .rank-badge-container {
             display: flex;
             flex-direction: column;
@@ -46,7 +48,16 @@
             justify-content: center;
             perspective: 500px;
             z-index: 2;
+            padding: 10px;
+            border-radius: 50%;
+            transition: all 0.3s;
         }
+
+        /* 各種フレームの見た目 */
+        .frame-none { border: 3px solid transparent; }
+        .frame-neon { border: 3px solid #3182ce; box-shadow: 0 0 15px #3182ce, inset 0 0 15px #3182ce; background: rgba(49, 130, 206, 0.1); }
+        .frame-gold-aura { border: 3px solid #d69e2e; box-shadow: 0 0 20px #eab308, inset 0 0 10px #eab308; background: rgba(234, 179, 8, 0.1); }
+        .frame-sakura { border: 3px solid #fbb6ce; box-shadow: 0 0 15px #f687b3, inset 0 0 10px #fbb6ce; background: rgba(246, 135, 179, 0.1); }
 
         .rank-badge {
             width: 75px;
@@ -111,6 +122,9 @@
         .leaderboard-table th, .leaderboard-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
         .leaderboard-table th { background-color: #f7fafc; color: var(--text-muted); font-weight: 600; }
         .leaderboard-table tr.user-row { background-color: #ebf8ff; font-weight: bold; }
+        .leaderboard-table tbody tr { cursor: pointer; transition: background 0.2s; }
+        .leaderboard-table tbody tr:hover { background-color: #f7fafc; }
+        
         .achievement-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 15px; }
         .achievement-card { background: #f7fafc; border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; text-align: center; opacity: 0.4; filter: grayscale(100%); transition: all 0.3s; }
         .achievement-card.unlocked { opacity: 1; filter: grayscale(0%); background: white; border-color: #cbd5e0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
@@ -121,6 +135,7 @@
         .setting-row { margin-bottom: 15px; }
         .setting-row label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
         .setting-input { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 15px; }
+        .setting-select { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 15px; background: white; }
         .banner-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 5px; }
         .banner-option { height: 40px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; }
         .banner-option.selected { border-color: var(--primary); box-shadow: 0 0 0 2px white inset; }
@@ -133,6 +148,15 @@
         .ai-box { background: #f0fff4; border: 1px solid #c6f6d5; padding: 15px; border-radius: 8px; font-size: 13.5px; color: #22543d; margin-top: 10px; line-height: 1.6; }
         .history-list { font-size: 13px; }
         .history-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); }
+
+        /* 👥 プロフィール閲覧モーダル */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-card { background: white; width: 90%; max-width: 480px; border-radius: 16px; overflow: hidden; animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; }
+        @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-header-banner { padding: 30px 20px; color: white; position: relative; text-align: center; }
+        .modal-body { padding: 20px; }
+        .modal-close-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.3); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+        .modal-close-btn:hover { background: rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
@@ -150,9 +174,10 @@
     <div id="dashboard" class="tab-content active">
         <div id="dash-rank-card" class="card rank-display-box">
             <div class="rank-info">
-                <span style="font-size: 12px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;">CURRENT RANK</span>
+                <div id="dash-title-display" class="user-title-tag">称号: 駆け出しの学習者</div>
                 <h2 id="dash-nickname-display">名無しの受験生</h2>
                 <div style="font-size: 11px; opacity: 0.7;" id="dash-id-display"></div>
+                <p id="dash-bio-display" style="font-size: 12px; margin-top: 8px; opacity: 0.9; max-width: 250px; font-style: italic;">一言: 未設定</p>
             </div>
             <div id="dash-rank-badge-container"></div>
         </div>
@@ -191,7 +216,7 @@
                     <div id="history-list-container" class="history-list"></div>
                 </div>
                 <div class="card" style="padding: 15px;">
-                    <h3 style="font-size: 15px; margin-bottom: 5px;">🏆 トップランカー (Top 20)</h3>
+                    <h3 style="font-size: 15px; margin-bottom: 5px;">🏆 トップランカー (タップで詳細)</h3>
                     <div id="dash-leaderboard-container" style="max-height: 220px; overflow-y: auto;"></div>
                 </div>
             </div>
@@ -231,7 +256,7 @@
     <div id="rank-mode" class="tab-content">
         <div class="card">
             <h2>🌍 世界リアルタイムランキング</h2>
-            <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">同期IDをお持ちの全ユーザーのトップ20です。2週間毎に自動リセットされます。</p>
+            <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">同期IDをお持ちの全ユーザーのトップ20です。名前をタップするとプロフィールを閲覧できます。</p>
             <div id="rank-leaderboard-container"></div>
         </div>
     </div>
@@ -253,6 +278,23 @@
                     <input type="text" id="setting-nickname" class="setting-input" placeholder="名無しの受験生">
                 </div>
                 <div class="setting-row">
+                    <label>一言メッセージ（自己紹介）</label>
+                    <input type="text" id="setting-bio" class="setting-input" placeholder="頑張って合格します！(最大30文字)" maxlength="30">
+                </div>
+                <div class="setting-row">
+                    <label>装備する称号</label>
+                    <select id="setting-title" class="setting-select"></select>
+                </div>
+                <div class="setting-row">
+                    <label>バッジ装飾フレーム</label>
+                    <select id="setting-frame" class="setting-select">
+                        <option value="none">装飾なし (標準枠)</option>
+                        <option value="neon">🔋 ネオンブルー・オーラ</option>
+                        <option value="gold-aura">✨ ゴールデン・オーラ (ゴールド免許以上推奨)</option>
+                        <option value="sakura">🌸 桜吹雪 (合格祈願)</option>
+                    </select>
+                </div>
+                <div class="setting-row">
                     <label>ダッシュボードの背景テーマ</label>
                     <div class="banner-selector">
                         <div id="b-opt-default" class="banner-option" style="background: var(--banner-default);" onclick="selectBannerTheme('default')"></div>
@@ -262,6 +304,31 @@
                     </div>
                 </div>
                 <button class="btn-primary" style="margin-top:10px;" onclick="saveSettings()">設定を保存する</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 👥 プロフィール閲覧用モーダルポップアップ -->
+<div id="profile-modal" class="modal-overlay" onclick="closeProfileModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeProfileModal(event)">✕</button>
+        <div id="modal-banner" class="modal-header-banner" style="background: var(--banner-default);">
+            <div id="modal-title-display" class="user-title-tag">二つ名</div>
+            <h2 id="modal-nickname-display">名無しの受験生</h2>
+            <p id="modal-id-display" style="font-size:11px; opacity:0.7; margin-top:2px;"></p>
+        </div>
+        <div class="modal-body">
+            <div style="display:flex; justify-content:center; margin-bottom:15px;">
+                <div id="modal-badge-container"></div>
+            </div>
+            <div class="status-grid" style="margin-bottom:15px;">
+                <div class="status-item" style="padding:10px;"><span class="label" style="font-size:10px;">RPランク</span><span id="modal-rank-display" style="font-size:15px; font-weight:bold;">無知者</span></div>
+                <div class="status-item" style="padding:10px;"><span class="label" style="font-size:10px;">現在のポイント</span><span id="modal-points-display" style="font-size:15px; font-weight:bold;">100 RP</span></div>
+            </div>
+            <div style="background:#f7fafc; padding:12px; border-radius:8px; margin-bottom:15px; border:1px solid var(--border-color);">
+                <span style="font-size:10px; color:var(--text-muted); display:block; font-weight:bold; margin-bottom:4px;">自己紹介メッセージ</span>
+                <p id="modal-bio-display" style="font-size:13px; font-style:italic; color:#4a5568;">よろしくお願いします！</p>
             </div>
         </div>
     </div>
@@ -327,7 +394,6 @@
         console.error("Firebase initialization failed: ", e);
     }
 
-    // 🤖 近年のトレンド・出やすさを徹底重視したコアシステム用テンプレート
     const seedQuestionTemplates = [
         { category: "tech", title: "AI・ディープラーニング", question: "ディープラーニング（深層学習）において、入力データの特徴量を自動的に抽出するために用いられる、多層の階層構造を持つニューラルネットワークの仕組みとして最も適切なものはどれか。", options: ["CNN（畳み込みニューラルネットワーク）", "決定木（Decision Tree）", "サポートベクターマシン（SVM）", "線形回帰分析"], answer: 0, explanation: "画像認識や特徴抽出に極めて優れ、多層構造を持つディープラーニングの代表的な仕組みがCNNです。", analogy: "人間の目の仕組みです。全体をぼんやり見るのではなく、縦の線、横の線、丸みといった「局所的な特徴」をパーツごとに畳み込んで識別していく高度な脳内ネットワークです。" },
         { category: "tech", title: "セキュリティ: 暗号化技術", question: "ハイブリッド暗号方式において、送信者が「受信者の公開鍵」を使って暗号化する対象として、適切なものはどれか。", options: ["セッション鍵（共通鍵）", "送信者の秘密鍵", "受信者の秘密鍵", "平文のメッセージ本文"], answer: 0, explanation: "ハイブリッド暗号では、データ自体は高速な共通鍵（セッション鍵）で暗号化し、その共通鍵を受信者の公開鍵で安全に暗号化して配送します。", analogy: "宝箱の「ダイヤル式の鍵」を届ける方法です。大きな重いデータを送るためにダイヤル錠（共通鍵）をかけますが、そのダイヤル番号が盗まれないよう、相手専用の頑丈な金庫（公開鍵）に入れて送るイメージです。" },
@@ -348,14 +414,13 @@
         { category: "mgmt", title: "マネジメント: SLA", question: "ITサービスの提供者と顧客の間で、提供されるサービスの内容や品質レベルについて合意した文書はどれか。", options: ["SLA", "RFP", "NDA", "BCP"], answer: 0, explanation: "SLA（Service Level Agreement）は、「稼働率99.9%を保証します」といったサービスの品質保証契約です。", analogy: "出前館などの「30分以内にお届けできなければ全額返金します」という、お店とお客さんの間の約束事のようなものです。" },
         { category: "strat", title: "ストラテジ: 著作権法", question: "著作権法によるプログラムの保護範囲に関する記述のうち、適切なものはどれか。", options: ["プログラムのソースコード（表現）は保護されるが、アルゴリズム（解法）やプログラム言語自体は保護対象外である", "アルゴリズム（解法）自体も著作権法で強力に保護されるため、同じ計算方法を他人が使うことはできない", "開発したプログラムは、国への特許申請と登録が完了した時点から著作権が発生する", "プログラム言語の文法自体に著作権があるため、新しい言語を作るには許可必要である"], answer: 0, explanation: "著作権法は「具体的な表現」を保護する法律であり、アルゴリズムなどの「アイデア・仕組み」は保護対象外です。", analogy: "小説の「文章の丸コピー」は著作権違反ですが、「主人公が魔王を倒しに行く」という設定は誰が真似して書いても自由であることと同じです。" },
         { category: "strat", title: "ストラテジ: SWOT分析", question: "企業の経営戦略を立てるための「SWOT分析」において、外部環境のプラス要因とマイナス要因を表す組み合わせはどれか。", options: ["機会 ／ 脅威", "強み ／ 弱み", "強み ／ 脅威", "機会 ／ 弱み"], answer: 0, explanation: "SWOTのSとWは企業自身の内部環境、O（機会）とT（脅威）は市場や法律の変動などの外部環境を指します。", analogy: "自チームの「足が速い」「スタミナ不足」は自分たちの話。しかし「明日大雨が降る」「相手のエースが欠場」は、自分たちでは操作できない外の環境要因ですよね。" },
-        { category: "strat", title: "ストラテジ: 不正競争防止法", question: "企業の秘密情報（営業秘密）を不正に取得・使用する行為を規制し、公正な競争を守る法律はどれか。", options: ["不正競争防止法", "個人情報保護法", "著作権法", "特許法"], answer: 0, explanation: "顧客名簿や門外不出のレシピなど、企業の利益につながる「営業秘密」を盗み出す行為を取り締まる法律です。", analogy: "某ファストフード店の「秘伝のスパイスの配合比率」や、秘匿されたコーラのレシピをライバル社に転売するのを禁止する法律です。" },
+        { category: "strat", title: "ストラテジ: 不正競争防止法", question: "企業の秘密情報（営業秘密）を不正に取得・使用する行為を規制し、公正な競争を守る法律はどれか。", options: ["不正競争防止法", "個人情報保護法", "著作権法", "特許法"], answer: 0, explanation: "顧客名簿や門外不出のレシピなど、企業の利益につながる「営業秘密」を盗み出す行為を取り傷まる法律です。", analogy: "某ファストフード店の「秘伝のスパイスの配合比率」や、秘匿されたコーラのレシピをライバル社に転売するのを禁止する法律です。" },
         { category: "strat", title: "ストラテジ: パレート図", question: "データを値の大きい順に棒グラフで並べ、その累積比率を折れ線グラフで組み合わせた、重要課題の特定に使う図はどれか。", options: ["パレート図", "散布図", "ヒストグラム", "レーダーチャート"], answer: 0, explanation: "パレート図は「全体の8割のトラブルは、2割の重要原因から発生している」という分析（80:20の法則）などに使われます。", analogy: "「お店のクレーム集計」です。件数が多い順に並べると、『接客態度』と『異物混入』の2つだけで全体の80%を占めている、といった重要箇所を暴き出すグラフです。" },
         { category: "strat", title: "ストラテジ: BCP", question: "災害やテロなどの緊急事態が発生した際に、企業の重要業務を中断させず、早期に復旧させるための行動計画はどれか。", options: ["BCP（事業継続計画）", "M&A", "CSR", "ERP"], answer: 0, explanation: "BCP（Business Continuity Plan）は、予期せぬ大災害でも会社を潰さずに事業を継続させるためのバックアップ・避難計画です。", analogy: "「お家の防災避難マニュアル＋予備の備蓄」です。地震が起きた時、どこの避難所に集まってどう連絡を取り合うかを決めておく会社版の作戦です。" }
     ];
 
     let masterQuestionBank = [];
     
-    // 🧠 20種類の基礎問題から、プログラムが毎回自動（AI的）にシチュエーション・名称・変数を組み替えて400問以上の異なるバリエーションをリアルタイム生成するシステム
     function generateLargeQuestionBank() {
         masterQuestionBank = [];
         let idCounter = 1;
@@ -364,7 +429,6 @@
             seedQuestionTemplates.forEach((base) => {
                 if(masterQuestionBank.length >= 420) return;
                 
-                // 正解をキープしながら、選択肢の位置を綺麗にシャッフル
                 let optionsCopy = [...base.options];
                 let correctStr = optionsCopy[base.answer];
                 for (let i = optionsCopy.length - 1; i > 0; i--) {
@@ -382,7 +446,6 @@
                 let selectedNet = networks[idCounter % networks.length];
                 let selectedDate = baseDates[idCounter % baseDates.length];
 
-                // 問題文を自動・動的にリライトして完全に別の問題に仕立て上げる
                 let alteredQuestion = base.question
                     .replace("Aさん", `エンジニアの「開発チーム_${idCounter}」`)
                     .replace("Bさん", `クライアント側の「認証ノード_${idCounter}」`)
@@ -417,7 +480,6 @@
         }
     }
 
-    // 🔄 フィッシャー・イェーツによる高精度配列シャッフル（重複を完全回避）
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -436,7 +498,13 @@
             godLike: false, challenger: false
         },
         currentUserId: null, isSynced: false,
-        profile: { nickname: "", bannerTheme: "default" }
+        profile: { 
+            nickname: "", 
+            bannerTheme: "default",
+            bio: "合格目指して勉強中です！",
+            title: "駆け出しの学習者",
+            frame: "none"
+        }
     };
 
     let currentSession = { 
@@ -460,7 +528,18 @@
         { name: "Legend", min: 1300, color: "var(--rank-legend)", specialClass: "effect-legend" }
     ];
 
-    function getRankBadgeHTML(rankName) {
+    // 🏆 利用可能な称号リスト（RPに連動して解放）
+    const titleList = [
+        { name: "駆け出しの学習者", minRp: 0 },
+        { name: "二進法の旅人", minRp: 100 },
+        { name: "セキュア・ナイト", minRp: 300 },
+        { name: "マネジメント監督", minRp: 500 },
+        { name: "アルゴリズムの化身", minRp: 750 },
+        { name: "基本情報の覇王", minRp: 1000 },
+        { name: "グランド・レジェンド", minRp: 1300 }
+    ];
+
+    function getRankBadgeHTML(rankName, frameStyle = "none") {
         let badgeClass = "badge-bronze";
         let icon = "⚙️";
 
@@ -473,7 +552,7 @@
         }
 
         return `
-            <div class="rank-badge-container">
+            <div class="rank-badge-container frame-${frameStyle}">
                 <div class="rank-badge ${badgeClass}">
                     <span>${icon}</span>
                 </div>
@@ -500,6 +579,9 @@
                         state.rp = cloudData.rp || 100;
                         state.profile.nickname = cloudData.nickname || "";
                         state.profile.bannerTheme = cloudData.bannerTheme || "default";
+                        state.profile.bio = cloudData.bio || "合格目指して勉強中です！";
+                        state.profile.title = cloudData.title || "駆け出しの学習者";
+                        state.profile.frame = cloudData.frame || "none";
                         initSettingsInputs();
                     }
                 } catch(e) { console.error("Cloud load error:", e); }
@@ -532,7 +614,7 @@
 
             const d = Math.floor(distance / (1000 * 60 * 60 * 24));
             const h = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-            const m = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            const m = String(Math.floor((distance % (1000 * 60)) / (1000 * 60))).padStart(2, '0');
             const s = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
 
             const timerEl = document.getElementById('season-timer-display');
@@ -551,6 +633,10 @@
                 const parsed = JSON.parse(saved);
                 if(parsed.profile) {
                     if (!parsed.achievements) parsed.achievements = {};
+                    // 後から追加したパラメーターのフォールバック
+                    if (!parsed.profile.bio) parsed.profile.bio = "合格目指して勉強中です！";
+                    if (!parsed.profile.title) parsed.profile.title = "駆け出しの学習者";
+                    if (!parsed.profile.frame) parsed.profile.frame = "none";
                     state = parsed;
                 }
             } catch(e) {}
@@ -569,6 +655,9 @@
                 nickname: state.profile.nickname || "名無しの受験生",
                 rp: state.rp,
                 bannerTheme: state.profile.bannerTheme,
+                bio: state.profile.bio || "合格目指して勉強中です！",
+                title: state.profile.title || "駆け出しの学習者",
+                frame: state.profile.frame || "none",
                 updatedAt: new Date().getTime()
             }, { merge: true });
         } catch (e) { console.error("Firebase Sync Error: ", e); }
@@ -605,11 +694,81 @@
             const isMe = (p.uid === state.currentUserId);
             let pRank = getPlayerRankObject(p.rp, p.uid);
             let specialSpanClass = pRank.specialClass ? `class="${pRank.specialClass}"` : '';
-            html += `<tr class="${isMe ? 'user-row' : ''}"><td>#${idx + 1}</td><td>${p.nickname} ${isMe ? '(あなた)' : ''}</td><td><span ${specialSpanClass} style="color:${pRank.color}; font-weight:bold; font-size:12px;">${pRank.name}</span></td><td style="text-align:right; font-weight:bold;">${p.rp} RP</td></tr>`;
+            
+            // 称号（二つ名）のバッジ表示用
+            const pTitle = p.title ? `<div style="font-size: 10px; color: var(--text-muted); line-height:1;">${p.title}</div>` : '';
+
+            html += `
+                <tr class="${isMe ? 'user-row' : ''}" onclick="openProfileModal('${p.uid}')">
+                    <td>#${idx + 1}</td>
+                    <td>
+                        ${pTitle}
+                        <span style="font-size:14px; font-weight:bold;">${p.nickname || "名無しの受験生"}</span> ${isMe ? '(あなた)' : ''}
+                    </td>
+                    <td><span ${specialSpanClass} style="color:${pRank.color}; font-weight:bold; font-size:12px;">${pRank.name}</span></td>
+                    <td style="text-align:right; font-weight:bold;">${p.rp} RP</td>
+                </tr>
+            `;
         });
         html += `</tbody></table>`;
         document.getElementById('dash-leaderboard-container').innerHTML = html;
         document.getElementById('rank-leaderboard-container').innerHTML = html;
+    }
+
+    // 👤 他ユーザープロフィール（モーダル）表示処理
+    async function openProfileModal(uid) {
+        let user = onlineLeaderboardCache.find(p => p.uid === uid);
+        
+        // キャッシュにない場合はFirestoreから直接探す
+        if (!user && window.fb) {
+            try {
+                const docSnap = await window.fb.db.collection("users").doc(uid).get();
+                if (docSnap.exists) {
+                    user = docSnap.data();
+                }
+            } catch(e) { console.error("Failed to load clicked profile:", e); }
+        }
+
+        if (!user) {
+            // オフラインまたはローカルでの仮表示
+            if (uid === 'me' || uid === state.currentUserId) {
+                user = {
+                    uid: state.currentUserId || "LOCAL-PLAYER",
+                    nickname: state.profile.nickname || "名無しの受験生",
+                    rp: state.rp,
+                    bio: state.profile.bio,
+                    title: state.profile.title,
+                    frame: state.profile.frame,
+                    bannerTheme: state.profile.bannerTheme
+                };
+            } else {
+                alert("ユーザー情報の取得に失敗しました。");
+                return;
+            }
+        }
+
+        const uRank = getPlayerRankObject(user.rp, user.uid);
+        
+        // モーダルのDOM書き換え
+        const modal = document.getElementById('profile-modal');
+        document.getElementById('modal-banner').style.background = `var(--banner-${user.bannerTheme || 'default'})`;
+        document.getElementById('modal-nickname-display').innerText = user.nickname || "名無しの受験生";
+        document.getElementById('modal-id-display').innerText = `ID: ${user.uid}`;
+        document.getElementById('modal-title-display').innerText = user.title || "駆け出しの学習者";
+        
+        document.getElementById('modal-rank-display').innerText = uRank.name;
+        document.getElementById('modal-rank-display').style.color = uRank.color;
+        document.getElementById('modal-points-display').innerText = `${user.rp} RP`;
+        document.getElementById('modal-bio-display').innerText = user.bio || "よろしくお願いします！";
+        
+        // バッジ＋フレームのプレビュー
+        document.getElementById('modal-badge-container').innerHTML = getRankBadgeHTML(uRank.name, user.frame || "none");
+
+        modal.style.display = 'flex';
+    }
+
+    function closeProfileModal(event) {
+        document.getElementById('profile-modal').style.display = 'none';
     }
 
     function renderSyncPanel() {
@@ -645,6 +804,9 @@
                 state.rp = cloudData.rp || 100;
                 state.profile.nickname = cloudData.nickname || "";
                 state.profile.bannerTheme = cloudData.bannerTheme || "default";
+                state.profile.bio = cloudData.bio || "合格目指して勉強中です！";
+                state.profile.title = cloudData.title || "駆け出しの学習者";
+                state.profile.frame = cloudData.frame || "none";
                 initSettingsInputs();
                 alert("データを同期・復元しました！");
             } else { await pushDataToFirebase(); }
@@ -662,6 +824,24 @@
 
     function initSettingsInputs() {
         document.getElementById('setting-nickname').value = state.profile.nickname || "";
+        document.getElementById('setting-bio').value = state.profile.bio || "";
+        document.getElementById('setting-frame').value = state.profile.frame || "none";
+        
+        // 称号セレクトボックスの動的生成（RPに応じて解放）
+        const titleSelect = document.getElementById('setting-title');
+        titleSelect.innerHTML = "";
+        titleList.forEach(t => {
+            const isLocked = state.rp < t.minRp;
+            const opt = document.createElement('option');
+            opt.value = t.name;
+            opt.innerText = isLocked ? `🔒 ${t.name} (必要RP: ${t.minRp})` : `🔓 ${t.name}`;
+            opt.disabled = isLocked;
+            if (t.name === state.profile.title) {
+                opt.selected = true;
+            }
+            titleSelect.appendChild(opt);
+        });
+
         selectBannerTheme(state.profile.bannerTheme || "default");
     }
 
@@ -674,6 +854,12 @@
 
     async function saveSettings() {
         state.profile.nickname = document.getElementById('setting-nickname').value.trim();
+        state.profile.bio = document.getElementById('setting-bio').value.trim() || "よろしくお願いします！";
+        state.profile.frame = document.getElementById('setting-frame').value;
+        
+        const selectedTitle = document.getElementById('setting-title').value;
+        if (selectedTitle) state.profile.title = selectedTitle;
+
         saveLocalData();
         if(state.currentUserId) {
             await pushDataToFirebase();
@@ -714,6 +900,8 @@
         
         document.getElementById('global-points-display').innerText = `${state.rp} RP`;
         document.getElementById('dash-nickname-display').innerText = state.profile.nickname || "名無しの受験生";
+        document.getElementById('dash-title-display').innerText = `称号: ${state.profile.title || "駆け出しの学習者"}`;
+        document.getElementById('dash-bio-display').innerText = `一言: ${state.profile.bio || "合格目指して勉強中です！"}`;
         document.getElementById('dash-id-display').innerText = state.currentUserId ? `ID: ${state.currentUserId}` : "未同期（ランキング対象外）";
         
         const theme = state.profile.bannerTheme || "default";
@@ -723,7 +911,7 @@
 
         const badgeContainer = document.getElementById('dash-rank-badge-container');
         if (badgeContainer) {
-            badgeContainer.innerHTML = getRankBadgeHTML(currentRank.name);
+            badgeContainer.innerHTML = getRankBadgeHTML(currentRank.name, state.profile.frame || "none");
         }
 
         let categories = { tech: { correct: 0, total: 0 }, mgmt: { correct: 0, total: 0 }, strat: { correct: 0, total: 0 } };
@@ -814,6 +1002,7 @@
         const btn = document.querySelector(`button[onclick="switchTab('${tabId}')"]`);
         if(btn) btn.classList.add('active');
         document.getElementById(tabId).classList.add('active');
+        if(tabId === 'settings') initSettingsInputs();
         if((tabId === 'dashboard' || tabId === 'rank-mode') && window.fb) fetchOnlineLeaderboard();
     }
 
@@ -823,7 +1012,6 @@
         currentSession.startTime = Date.now();
         currentSession.questionStartTimes = [];
 
-        // 毎回完全にシャッフルされた400問以上の最新問題プールを用意
         generateLargeQuestionBank();
         shuffleArray(masterQuestionBank);
 
