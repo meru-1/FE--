@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基本情報技術者 科目A 試験対策マスター ONLINE</title>
+    <title>基本情報技術者 科目A 試験対策レジェンド ONLINE</title>
     <style>
         :root {
             --bg-main: #f4f7fc;
@@ -21,8 +21,7 @@
             --rank-goldmenkyo: #d69e2e;
             --rank-chukensha: #319795;
             --rank-diamond: #00bfff;
-            --rank-master: #9333ea;
-            --rank-legend: #ff4500;
+            --rank-legend: #ff4500; /* 旧Master帯も含めてLegendに統一 */
             --banner-default: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --banner-emerald: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             --banner-sunset: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
@@ -40,7 +39,9 @@
         .rank-info h2 { font-size: 24px; margin-bottom: 5px; }
         .user-title-tag { font-size: 12px; font-weight: bold; padding: 2px 8px; background: rgba(255,255,255,0.25); border-radius: 4px; display: inline-block; margin-bottom: 6px; }
         
-        /* 👑 デコレーションフレーム効果 */
+        /* -------------------------------------------------- */
+        /* ✨ ランクバッジ外枠 & 3Dコンテナ設計 */
+        /* -------------------------------------------------- */
         .rank-badge-container {
             display: flex;
             flex-direction: column;
@@ -48,32 +49,189 @@
             justify-content: center;
             perspective: 500px;
             z-index: 2;
-            padding: 10px;
+            padding: 18px;
             border-radius: 50%;
             transition: all 0.3s;
+            position: relative;
+            width: 130px;
+            height: 130px;
         }
 
-        /* 各種フレームの見た目 */
         .frame-none { border: 3px solid transparent; }
         .frame-neon { border: 3px solid #3182ce; box-shadow: 0 0 15px #3182ce, inset 0 0 15px #3182ce; background: rgba(49, 130, 206, 0.1); }
-        .frame-gold-aura { border: 3px solid #d69e2e; box-shadow: 0 0 20px #eab308, inset 0 0 10px #eab308; background: rgba(234, 179, 8, 0.1); }
+        /* 👑 ゴールデン・オーラ */
+        .frame-gold-aura { border: 3px solid #ffaa00; box-shadow: 0 0 25px #ffd700, inset 0 0 15px #ffd700; background: rgba(255, 215, 0, 0.15); animation: goldenPulse 2s infinite alternate; }
         .frame-sakura { border: 3px solid #fbb6ce; box-shadow: 0 0 15px #f687b3, inset 0 0 10px #fbb6ce; background: rgba(246, 135, 179, 0.1); }
 
-        .rank-badge {
+        @keyframes goldenPulse {
+            0% { box-shadow: 0 0 15px #ffd700, inset 0 0 10px #ffd700; }
+            100% { box-shadow: 0 0 30px #ffaa00, inset 0 0 20px #ffaa00; }
+        }
+
+        /* -------------------------------------------------- */
+        /* 🛡️ 新世代：3D・極尖ランクバッジグラフィックシステム */
+        /* -------------------------------------------------- */
+        
+        /* 1. 無知者 (ブロンズ盾 - 重量感あふれるベース) */
+        .badge-bronze { 
             width: 75px;
             height: 75px;
             position: relative;
-            background: rgba(30, 41, 59, 0.85);
-            border: 3px solid #64748b;
-            box-shadow: 0 0 15px rgba(100, 116, 139, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
             font-weight: bold;
-            transition: all 0.5s ease;
-            transform: rotateY(0deg);
+            border-radius: 10px 10px 25px 25px; 
+            border: 3px solid #cd7f32; 
+            box-shadow: 0 0 15px rgba(205, 127, 50, 0.6); 
+            color: #ffd79e; 
+            background: linear-gradient(135deg, #5c3a1a, #2d1a0b); 
             animation: badgeFloat 3s ease-in-out infinite alternate;
+        }
+        
+        /* 2. ホワイトサバイバー (シルバーアーチ - 鋭利なシールド) */
+        .badge-silver { 
+            width: 75px;
+            height: 75px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 50% 50% 10px 10px; 
+            border: 3px solid #cbd5e1; 
+            box-shadow: 0 0 18px rgba(203, 213, 225, 0.7); 
+            color: #ffffff; 
+            background: linear-gradient(135deg, #475569, #1e293b); 
+            animation: badgeFloat 3s ease-in-out infinite alternate;
+        }
+        
+        /* 3. ゴールド免許 (ゴールド・ペンタゴン - シャープカット) */
+        .badge-gold { 
+            width: 75px;
+            height: 75px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); 
+            border: 3px solid #eab308; 
+            box-shadow: 0 0 25px rgba(234, 179, 8, 0.8); 
+            color: #fffbeb; 
+            background: linear-gradient(135deg, #713f12, #422006); 
+            animation: badgeFloat 3s ease-in-out infinite alternate;
+        }
+        
+        /* 4. 中堅者 (プラチナ・ヘキサゴン - サイバーカット) */
+        .badge-platinum { 
+            width: 75px;
+            height: 75px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+            border: 3px solid #06b6d4; 
+            box-shadow: 0 0 28px rgba(6, 182, 212, 0.8); 
+            color: #ecfeff; 
+            background: linear-gradient(135deg, #164e63, #083344); 
+            animation: badgeFloat 3s ease-in-out infinite alternate;
+        }
+        
+        /* 5. DIAMOND (極光シアン・ローバス - 回転フローティング) */
+        .badge-diamond { 
+            width: 72px;
+            height: 72px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            transform: rotate(45deg); 
+            animation: badgeFloatDiamond 3s ease-in-out infinite alternate; 
+            border: 3px solid #00e1ff; 
+            box-shadow: 0 0 30px rgba(0, 191, 255, 0.9); 
+            color: #e6ffff; 
+            background: linear-gradient(135deg, #005f73, #0a1128); 
+            border-radius: 8px;
+        }
+        @keyframes badgeFloatDiamond { 
+            0% { transform: translateY(0px) rotate(45deg); } 
+            100% { transform: translateY(-6px) rotate(48deg); } 
+        }
+        .badge-diamond span { 
+            transform: rotate(-45deg); 
+            display: inline-block; 
+        }
+
+        /* 6. Legend (紅蓮鳳凰プレデター・レディアント仕様 - 超最上位) */
+        .badge-legend {
+            width: 75px;
+            height: 75px;
+            background: linear-gradient(135deg, #1a0000 0%, #ff003c 50%, #110003 100%);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            animation: pulse-red-predator 2s infinite ease-in-out;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 60, 0.9));
+            z-index: 5;
+        }
+
+        /* プレデター特有の禍々しく尖ったツノ・ウイングを疑似要素で両脇に配置 */
+        .badge-legend::before, .badge-legend::after {
+            content: '';
+            position: absolute;
+            background: #ff003c;
+            width: 90px;
+            height: 15px;
+            top: 28px;
+            left: -12px;
+            clip-path: polygon(0% 0%, 100% 40%, 80% 60%, 100% 100%, 30% 60%);
+            transform: rotate(-30deg);
+            filter: drop-shadow(0 0 8px #ff003c);
+            z-index: -1;
+        }
+        .badge-legend::after {
+            transform: scaleX(-1) rotate(-30deg);
+        }
+
+        /* レディアント・コア (インナークリスタル) */
+        .legend-core {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            background: #000;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border: 2px solid #ff003c;
+        }
+
+        .legend-core span {
+            color: #fff;
+            text-shadow: 0 0 8px #ff003c, 0 0 15px #ff003c;
+            font-style: italic;
+            letter-spacing: 1px;
+            animation: legendSpin 8s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes pulse-red-predator {
+            0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 15px rgba(255, 0, 60, 0.8)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 28px rgba(255, 0, 60, 1.2)) brightness(1.3); }
         }
 
         @keyframes badgeFloat {
@@ -81,13 +239,12 @@
             100% { transform: translateY(-6px) rotate(3deg); }
         }
 
-        .badge-bronze { border-radius: 10px; border-color: #cd7f32; box-shadow: 0 0 15px rgba(205, 127, 50, 0.8); color: #ffd79e; background: linear-gradient(135deg, #4a2e16, #2d1a0b); }
-        .badge-silver { border-radius: 50% 50% 0 0; border-color: #cbd5e1; box-shadow: 0 0 20px rgba(203, 213, 225, 0.8); color: #ffffff; background: linear-gradient(135deg, #475569, #1e293b); }
-        .badge-gold { clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); border-color: #eab308; box-shadow: 0 0 25px rgba(234, 179, 8, 0.9); color: #fffbeb; background: linear-gradient(135deg, #713f12, #422006); }
-        .badge-platinum { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border-color: #06b6d4; box-shadow: 0 0 30px rgba(6, 182, 212, 0.9); color: #ecfeff; background: linear-gradient(135deg, #164e63, #083344); }
-        .badge-diamond { transform: rotate(45deg); animation: badgeFloatDiamond 3s ease-in-out infinite alternate; border-color: #a855f7; box-shadow: 0 0 35px rgba(168, 85, 247, 1); color: #faf5ff; background: linear-gradient(135deg, #581c87, #3b0764); }
-        @keyframes badgeFloatDiamond { 0% { transform: translateY(0px) rotate(45deg); } 100% { transform: translateY(-6px) rotate(48deg); } }
-        .badge-diamond span { transform: rotate(-45deg); display: inline-block; }
+        @keyframes legendSpin {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        /* -------------------------------------------------- */
 
         .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .status-item { background: white; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid var(--border-color); }
@@ -149,7 +306,6 @@
         .history-list { font-size: 13px; }
         .history-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); }
 
-        /* 👥 プロフィール閲覧モーダル */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
         .modal-card { background: white; width: 90%; max-width: 480px; border-radius: 16px; overflow: hidden; animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; }
         @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -183,7 +339,7 @@
         </div>
 
         <div class="status-grid">
-            <div class="status-item"><span class="label">現在のランク</span><span class="value" id="global-rank-display">無知者</span></div>
+            <div class="status-item" id="global-rank-container"><span class="label">現在のランク</span><span class="value" id="global-rank-display">無知者</span></div>
             <div class="status-item"><span class="label">保有ポイント</span><span class="value" id="global-points-display">100 RP</span></div>
         </div>
 
@@ -290,7 +446,7 @@
                     <select id="setting-frame" class="setting-select">
                         <option value="none">装飾なし (標準枠)</option>
                         <option value="neon">🔋 ネオンブルー・オーラ</option>
-                        <option value="gold-aura">✨ ゴールデン・オーラ (ゴールド免許以上推奨)</option>
+                        <option value="gold-aura">✨ レジェンド・ゴールデン・オーラ (Legend到達推奨)</option>
                         <option value="sakura">🌸 桜吹雪 (合格祈願)</option>
                     </select>
                 </div>
@@ -309,7 +465,6 @@
     </div>
 </div>
 
-<!-- 👥 プロフィール閲覧用モーダルポップアップ -->
 <div id="profile-modal" class="modal-overlay" onclick="closeProfileModal(event)">
     <div class="modal-card" onclick="event.stopPropagation()">
         <button class="modal-close-btn" onclick="closeProfileModal(event)">✕</button>
@@ -396,17 +551,17 @@
 
     const seedQuestionTemplates = [
         { category: "tech", title: "AI・ディープラーニング", question: "ディープラーニング（深層学習）において、入力データの特徴量を自動的に抽出するために用いられる、多層の階層構造を持つニューラルネットワークの仕組みとして最も適切なものはどれか。", options: ["CNN（畳み込みニューラルネットワーク）", "決定木（Decision Tree）", "サポートベクターマシン（SVM）", "線形回帰分析"], answer: 0, explanation: "画像認識や特徴抽出に極めて優れ、多層構造を持つディープラーニングの代表的な仕組みがCNNです。", analogy: "人間の目の仕組みです。全体をぼんやり見るのではなく、縦の線、横の線、丸みといった「局所的な特徴」をパーツごとに畳み込んで識別していく高度な脳内ネットワークです。" },
-        { category: "tech", title: "セキュリティ: 暗号化技術", question: "ハイブリッド暗号方式において、送信者が「受信者の公開鍵」を使って暗号化する対象として、適切なものはどれか。", options: ["セッション鍵（共通鍵）", "送信者の秘密鍵", "受信者の秘密鍵", "平文のメッセージ本文"], answer: 0, explanation: "ハイブリッド暗号では、データ自体は高速な共通鍵（セッション鍵）で暗号化し、その共通鍵を受信者の公開鍵で安全に暗号化して配送します。", analogy: "宝箱の「ダイヤル式の鍵」を届ける方法です。大きな重いデータを送るためにダイヤル錠（共通鍵）をかけますが、そのダイヤル番号が盗まれないよう、相手専用の頑丈な金庫（公開鍵）に入れて送るイメージです。" },
+        { category: "tech", title: "セキュリティ: 暗号化技術", question: "ハイブリッド暗号方式において、送信者が「受信者の公開鍵」を使って暗号化する対象として、適切なものはどれか。", options: ["セッション鍵（共通鍵）", "送信者の秘密鍵", "受信者の秘密鍵", "平文 of メッセージ本文"], answer: 0, explanation: "ハイブリッド暗号では、データ自体は高速な共通鍵（セッション鍵）で暗号化し、その共通鍵を受信者の公開鍵で安全に暗号化して配送します。", analogy: "宝箱 of 「ダイヤル式の鍵」を届ける方法です。大きな重いデータを送るためにダイヤル錠（共通鍵）をかけますが、そのダイヤル番号が盗まれないよう、相手専用の頑丈な金庫（公開鍵）に入れて送るイメージです。" },
         { category: "tech", title: "クラウドサービス形態(PaaS)", question: "インターネット経由でITリソースを提供するモデルのうち、「アプリケーションの開発環境や実行環境（OSやミドルウェアなど）」を包括して提供するサービス形態はどれか。", options: ["PaaS (Platform as a Service)", "SaaS (Software as a Service)", "IaaS (Infrastructure as a Service)", "DXas (Digital Transformation as a Service)"], answer: 0, explanation: "PaaSは、アプリケーションを動かすための「土台・環境（Platform）」をインターネット越しに提供するサービスです。", analogy: "「キッチン付きのレンタルスペース」です。食材やレシピ（プログラム）を持ち込めば、ガスコンロや水道（OS・ミドルウェア）が最初から揃っているので、すぐに料理が作れる状態です。" },
         { category: "tech", title: "ネットワーク: DNSの役割", question: "インターネットにおけるDNS（Domain Name System）の主な役割として、適切なものはどれか。", options: ["ドメイン名（URLなど）とIPアドレスを相互に変換する", "MACアドレスからIPアドレスを自動的に割り当てる", "暗号化された通信経路（SSL/TLS）を確立する", "データパケットの最適なルーティングを行う"], answer: 0, explanation: "コンピュータが識別する数字のIPアドレスと、人間が読みやすいドメイン名を対応付けるシステムです。", analogy: "スマホの『連絡先アプリ』です。名前を押すと、裏で自動的に数字の電話番号へ変換して発信してくれる仕組みそのものです。" },
-        { category: "tech", title: "データベース: LEFT JOIN", question: "「社員テーブル」と「部署テーブル」を、部署コードをキーにしてLEFT OUTER JOIN（左外部結合）したときの結果の特徴はどれか。", options: ["社員テーブルにあるすべての社員が表示され、部署に所属していない社員の部署情報は空欄(NULL)になる", "両方のテーブルに共通して存在する部署コードのデータのみが抽出される", "部署テーブルにあるすべての部署が表示され、社員のいない部署は空欄になる", "重複する社員データがすべて排除され、ユニークなレコードのみになる"], answer: 0, explanation: "LEFT JOINは左側のテーブルの全データを維持し、右側に一致するものがなければ空（NULL）として結合します。", analogy: "全員強制参加の学校の出席簿に、希望者のみの部活名を合体させる状態です。部活入っていない生徒も名前は全員載りますが、部活名は「空欄」になります。" },
+        { category: "tech", title: "データベース: LEFT JOIN", question: "「社員テーブル」と「部署テーブル」を、部署コードをキーにしてLEFT OUTER JOIN（左外部結合）したときの結果の特徴はどれか。", options: ["社員テーブルにあるすべての社員が表示され、部署に所属していない社員の部署情報は空欄(NULL)になる", "両方のテーブルに共通して存在する部署コード의データのみが抽出される", "部署テーブルにあるすべての部署が表示され、社員のいない部署は空欄になる", "重複する社員データがすべて排除され、ユニークなレコードのみになる"], answer: 0, explanation: "LEFT JOINは左側のテーブルの全データを維持し、右側に一致するものがなければ空（NULL）として結合します。", analogy: "全員強制参加の学校の出席簿に、希望者のみの部活名を合体させる状態です。部活入っていない生徒も名前は全員載りますが、部活名は「空欄」になります。" },
         { category: "tech", title: "アルゴリズム: 二分探索", question: "ソート（並び替え）済みのデータ配列に対して、中央の値を確認して探索範囲を毎回半分に狭めていく探索アルゴリズムはどれか。", options: ["二分探索（バイナリサーチ）", "線形探索", "ハッシュ探索", "深さ優先探索"], answer: 0, explanation: "要素がソートされている場合、中央値と比較することで一回ごとに探索候補を1/2に削減していく高速な探索法です。", analogy: "辞書で「たわし」を探す時、適当に真ん中の「な行」を開き、「た」はそれより前だから後ろ半分は全て無視して捨てる、という半分ずつの絞り込みテクニックです。" },
-        { category: "tech", title: "セキュリティ: SQLインジェクション", question: "Webアプリケーションの入力フォーム等に、悪意のあるSQLコマンドを入力し、データベースを不正操作する攻撃はどれか。", options: ["SQLインジェクション", "クロスサイトスクリプティング（XSS）", "ブルートフォースアタック", "DoS攻撃"], answer: 0, explanation: "プログラムが想定していないSQL文を外部から注入し、データの改ざんや奪取を行う攻撃です。", analogy: "注文用紙の記入欄に、料理名ではなく「※この紙を見たら金庫の金をすべて客に渡せ」という命令を勝手に書き込んで店員を騙すような攻撃です。" },
+        { category: "tech", title: "セキュリティ: SQLインジェクション", question: "Webアプリケーションの入力フォーム等に、悪意のあるSQLコマンドを入力し、データベースを不正操作する攻撃はどれか。", options: ["SQLインジェクション", "クロスサイトスクリプティング（XSS）", "ブルートフォースアタック", "DoS攻撃"], answer: 0, explanation: "プログラムが想定していないSQL文を外部から注入し、データの改ざんや奪取を行う攻撃です。", analogy: "注文用紙の記入欄に、料理名ではなく「※この紙を見たら金庫の金をすべて客に渡せ」という命令を勝用に書き込んで店員を騙すような攻撃です。" },
         { category: "tech", title: "構造: カプセル化", question: "オブジェクト指向における「カプセル化」の目的として、最も適切なものはどれか。", options: ["オブジェクトの内部データと手続きを一体化し、外部から直接見えないように隠蔽して不正操作を防ぐ", "すべてのデータをグローバル変数にして、どこからでも自由に書き換えられるようにする", "プログラムの実行速度を物理的に2倍以上に高速化する", "一つのクラスから複数の異なるインスタンスを生成できないように制限をかける"], answer: 0, explanation: "データとそれを操作するメソッドを1つにまとめ、外部からの不要な直接アクセスを遮断して安全性を高めます。", analogy: "「自動販売機」です。自販機の中の現金や飲み物の在庫は外から触れません。「お金を入れてボタンを押す」だけで安全に機能するように閉じ込められています。" },
         { category: "tech", title: "ネットワーク: DHCP", question: "ネットワークに接続するコンピュータに対して、IPアドレスなどの設定情報を自動的に割り当てるプロトコルはどれか。", options: ["DHCP", "DNS", "SMTP", "FTP"], answer: 0, explanation: "DHCPは、端末がネットワークに接続した際に、空いているIPアドレスを自動的に貸し出す仕組みです。", analogy: "ホテルの「フロント」です。チェックインした客に、今空いている部屋の鍵（IPアドレス）を自動で割り振ってくれる係員です。" },
         { category: "tech", title: "ハードウェア: メモリ階層", question: "CPUと主記憶装置（メインメモリ）の間のアクセスタイムの差を埋め、高速化のために設けられる小型の記憶装置はどれか。", options: ["キャッシュメモリ", "バーチャルメモリ（仮想メモリ）", "SSD", "レジスタ"], answer: 0, explanation: "CPUに比べて低速なメインメモリへのアクセスを減らすため、よく使うデータを一時的に保持する超高速メモリです。", analogy: "「デスクの上の引き出し」です。奥の倉庫（メインメモリ）まで毎回物を取りに行くのは大変ので、よく使う筆記用具を手元の引き出しに置いておく状態です。" },
         { category: "tech", title: "セキュリティ: マルウェア", question: "感染すると、端末内のファイルを暗号化して勝手に使えない状態にし、復旧の対価として金銭を要求するマルウェアはどれか。", options: ["ランサムウェア", "ワーム", "スパイウェア", "トロイの木馬"], answer: 0, explanation: "Ransom（身代金）とSoftwareを組み合わせた造語で、データを人質に取る悪質なウイルスです。", analogy: "「勝手に部屋に侵入して金庫に南京錠をかけ、鍵が欲しければ金を払えと言ってくる誘拐犯」のようなウイルスです。" },
-        { category: "tech", title: "基本理論: 2進数変換", question: "10進数の「13」を8ビットの2進数で表現したものとして、正しいものはどれか。", options: ["00001101", "00001011", "00001110", "00001111"], answer: 0, explanation: "13を2で割り算していくと、8+4+1となるため、2進数では「1101」になります。", analogy: "1万円札、5千円札、千円札…の代わりに「8円玉、4円玉、2円玉、1円玉」の財布があるイメージです。13円を作るするには「8円1枚、4円1枚、1円1枚」が必要なので1101になります。" },
+        { category: "tech", title: "基本理論: 2進数変換", question: "10進数の「13」を8ビットの2進数で表現したものとして、正しいものはどれか。", options: ["00001101", "00001011", "00001110", "00001111"], answer: 0, explanation: "13を2で割り算していくと、8+4+1となるため、2進数では「1101」になります。", analogy: "1万円札、5千円札、千円札…の代わりに「8円玉、4円玉、2円玉、1円玉」の財布があるイメージです。13円を作るするには「8円1枚、4円1枚、1円1枚」が必要ので1101になります。" },
         { category: "mgmt", title: "マネジメント: アジャイル開発", question: "アジャイル開発手法の特徴として、最も適切なものはどれか。", options: ["システムを小さな機能単位に分割し、短い期間のサイクルを繰り返しながら開発・リリースしていく", "開発工程を要件定義、設計、製造、テストと厳格に分け、各工程を完了させてから次へ進む", "開発の初期段階で仕様を完全に固定し、変更を一切受け付けない", "成果物の品質テストをすべて自動化し、人間の介入を排除する"], answer: 0, explanation: "短いスパンで開発・評価を繰り返し、仕様変更に対して柔軟に適応していく開発手法です。", analogy: "長期間かけて完璧なフルコースの設計図を作って最後に提供するのがウォーターフォール。まず出来た小皿料理を出してみて、客の要望を聞きながら次の一皿を即座に作るのがアジャイルです。" },
         { category: "mgmt", title: "マネジメント: クリティカルパス", question: "プロジェクト管理において、「クリティカルパス」の説明として正しいものはどれか。", options: ["プロジェクト全体の期間を決定する、遅延が許されない最長の作業経路", "最も作業時間が短く、最も低コストで終わるルート", "不測の事態に備えて、作業を一時中断してよいバッファ時間のこと", "すべての作業を同時に並列処理するルート"], answer: 0, explanation: "プロジェクト全体の終了を決定づける最長の工程ルートのことで、ここにある作業が遅れると全体が遅れます。", analogy: "カレーを作る際、「米を炊く（45分）」と「具を煮る（30分）」を同時に始めます。具がどれだけ早くできても、米が炊けないと完成しません。この全体を引っ張る最長の時間がクリティカルパスです。" },
         { category: "mgmt", title: "マネジメント: ITILの目的", question: "ITサービスマネジメントのベストプラクティス（成功事例）を集めたフレームワークはどれか。", options: ["ITIL", "ISO9001", "SLA", "WBS"], answer: 0, explanation: "ITIL（Information Technology Infrastructure Library）は、ITサービスを安定・向上させるための世界的な教科書です。", analogy: "レストランの「接客マニュアルの決定版」です。世界中の繁盛店がやっている効率的なやり方をまとめたバイブルです。" },
@@ -415,7 +570,7 @@
         { category: "strat", title: "ストラテジ: 著作権法", question: "著作権法によるプログラムの保護範囲に関する記述のうち、適切なものはどれか。", options: ["プログラムのソースコード（表現）は保護されるが、アルゴリズム（解法）やプログラム言語自体は保護対象外である", "アルゴリズム（解法）自体も著作権法で強力に保護されるため、同じ計算方法を他人が使うことはできない", "開発したプログラムは、国への特許申請と登録が完了した時点から著作権が発生する", "プログラム言語の文法自体に著作権があるため、新しい言語を作るには許可必要である"], answer: 0, explanation: "著作権法は「具体的な表現」を保護する法律であり、アルゴリズムなどの「アイデア・仕組み」は保護対象外です。", analogy: "小説の「文章の丸コピー」は著作権違反ですが、「主人公が魔王を倒しに行く」という設定は誰が真似して書いても自由であることと同じです。" },
         { category: "strat", title: "ストラテジ: SWOT分析", question: "企業の経営戦略を立てるための「SWOT分析」において、外部環境のプラス要因とマイナス要因を表す組み合わせはどれか。", options: ["機会 ／ 脅威", "強み ／ 弱み", "強み ／ 脅威", "機会 ／ 弱み"], answer: 0, explanation: "SWOTのSとWは企業自身の内部環境、O（機会）とT（脅威）は市場や法律の変動などの外部環境を指します。", analogy: "自チームの「足が速い」「スタミナ不足」は自分たちの話。しかし「明日大雨が降る」「相手のエースが欠場」は、自分たちでは操作できない外の環境要因ですよね。" },
         { category: "strat", title: "ストラテジ: 不正競争防止法", question: "企業の秘密情報（営業秘密）を不正に取得・使用する行為を規制し、公正な競争を守る法律はどれか。", options: ["不正競争防止法", "個人情報保護法", "著作権法", "特許法"], answer: 0, explanation: "顧客名簿や門外不出のレシピなど、企業の利益につながる「営業秘密」を盗み出す行為を取り傷まる法律です。", analogy: "某ファストフード店の「秘伝のスパイスの配合比率」や、秘匿されたコーラのレシピをライバル社に転売するのを禁止する法律です。" },
-        { category: "strat", title: "ストラテジ: パレート図", question: "データを値の大きい順に棒グラフで並べ、その累積比率を折れ線グラフで組み合わせた、重要課題の特定に使う図はどれか。", options: ["パレート図", "散布図", "ヒストグラム", "レーダーチャート"], answer: 0, explanation: "パレート図は「全体の8割のトラブルは、2割の重要原因から発生している」という分析（80:20の法則）などに使われます。", analogy: "「お店のクレーム集計」です。件数が多い順に並べると、『接客態度』と『異物混入』の2つだけで全体の80%を占めている、といった重要箇所を暴き出すグラフです。" },
+        { category: "strat", title: "ストラテジ: パレート図", question: "データを値の大きい順に棒グラフで並べ、その累積比率を折れ線グラフで組み合わせた、重要課題の特定に使う図はどれか。", options: ["パレート図", "散布図", "ヒストグラム", "レーダーチャート"], answer: 0, explanation: "パレート図は「全体の8割のトラブルは、2割の重要原因から発生している」という分析（80:20の法則）などに使われます。", analogy: "「お店のクレーム集計」です。件数が多い順に並べると、『接客態度』と『異物混入』の2つだけで全体の80%を占めている, といった重要箇所を暴き出すグラフです。" },
         { category: "strat", title: "ストラテジ: BCP", question: "災害やテロなどの緊急事態が発生した際に、企業の重要業務を中断させず、早期に復旧させるための行動計画はどれか。", options: ["BCP（事業継続計画）", "M&A", "CSR", "ERP"], answer: 0, explanation: "BCP（Business Continuity Plan）は、予期せぬ大災害でも会社を潰さずに事業を継続させるためのバックアップ・避難計画です。", analogy: "「お家の防災避難マニュアル＋予備の備蓄」です。地震が起きた時、どこの避難所に集まってどう連絡を取り合うかを決めておく会社版の作戦です。" }
     ];
 
@@ -446,15 +601,15 @@
                 let selectedNet = networks[idCounter % networks.length];
                 let selectedDate = baseDates[idCounter % baseDates.length];
 
-                let alteredQuestion = base.question
-                    .replace("Aさん", `エンジニアの「開発チーム_${idCounter}」`)
-                    .replace("Bさん", `クライアント側の「認証ノード_${idCounter}」`)
-                    .replace("社員テーブル", `従業員人事マスター_${idCounter}`)
-                    .replace("部署テーブル", `所属部門管理テーブル_${idCounter}`)
-                    .replace("Webアプリケーション", `${selectedTech}`)
-                    .replace("悪意のあるSQLコマンド", `${selectedAttacker}による不正なSQL構文インジェクション`)
-                    .replace("インターネットにおける", `${selectedNet}内における`)
-                    .replace("プロジェクト管理", `${selectedDate}におけるプロジェクト管理`);
+                let alteredQuestion = (base.question || "")
+                    .replace(/Aさん/g, `エンジニアの「開発チーム_${idCounter}」`)
+                    .replace(/Bさん/g, `クライアント側の「認証ノード_${idCounter}」`)
+                    .replace(/社員テーブル/g, `従業員人事マスター_${idCounter}`)
+                    .replace(/部署テーブル/g, `所属部門管理テーブル_${idCounter}`)
+                    .replace(/Webアプリケーション/g, `${selectedTech}`)
+                    .replace(/悪意のあるSQLコマンド/g, `${selectedAttacker}による不正なSQL構文インジェクション`)
+                    .replace(/インターネットにおける/g, `${selectedNet}内における`)
+                    .replace(/プロジェクト管理/g, `${selectedDate}におけるプロジェクト管理`);
 
                 let detailCategory = "その他";
                 if (base.title.includes("セキュリティ")) detailCategory = "セキュリティ";
@@ -518,37 +673,66 @@
     let onlineLeaderboardCache = []; 
     let totalGlobalUsersCount = 1;
 
+    /* 👑 ランク定義からMasterを排除し、1000 RP以上を「Legend」に統合 */
     const ranks = [
         { name: "無知者", min: 0, color: "var(--rank-muchisha)" },
         { name: "ホワイトサバイバー", min: 150, color: "var(--rank-whitesurvivor)" },
         { name: "ゴールド免許", min: 300, color: "var(--rank-goldmenkyo)" },
         { name: "中堅者", min: 500, color: "var(--rank-chukensha)" },
         { name: "DIAMOND", min: 750, color: "var(--rank-diamond)" },
-        { name: "Master", min: 1000, color: "var(--rank-master)" },
-        { name: "Legend", min: 1300, color: "var(--rank-legend)", specialClass: "effect-legend" }
+        { name: "Legend", min: 1000, color: "var(--rank-legend)", specialClass: "effect-legend" }
     ];
 
-    // 🏆 利用可能な称号リスト（RPに連動して解放）
+    /* 👑 称号一覧の「基本情報の覇王」を「レジェンド・マスター」へ調整 */
     const titleList = [
         { name: "駆け出しの学習者", minRp: 0 },
         { name: "二進法の旅人", minRp: 100 },
         { name: "セキュア・ナイト", minRp: 300 },
         { name: "マネジメント監督", minRp: 500 },
         { name: "アルゴリズムの化身", minRp: 750 },
-        { name: "基本情報の覇王", minRp: 1000 },
+        { name: "レジェンド・マスター", minRp: 1000 },
         { name: "グランド・レジェンド", minRp: 1300 }
     ];
 
+    /* 🛠️ 【修正・最適化】各ランクバッジデザインを完全に差別化マッピング */
     function getRankBadgeHTML(rankName, frameStyle = "none") {
         let badgeClass = "badge-bronze";
-        let icon = "⚙️";
+        let isLegend = false;
+        let icon = "🌱"; // 無知者デフォルト
 
-        if (rankName.includes("ホワイトサバイバー")) { badgeClass = "badge-silver"; icon = "🛡️"; }
-        else if (rankName.includes("ゴールド免許")) { badgeClass = "badge-gold"; icon = "⚔️"; }
-        else if (rankName.includes("中堅者")) { badgeClass = "badge-platinum"; icon = "💎"; }
-        else if (rankName.includes("DIAMOND") || rankName.includes("Master") || rankName.includes("Legend")) {
-            badgeClass = "badge-diamond";
-            icon = "👑";
+        if (rankName.includes("ホワイトサバイバー")) { 
+            badgeClass = "badge-silver"; 
+            icon = "🛡️"; 
+        }
+        else if (rankName.includes("ゴールド免許")) { 
+            badgeClass = "badge-gold"; 
+            icon = "🚗"; 
+        }
+        else if (rankName.includes("中堅者")) { 
+            badgeClass = "badge-platinum"; 
+            icon = "⚔️"; 
+        }
+        else if (rankName.includes("DIAMOND")) { 
+            badgeClass = "badge-diamond"; 
+            icon = "💎"; 
+        }
+        else if (rankName.includes("Legend")) { 
+            isLegend = true;
+            badgeClass = "badge-legend"; 
+            icon = "👑"; 
+        }
+
+        // 最上位ランク（Legend）はプレデター/レディアント仕様の特別な多角形＆コア構成でレンダリング
+        if (isLegend) {
+            return `
+                <div class="rank-badge-container frame-${frameStyle}">
+                    <div class="rank-badge ${badgeClass}">
+                        <div class="legend-core">
+                            <span>${icon}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         return `
@@ -576,7 +760,7 @@
                     const docSnap = await docRef.get();
                     if (docSnap.exists) {
                         const cloudData = docSnap.data();
-                        state.rp = cloudData.rp || 100;
+                        state.rp = cloudData.rp !== undefined ? cloudData.rp : 100;
                         state.profile.nickname = cloudData.nickname || "";
                         state.profile.bannerTheme = cloudData.bannerTheme || "default";
                         state.profile.bio = cloudData.bio || "合格目指して勉強中です！";
@@ -633,7 +817,6 @@
                 const parsed = JSON.parse(saved);
                 if(parsed.profile) {
                     if (!parsed.achievements) parsed.achievements = {};
-                    // 後から追加したパラメーターのフォールバック
                     if (!parsed.profile.bio) parsed.profile.bio = "合格目指して勉強中です！";
                     if (!parsed.profile.title) parsed.profile.title = "駆け出しの学習者";
                     if (!parsed.profile.frame) parsed.profile.frame = "none";
@@ -674,11 +857,22 @@
         } catch(e) { console.error("Leaderboard fetch error: ", e); }
     }
 
+    /* 👑 1000 RP以上なら、オンラインキャッシュに関係なく「100% Legend」に固定するロジック */
     function getPlayerRankObject(points, uidToCheck) {
-        let targetIdx = onlineLeaderboardCache.findIndex(p => p.uid === uidToCheck);
-        if (targetIdx === -1) targetIdx = totalGlobalUsersCount; 
-        const percentage = (targetIdx + 1) / totalGlobalUsersCount;
-        if (points >= 1300 && percentage <= 0.01) return ranks[6];
+        if (points >= 1000) {
+            return ranks[5]; // Legend
+        }
+        
+        let percentage = 1.0; 
+        let hasLeaderboard = (onlineLeaderboardCache && onlineLeaderboardCache.length > 0);
+        
+        if (uidToCheck && hasLeaderboard) {
+            let targetIdx = onlineLeaderboardCache.findIndex(p => p.uid === uidToCheck);
+            if (targetIdx !== -1) {
+                percentage = (targetIdx + 1) / onlineLeaderboardCache.length;
+            }
+        }
+        
         for (let i = ranks.length - 2; i >= 0; i--) {
             if (points >= ranks[i].min) return ranks[i];
         }
@@ -694,8 +888,6 @@
             const isMe = (p.uid === state.currentUserId);
             let pRank = getPlayerRankObject(p.rp, p.uid);
             let specialSpanClass = pRank.specialClass ? `class="${pRank.specialClass}"` : '';
-            
-            // 称号（二つ名）のバッジ表示用
             const pTitle = p.title ? `<div style="font-size: 10px; color: var(--text-muted); line-height:1;">${p.title}</div>` : '';
 
             html += `
@@ -715,22 +907,16 @@
         document.getElementById('rank-leaderboard-container').innerHTML = html;
     }
 
-    // 👤 他ユーザープロフィール（モーダル）表示処理
     async function openProfileModal(uid) {
         let user = onlineLeaderboardCache.find(p => p.uid === uid);
-        
-        // キャッシュにない場合はFirestoreから直接探す
         if (!user && window.fb) {
             try {
                 const docSnap = await window.fb.db.collection("users").doc(uid).get();
-                if (docSnap.exists) {
-                    user = docSnap.data();
-                }
+                if (docSnap.exists) { user = docSnap.data(); }
             } catch(e) { console.error("Failed to load clicked profile:", e); }
         }
 
         if (!user) {
-            // オフラインまたはローカルでの仮表示
             if (uid === 'me' || uid === state.currentUserId) {
                 user = {
                     uid: state.currentUserId || "LOCAL-PLAYER",
@@ -748,20 +934,15 @@
         }
 
         const uRank = getPlayerRankObject(user.rp, user.uid);
-        
-        // モーダルのDOM書き換え
         const modal = document.getElementById('profile-modal');
         document.getElementById('modal-banner').style.background = `var(--banner-${user.bannerTheme || 'default'})`;
         document.getElementById('modal-nickname-display').innerText = user.nickname || "名無しの受験生";
         document.getElementById('modal-id-display').innerText = `ID: ${user.uid}`;
         document.getElementById('modal-title-display').innerText = user.title || "駆け出しの学習者";
-        
         document.getElementById('modal-rank-display').innerText = uRank.name;
         document.getElementById('modal-rank-display').style.color = uRank.color;
         document.getElementById('modal-points-display').innerText = `${user.rp} RP`;
         document.getElementById('modal-bio-display').innerText = user.bio || "よろしくお願いします！";
-        
-        // バッジ＋フレームのプレビュー
         document.getElementById('modal-badge-container').innerHTML = getRankBadgeHTML(uRank.name, user.frame || "none");
 
         modal.style.display = 'flex';
@@ -801,7 +982,7 @@
             const docSnap = await window.fb.db.collection("users").doc(state.currentUserId).get();
             if (docSnap.exists) {
                 const cloudData = docSnap.data();
-                state.rp = cloudData.rp || 100;
+                state.rp = cloudData.rp !== undefined ? cloudData.rp : 100;
                 state.profile.nickname = cloudData.nickname || "";
                 state.profile.bannerTheme = cloudData.bannerTheme || "default";
                 state.profile.bio = cloudData.bio || "合格目指して勉強中です！";
@@ -827,7 +1008,6 @@
         document.getElementById('setting-bio').value = state.profile.bio || "";
         document.getElementById('setting-frame').value = state.profile.frame || "none";
         
-        // 称号セレクトボックスの動的生成（RPに応じて解放）
         const titleSelect = document.getElementById('setting-title');
         titleSelect.innerHTML = "";
         titleList.forEach(t => {
@@ -836,9 +1016,7 @@
             opt.value = t.name;
             opt.innerText = isLocked ? `🔒 ${t.name} (必要RP: ${t.minRp})` : `🔓 ${t.name}`;
             opt.disabled = isLocked;
-            if (t.name === state.profile.title) {
-                opt.selected = true;
-            }
+            if (t.name === state.profile.title) { opt.selected = true; }
             titleSelect.appendChild(opt);
         });
 
@@ -893,10 +1071,17 @@
 
     function updateUI() {
         let currentRank = getPlayerRankObject(state.rp, state.currentUserId);
+        const rankDisplay = document.getElementById('global-rank-display');
 
-        document.getElementById('global-rank-display').innerText = currentRank.name;
-        document.getElementById('global-rank-display').style.color = currentRank.color;
-        document.getElementById('global-rank-display').className = currentRank.specialClass ? "status-item effect-legend" : "status-item";
+        rankDisplay.innerText = currentRank.name;
+        rankDisplay.style.color = currentRank.color;
+        
+        const rankContainer = document.getElementById('global-rank-container');
+        if (currentRank.specialClass) {
+            rankContainer.className = "status-item " + currentRank.specialClass;
+        } else {
+            rankContainer.className = "status-item";
+        }
         
         document.getElementById('global-points-display').innerText = `${state.rp} RP`;
         document.getElementById('dash-nickname-display').innerText = state.profile.nickname || "名無しの受験生";
@@ -910,9 +1095,7 @@
         cardEl.className = (theme === 'midnight') ? "card rank-display-box theme-midnight" : "card rank-display-box";
 
         const badgeContainer = document.getElementById('dash-rank-badge-container');
-        if (badgeContainer) {
-            badgeContainer.innerHTML = getRankBadgeHTML(currentRank.name, state.profile.frame || "none");
-        }
+        if (badgeContainer) { badgeContainer.innerHTML = getRankBadgeHTML(currentRank.name, state.profile.frame || "none"); }
 
         let categories = { tech: { correct: 0, total: 0 }, mgmt: { correct: 0, total: 0 }, strat: { correct: 0, total: 0 } };
         state.history.forEach(item => { if (categories[item.category]) { categories[item.category].total++; if (item.isCorrect) categories[item.category].correct++; } });
@@ -928,38 +1111,28 @@
             aiEl.innerHTML = "💡 <b>AIカルテ:</b> まだデータが不足しています。クイズに挑戦すると、回答速度と正答率から脳内チャートを緻密に分析します！";
         } else {
             const recentHistory = state.history.slice(-20);
-            
             let subStats = {};
             let slowQuestionsCount = 0; 
             
             recentHistory.forEach((h) => {
                 const sub = h.subCategory || "基礎知識";
-                if (!subStats[sub]) {
-                    subStats[sub] = { correct: 0, total: 0, totalTime: 0 };
-                }
+                if (!subStats[sub]) { subStats[sub] = { correct: 0, total: 0, totalTime: 0 }; }
                 subStats[sub].total++;
                 if (h.isCorrect) subStats[sub].correct++;
                 if (h.timeSpent) {
                     subStats[sub].totalTime += h.timeSpent;
-                    if (h.isCorrect && h.timeSpent > 15) {
-                        slowQuestionsCount++;
-                    }
+                    if (h.isCorrect && h.timeSpent > 15) { slowQuestionsCount++; }
                 }
             });
 
             let worstSub = null;
             let lowestRate = 1.1; 
-            
             for (let sub in subStats) {
                 let rate = subStats[sub].correct / subStats[sub].total;
-                if (rate < lowestRate) {
-                    lowestRate = rate;
-                    worstSub = sub;
-                }
+                if (rate < lowestRate) { lowestRate = rate; worstSub = sub; }
             }
 
             let adviceText = `📊 <b>AIパーソナル診断カルテ (直近データ分析)</b><br>`;
-            
             if (worstSub) {
                 const ratePercent = Math.round(lowestRate * 100);
                 adviceText += `🎯 現在の最優先克服テーマ: <b>「${worstSub}」</b> (直近正解率: ${ratePercent}%)<br>`;
@@ -986,7 +1159,6 @@
             } else {
                 adviceText += `<br><br>✨ <b>スピード評価:</b> 迷いなくスムーズに解答できています。テンポ抜群ですので、この調子で正確性をキープしてください！`;
             }
-
             aiEl.innerHTML = adviceText;
         }
 
@@ -1042,7 +1214,6 @@
 
         currentSession.questions.forEach((q, idx) => {
             currentSession.questionStartTimes[idx] = now;
-
             html += `
                 <div class="question-block" id="q-card-${idx}">
                     <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px; font-size:13px; color: var(--text-muted);">
@@ -1050,7 +1221,6 @@
                         <span style="color:var(--accent-blue)">分野: ${q.subCategory}</span>
                     </div>
                     <div class="question-text" style="font-size: 16px; font-weight: bold; margin-bottom: 15px;">${q.question}</div>
-                    
                     <div class="options-group">
                         ${q.options.map((opt, oIdx) => `
                             <label class="option-label" id="label-opt-${idx}-${oIdx}">
@@ -1081,9 +1251,7 @@
         let unanswered = [];
         for (let idx = 0; idx < total; idx++) {
             const checked = document.querySelector(`input[name="answer-for-${idx}"]:checked`);
-            if (!checked) {
-                unanswered.push(idx + 1);
-            }
+            if (!checked) { unanswered.push(idx + 1); }
         }
 
         if (unanswered.length > 0) {
@@ -1102,32 +1270,21 @@
             const secondsSpent = (endTime - currentSession.questionStartTimes[idx]) / 1000;
 
             document.querySelectorAll(`input[name="answer-for-${idx}"]`).forEach(input => input.disabled = true);
-
             const fbArea = document.getElementById(`feedback-area-${idx}`);
             fbArea.style.display = "block";
 
             if (isCorrect) {
                 correctCount++;
-                fbArea.innerHTML = `
-                    <div class="result-block res-correct">🎉 正解！ (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]})</div>
-                `;
+                fbArea.innerHTML = `<div class="result-block res-correct">🎉 正解！ (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]})</div>`;
                 state.wrongQuestions = state.wrongQuestions.filter(id => id !== q.id);
             } else {
-                fbArea.innerHTML = `
-                    <div class="result-block res-incorrect">❌ 不正解... (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]} / 正解: ${['ア', 'イ', 'ウ', 'エ'][q.answer]})</div>
-                `;
-                if (!state.wrongQuestions.includes(q.id)) {
-                    state.wrongQuestions.push(q.id);
-                }
+                fbArea.innerHTML = `<div class="result-block res-incorrect">❌ 不正解... (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]} / 正解: ${['ア', 'イ', 'ウ', 'エ'][q.answer]})</div>`;
+                if (!state.wrongQuestions.includes(q.id)) { state.wrongQuestions.push(q.id); }
             }
 
             fbArea.innerHTML += `
-                <div class="explanation-box">
-                    <b>🔍 分かりやすい解説:</b><br>${q.explanation}
-                </div>
-                <div class="analogy-box">
-                    <b>💡 イメージが湧く「例え話」:</b><br>${q.analogy}
-                </div>
+                <div class="explanation-box"><b>🔍 分かりやすい解説:</b><br>${q.explanation}</div>
+                <div class="analogy-box"><b>💡 イメージが湧く「例え話」:</b><br>${q.analogy}</div>
             `;
 
             currentSession.tempLogs.push({
@@ -1140,9 +1297,7 @@
             });
         });
 
-        currentSession.tempLogs.forEach(log => {
-            state.history.push(log);
-        });
+        currentSession.tempLogs.forEach(log => { state.history.push(log); });
 
         let rpChange = 0;
         if (mode === 'rank') {
@@ -1175,7 +1330,6 @@
                 <button class="btn-primary" style="max-width:280px; margin: 0 auto;" onclick="exitListSession('${mode}')">📊 ダッシュボードへ戻る</button>
             </div>
         `;
-
         actionArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
