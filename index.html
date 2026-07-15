@@ -28,15 +28,19 @@
             --banner-emerald: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             --banner-sunset: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
             --banner-midnight: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            
+            /* ✨ ランク解放によるかっこいい新規極秘テーマ */
+            --banner-cyberpunk: linear-gradient(135deg, #f107a3 0%, #7b2ff7 100%); /* MASTER以上 */
+            --banner-abyss-legend: radial-gradient(circle, #ff003c 0%, #1a0005 70%, #000000 100%); /* Legend限定 */
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; }
         body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; padding-bottom: 80px; }
-        header { background-color: #ffffff; border-bottom: 1px solid var(--border-color); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        header { background-color: #ffffff; border-bottom: 1px solid var(--border-color); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 18px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 8px; }
         .sync-badge { font-size: 12px; padding: 4px 8px; border-radius: 12px; color: white; font-weight: bold; }
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         .card { background: var(--card-bg); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
-        .rank-display-box { background: var(--banner-default); color: white; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s; position: relative; overflow: hidden; }
+        .rank-display-box { background: var(--banner-default); color: white; display: flex; justify-content: space-between; align-items: center; transition: background 0.5s ease-in-out; position: relative; overflow: hidden; }
         .theme-midnight { color: #e2e8f0; }
         .rank-info h2 { font-size: 24px; margin-bottom: 5px; }
         .user-title-tag { font-size: 12px; font-weight: bold; padding: 2px 8px; background: rgba(255,255,255,0.25); border-radius: 4px; display: inline-block; margin-bottom: 6px; }
@@ -208,6 +212,123 @@
         }
 
         /* -------------------------------------------------- */
+        /* 🏅 プロフィール装飾バッジ用の共通スタイル */
+        /* -------------------------------------------------- */
+        .profile-badges-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .equipped-badge-item {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: #fff;
+            border: 1.5px solid #cbd5e1;
+            transition: transform 0.2s;
+        }
+        .equipped-badge-item:hover {
+            transform: scale(1.1);
+        }
+        
+        /* 3Dバッジ風ミニ装飾 */
+        .equipped-badge-item .rank-badge-container {
+            width: 100% !important;
+            height: 100% !important;
+            padding: 2px !important;
+        }
+        .equipped-badge-item .rank-badge {
+            width: 26px !important;
+            height: 26px !important;
+            font-size: 0.8rem !important;
+            border-width: 1.5px !important;
+        }
+        .equipped-badge-item .badge-legend {
+            width: 28px !important;
+            height: 28px !important;
+            font-size: 0.8rem !important;
+        }
+        .equipped-badge-item .badge-legend::before, .equipped-badge-item .badge-legend::after {
+            width: 34px !important;
+            height: 6px !important;
+            top: 10px !important;
+        }
+        .equipped-badge-item .legend-core {
+            width: 18px !important;
+            height: 18px !important;
+        }
+        .equipped-badge-item .legend-core span {
+            font-size: 0.6rem;
+        }
+        .equipped-badge-item .badge-diamond {
+            width: 24px !important;
+            height: 24px !important;
+        }
+
+        /* 季節・アチーブバッジ用インナースタイル */
+        .badge-season-indicator {
+            position: absolute;
+            bottom: -3px;
+            right: -3px;
+            background: #ff003c;
+            color: white;
+            font-size: 7px;
+            font-weight: 900;
+            padding: 1px 3px;
+            border-radius: 4px;
+            border: 1px solid white;
+            line-height: 1;
+        }
+
+        /* バッジ選択グリッド */
+        .badge-select-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .badge-select-option {
+            border: 1px solid var(--border-color);
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 100px;
+        }
+        .badge-select-option.selected {
+            border-color: var(--accent-blue);
+            background: #ebf8ff;
+            box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5);
+        }
+        .badge-select-option.locked {
+            opacity: 0.5;
+            background: #f7fafc;
+            cursor: not-allowed;
+        }
+        .badge-select-option input[type="checkbox"] {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* -------------------------------------------------- */
 
         .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .status-item { background: white; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid var(--border-color); }
@@ -266,9 +387,10 @@
         .setting-row label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
         .setting-input { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 15px; }
         .setting-select { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 15px; background: white; }
-        .banner-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 5px; }
-        .banner-option { height: 40px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; }
+        .banner-selector { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 5px; }
+        .banner-option { height: 40px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; position: relative; }
         .banner-option.selected { border-color: var(--primary); box-shadow: 0 0 0 2px white inset; }
+        .banner-option.locked::after { content: '🔒'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px; }
         nav.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; z-index: 200; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
         .tab-btn { background: none; border: none; padding: 12px 0; width: 100%; font-size: 11px; font-weight: bold; color: var(--text-muted); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .tab-btn.active { color: var(--accent-blue); }
@@ -372,7 +494,11 @@
 
 <header>
     <div class="logo">🎯 FE試験対策 ONLINE <span style="font-size: 11px; background:#edf2f7; padding:2px 6px; border-radius:4px;" id="season-timer-display">⏳ 残り --日 --:--:--</span></div>
-    <div style="display: flex; align-items: center; gap: 10px;">
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <!-- 模擬シーズン更新トリガー（体験用） -->
+        <button class="btn-sync" style="background-color: #805ad5;" onclick="triggerSimulateSeasonEnd()">
+            <i class="fa-solid fa-forward"></i> 模擬シーズン更新(S0→S1)
+        </button>
         <button class="btn-sync-alt" style="background-color: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; padding: 4px 10px;" onclick="triggerCompleteReset()">
             <i class="fa-solid fa-right-from-bracket"></i> 一発初期化
         </button>
@@ -390,6 +516,9 @@
                 <h2 id="dash-nickname-display">名無しの受験生</h2>
                 <div style="font-size: 11px; opacity: 0.7;" id="dash-id-display"></div>
                 <p id="dash-bio-display" style="font-size: 12px; margin-top: 8px; opacity: 0.9; max-width: 250px; font-style: italic;">一言: 未設定</p>
+                
+                <!-- 👑 ダッシュボードのプロフィールに飾る最大5個のバッジコンテナ -->
+                <div class="profile-badges-row" id="dash-equipped-badges"></div>
             </div>
             <div id="dash-rank-badge-container"></div>
         </div>
@@ -419,7 +548,7 @@
                             <div class="progress-bar-bg"><div id="meter-strat" class="progress-bar-fill" style="background:#e53e3e;"></div></div>
                         </div>
                     </div>
-                    <div id="ai-advice" class="ai-box">💡 AI分析: データを収集しています。まずはクイズを1回解いてみましょう！</div>
+                    <div id="ai-advice" class="ai-box">💡 AI analysis: データを収集しています。まずはクイズを1回解いてみましょう！</div>
                 </div>
             </div>
             <div>
@@ -529,13 +658,24 @@
                         <option value="sakura">🌸 桜吹雪 (合格祈願)</option>
                     </select>
                 </div>
+
+                <!-- 🏅 追加：プロフィールに装備するバッジの選択（最大5個） -->
                 <div class="setting-row">
-                    <label>ダッシュボードの背景テーマ</label>
+                    <label>プロフィールに飾るバッジ (最大5個まで選択可能)</label>
+                    <div id="equipped-badge-count-notice" style="font-size:12px; color: var(--text-muted); margin-bottom: 5px;">現在の選択: 0/5 個</div>
+                    <div class="badge-select-grid" id="badge-selection-area"></div>
+                </div>
+
+                <div class="setting-row">
+                    <label>ダッシュボードの背景テーマ <span id="banner-restriction-notice" style="font-size:11px; color:var(--accent-red); font-weight:normal;"></span></label>
                     <div class="banner-selector">
                         <div id="b-opt-default" class="banner-option" style="background: var(--banner-default);" onclick="selectBannerTheme('default')"></div>
                         <div id="b-opt-emerald" class="banner-option" style="background: var(--banner-emerald);" onclick="selectBannerTheme('emerald')"></div>
                         <div id="b-opt-sunset" class="banner-option" style="background: var(--banner-sunset);" onclick="selectBannerTheme('sunset')"></div>
                         <div id="b-opt-midnight" class="banner-option" style="background: var(--banner-midnight);" onclick="selectBannerTheme('midnight')"></div>
+                        <!-- ✨ 高ランク解放テーマ -->
+                        <div id="b-opt-cyberpunk" class="banner-option" style="background: var(--banner-cyberpunk);" onclick="selectBannerTheme('cyberpunk')"></div>
+                        <div id="b-opt-abyss-legend" class="banner-option" style="background: var(--banner-abyss-legend);" onclick="selectBannerTheme('abyss-legend')"></div>
                     </div>
                 </div>
                 <button class="btn-primary" style="margin-top:10px;" onclick="saveSettings()">設定を保存する</button>
@@ -553,8 +693,11 @@
             <p id="modal-id-display" style="font-size:11px; opacity:0.7; margin-top:2px;"></p>
         </div>
         <div class="modal-body">
-            <div style="display:flex; justify-content:center; margin-bottom:15px;">
+            <div style="display:flex; justify-content:center; margin-bottom:15px; flex-direction:column; align-items:center;">
                 <div id="modal-badge-container"></div>
+                
+                <!-- 👑 モーダル内のプレイヤープロフィールに飾るバッジコンテナ -->
+                <div class="profile-badges-row" id="modal-equipped-badges" style="margin-top: 15px;"></div>
             </div>
             <div class="status-grid" style="margin-bottom:15px;">
                 <div class="status-item" style="padding:10px;"><span class="label" style="font-size:10px;">RPランク</span><span id="modal-rank-display" style="font-size:15px; font-weight:bold;">無知者</span></div>
@@ -628,9 +771,7 @@
         console.error("Firebase initialization failed: ", e);
     }
 
-    // 🌟 修正・追加：近年出やすい問題5問 + 過去問全体から定番5問 の計10問（高品質・完全オリジナル解説付き）
     const seedQuestionTemplates = [
-        // --- 【近年出やすい問題5問（最新トレンド）】 ---
         { 
             category: "tech", 
             title: "AI・大規模言語モデル", 
@@ -691,8 +832,6 @@
             explanation: "WPA3ではハンドシェイク段階にSAE方式を導入し、第三者によるパッシブなパケット盗聴によるパスワード解析（オフライン総当たり）に対する防御性能を大きく向上させています。", 
             analogy: "「入室時の暗号が、毎回その場で変わる最新の金庫」です。仮に外から暗号の手がかり（パケット）を盗み見られても、持ち帰ってじっくりパスワードを推測することが不可能な特殊な会話ルールになっている状態です。" 
         },
-
-        // --- 【過去問全体から厳選した定番問題5問（Classic）】 ---
         { 
             category: "tech", 
             title: "セキュリティ: ハイブリッド暗号", 
@@ -714,7 +853,7 @@
             options: ["01101001", "11101001", "01101000", "11101011"], 
             answer: 0, 
             explanation: "偶数パリティビットは、データ内の「1」の個数の合計が常に偶数個になるようにパリティビットの値を決めます。「1101001」は「1」が4つ（すでに偶数個）あるため、付加するパリティは「0」になり、結果は「01101001」となります。", 
-            analogy: "「人数を必ず偶数に調整するサークル」です。現在すでに4人のメンバー（偶数）が揃っているので、帳尻合わせのための補欠メンバー（パリティビット）は、これ以上人数を増やさないように『0』を配置するイメージです。" 
+            analogy: "「人数を必ず偶数に調整するサークル」です。現在すでに4人のメンバー（偶数）が揃っているので、帳ズル合わせのための補欠メンバー（パリティビット）は、これ以上人数を増やさないように『0』を配置するイメージです。" 
         },
         { 
             category: "tech", 
@@ -745,19 +884,17 @@
             question: "プロジェクト管理において、全体の遅延を防ぐために最も厳格な進捗監視が必要となる、マージン（余裕時間）がゼロである『最長の作業経路』を指す用語はどれか。", 
             options: ["クリティカルパス", "ガントチャート", "マイルストーン", "WBS"], 
             answer: 0, 
-            explanation: "クリティカルパスとは、プロジェクトの開始から終了までに最も時間がかかるボトルネックの工程経路のことで、この上の作業が1日遅れると、プロジェクト全体の完了も直ちに1日遅れてしまいます。", 
+            explanation: "クリティカルパスとは、プロジェクトの開始から終了までに最も時間がかかるボトルネック of 工程経路のことで、この上の作業が1日遅れると、プロジェクト全体の完了も直ちに1日遅れてしまいます。", 
             analogy: "「カレー作り」です。『お米を炊く（45分）』作業と『具材を切って煮る（30分）』作業を同時に始めるとき、いくら具材が早くできてもお米が炊けないとカレーは完成しません。お米を炊くこの45分間のルートが、全体の完成時間を支配するクリティカルパスです。" 
         }
     ];
 
     let masterQuestionBank = [];
     
-    // 🌟 修正：複製・置換を廃止し、上記10問をダイレクトに展開する形でプールを生成
     function generateLargeQuestionBank() {
         masterQuestionBank = [];
         let idCounter = 1;
         
-        // 10問の固定問題データをそのままマスターに流し込みます
         seedQuestionTemplates.forEach((base) => {
             let detailCategory = "その他";
             if (base.title.includes("セキュリティ")) detailCategory = "セキュリティ";
@@ -805,8 +942,13 @@
             bannerTheme: "default",
             bio: "合格目指して勉強中です！",
             title: "駆け出しの学習者",
-            frame: "none"
-        }
+            frame: "none",
+            equippedBadges: [] // 👑 装備中のバッジIDリスト（最大5個）
+        },
+        // 👑 シーズンとバッジ管理の追加ステート
+        currentSeason: 0,
+        unlockedBadges: [], // 獲得したバッジのリスト
+        seasonEndRanks: {} // キー: シーズン番号, 値: ランク名
     };
 
     let currentSession = { 
@@ -820,7 +962,6 @@
     let onlineLeaderboardCache = []; 
     let totalGlobalUsersCount = 1;
 
-    // 👑 修正・追加：全7段階への拡張
     const ranks = [
         { name: "無知者", min: 0, color: "var(--rank-muchisha)" },
         { name: "ホワイトサバイバー", min: 150, color: "var(--rank-whitesurvivor)" },
@@ -841,7 +982,6 @@
         { name: "グランド・レジェンド", minRp: 1300 }
     ];
 
-    // 🦾 演出用ポップアップ通知関数
     function showPopupNotification(text, className) {
         const popup = document.getElementById('visualFeedback');
         if (popup) {
@@ -851,7 +991,6 @@
         }
     }
 
-    // 🎉 演出用：最高ランク到達時の紙吹雪エフェクト
     function triggerConfettiEffect() {
         const colors = ['#ff003c', '#ffaa00', '#3182ce', '#38a169', '#d946ef', '#ffd700', '#00bff7'];
         for (let i = 0; i < 90; i++) {
@@ -866,9 +1005,8 @@
         }
     }
 
-    // 🚪 一発完全初期化ログアウト
     function triggerCompleteReset() {
-        if (confirm("🚨【一発初期化警告】\n現在のすべての正解履歴、実績アチーブメント、獲得RP、弱点プールをその場で1度に完全消去し、ローカルを完全初期化してログアウトします。よろしいですか？")) {
+        if (confirm("🚨【一発初期化警告】\n現在のすべての正解履歴、実績アチーブメント、獲得RP、弱点プール、シーズンバッジをその場で1度に完全消去し、ローカルを完全初期化してログアウトします。よろしいですか？")) {
             localStorage.removeItem('fe_master_online_v1');
             
             state.rp = 100;
@@ -880,9 +1018,13 @@
                 nickname: "名無しの受験生", 
                 bannerTheme: "default",
                 bio: "合格目指して勉強中です！",
-                title: "駆け出しの学習者",
-                frame: "none"
+                title: "駆け出し of Learners",
+                frame: "none",
+                equippedBadges: []
             };
+            state.currentSeason = 0;
+            state.unlockedBadges = [];
+            state.seasonEndRanks = {};
             for (let key in state.achievements) { state.achievements[key] = false; }
 
             saveLocalData();
@@ -893,6 +1035,43 @@
             
             showPopupNotification("🔄 Fully Reset & Logged Out", "clear-popup");
             switchTab('dashboard');
+        }
+    }
+
+    // 👑 模擬シーズン更新トリガー（体験用）- 特定ユーザー制限付き
+    function triggerSimulateSeasonEnd() {
+        const allowedId = "FE-915451";
+        
+        // 🔐 認証チェック
+        if (!state.currentUserId || state.currentUserId !== allowedId) {
+            alert(`⚠️ アクセス権限がありません。\nこのシミュレーター機能は、同期IDが「${allowedId}」の管理者アカウントでのみ実行可能です。\n（現在のID: ${state.currentUserId || "ローカルモード(未設定)"}）`);
+            return;
+        }
+
+        const currentRankObj = getPlayerRankObject(state.rp);
+        const activeSeason = state.currentSeason;
+        
+        if (confirm(`🏆【模擬シーズン更新シミュレート（管理者認証済）】\n現在の「シーズン ${activeSeason}」を終了し、「シーズン ${activeSeason + 1}」へ移行します！\n\n維持したランク「${currentRankObj.name}」が『シーズン ${activeSeason} ランク維持バッジ』として記念バッジ化されます。移行してよろしいですか？`)) {
+            // 前シーズンのランクを記録
+            state.seasonEndRanks[activeSeason] = currentRankObj.name;
+            
+            // バッジの自動解放ロジック
+            const badgeId = `season_${activeSeason}_rank`;
+            if (!state.unlockedBadges.includes(badgeId)) {
+                state.unlockedBadges.push(badgeId);
+            }
+            
+            // 新シーズンへ移行
+            state.currentSeason++;
+            
+            // RPをリセット（新シーズンの仕様として初期値100付近へソフトリセット）
+            state.rp = Math.max(100, Math.floor(state.rp * 0.4)); 
+            
+            saveLocalData();
+            updateUI();
+            triggerConfettiEffect();
+            showPopupNotification(`🎉 シーズン${state.currentSeason}開幕！記念バッジ獲得！`, 'success-popup');
+            alert(`🎉 新シーズン「シーズン ${state.currentSeason}」が始まりました！\n\n「設定」タブから「シーズン ${activeSeason} のランクバッジ」を最大5個の枠に自由に飾ることができます！`);
         }
     }
 
@@ -948,10 +1127,73 @@
         `;
     }
 
+    // 👑 プロフィール装飾バッジ用の静的マスターデータ設計
+    const dynamicBadgeDefinitions = [
+        // アチーブメント共有バッジ
+        { id: "badge_perfect", title: "完全無欠の証明", icon: "👑", desc: "10問テスト全問正解者", class: "achievement" },
+        { id: "badge_speedstar", title: "閃光の超越者", icon: "⚡", desc: "10問を30秒以内にクリア", class: "achievement" },
+        { id: "badge_legend100", title: "100問の探求者", icon: "🏆", desc: "累計解答100問を達成", class: "achievement" },
+        { id: "badge_techmaster", title: "神技のギーク", icon: "💻", desc: "テクノロジー系20問正解", class: "achievement" },
+        { id: "badge_points1000", title: "神無き領域の主", icon: "🔮", desc: "1000 RPに到達した証", class: "achievement" },
+        // オンラインバッジ
+        { id: "badge_online", title: "オンラインの証", icon: "☁️", desc: "オンライン同期を実行した開拓者", class: "special" }
+    ];
+
+    // 👑 プレイヤーが獲得＆装備している全バッジを描画する汎用システム
+    function renderPlayerBadges(targetContainerEl, badgeList, userFrame = "none") {
+        if (!targetContainerEl) return;
+        targetContainerEl.innerHTML = "";
+        
+        if (!badgeList || badgeList.length === 0) {
+            targetContainerEl.innerHTML = `<span style="font-size:11px; opacity:0.5; font-style:italic;">装備バッジなし</span>`;
+            return;
+        }
+
+        badgeList.forEach(badgeId => {
+            // 1. シーズンランク維持バッジの処理
+            if (badgeId.startsWith("season_")) {
+                const match = badgeId.match(/season_(\d+)_rank/);
+                if (match) {
+                    const seasonNum = match[1];
+                    const rankName = state.seasonEndRanks[seasonNum] || "無知者";
+                    
+                    const badgeItem = document.createElement("div");
+                    badgeItem.className = "equipped-badge-item";
+                    badgeItem.title = `シーズン ${seasonNum} 維持ランク: ${rankName}`;
+                    
+                    // 3Dアニメーション効果を完全に保ったまま極小レンダリング
+                    badgeItem.innerHTML = `
+                        ${getRankBadgeHTML(rankName, "none")}
+                        <span class="badge-season-indicator">S${seasonNum}</span>
+                    `;
+                    targetContainerEl.appendChild(badgeItem);
+                }
+            } else {
+                // 2. 一般・アチーブメント共有バッジの処理
+                const badgeDef = dynamicBadgeDefinitions.find(b => b.id === badgeId);
+                if (badgeDef) {
+                    const badgeItem = document.createElement("div");
+                    badgeItem.className = "equipped-badge-item";
+                    badgeItem.title = `${badgeDef.title}: ${badgeDef.desc}`;
+                    
+                    // 特別フレーム効果適用
+                    let extraStyle = "";
+                    if (badgeDef.class === "special") extraStyle = "border-color: #38a169; background: #f0fff4;";
+                    if (badgeDef.id === "badge_points1000") extraStyle = "border-color: #d946ef; background: #fdf4ff; font-weight:bold;";
+                    
+                    badgeItem.style = extraStyle;
+                    badgeItem.innerHTML = `
+                        <span style="font-size: 1.2rem;">${badgeDef.icon}</span>
+                    `;
+                    targetContainerEl.appendChild(badgeItem);
+                }
+            }
+        });
+    }
+
     async function initOnlineSystem() {
         console.log("⚡ オンライン動的クイズシステムを起動中...");
         
-        // 🛡️ 機能：重複ログイン常時相互監視 (BroadcastChannel)
         const loginChannel = new BroadcastChannel('dashboard_security_sync');
         loginChannel.postMessage({ type: 'CHECK_NEW_TAB_OPEN' });
         loginChannel.onmessage = function(e) {
@@ -977,12 +1219,25 @@
                     const docSnap = await docRef.get();
                     if (docSnap.exists) {
                         const cloudData = docSnap.data();
+                        
                         state.rp = cloudData.rp !== undefined ? cloudData.rp : 100;
-                        state.profile.nickname = cloudData.nickname || "";
+                        state.profile.nickname = cloudData.nickname || "名無しの受験生";
                         state.profile.bannerTheme = cloudData.bannerTheme || "default";
                         state.profile.bio = cloudData.bio || "合格目指して勉強中です！";
                         state.profile.title = cloudData.title || "駆け出しの学習者";
                         state.profile.frame = cloudData.frame || "none";
+                        state.profile.equippedBadges = cloudData.equippedBadges || [];
+                        
+                        // 👑 シーズン/バッジデータの同期
+                        state.currentSeason = cloudData.currentSeason !== undefined ? cloudData.currentSeason : 0;
+                        state.unlockedBadges = cloudData.unlockedBadges || [];
+                        state.seasonEndRanks = cloudData.seasonEndRanks || {};
+                        
+                        if (cloudData.achievements) state.achievements = { ...state.achievements, ...cloudData.achievements };
+                        if (cloudData.history) state.history = cloudData.history;
+                        if (cloudData.wrongQuestions) state.wrongQuestions = cloudData.wrongQuestions;
+                        
+                        saveLocalData(); 
                         initSettingsInputs();
                     }
                 } catch(e) { console.error("Cloud load error:", e); }
@@ -1023,7 +1278,7 @@
             const timerEl = document.getElementById('season-timer-display');
             const dashEl = document.getElementById('dash-countdown-text');
             if(timerEl) timerEl.innerText = `⏳ 残り ${d}日 ${h}:${m}:${s}`;
-            if(dashEl) dashEl.innerText = `⏰ シーズン終了まであと ${d}日 ${h}時間 ${m}分 ${s}秒`;
+            if(dashEl) dashEl.innerText = `⏰ シーズン${state.currentSeason}終了まであと ${d}日 ${h}時間 ${m}分 ${s}秒`;
         }
         setInterval(updateCountdown, 1000);
         updateCountdown();
@@ -1039,6 +1294,10 @@
                     if (!parsed.profile.bio) parsed.profile.bio = "合格目指して勉強中です！";
                     if (!parsed.profile.title) parsed.profile.title = "駆け出しの学習者";
                     if (!parsed.profile.frame) parsed.profile.frame = "none";
+                    if (!parsed.profile.equippedBadges) parsed.profile.equippedBadges = [];
+                    if (parsed.currentSeason === undefined) parsed.currentSeason = 0;
+                    if (!parsed.unlockedBadges) parsed.unlockedBadges = [];
+                    if (!parsed.seasonEndRanks) parsed.seasonEndRanks = {};
                     state = parsed;
                 }
             } catch(e) {}
@@ -1060,6 +1319,13 @@
                 bio: state.profile.bio || "合格目指して勉強中です！",
                 title: state.profile.title || "駆け出しの学習者",
                 frame: state.profile.frame || "none",
+                equippedBadges: state.profile.equippedBadges || [],
+                currentSeason: state.currentSeason,
+                unlockedBadges: state.unlockedBadges || [],
+                seasonEndRanks: state.seasonEndRanks || {},
+                achievements: state.achievements,
+                history: state.history,
+                wrongQuestions: state.wrongQuestions,
                 updatedAt: new Date().getTime()
             }, { merge: true });
         } catch (e) { console.error("Firebase Sync Error: ", e); }
@@ -1178,7 +1444,8 @@
                     bio: state.profile.bio,
                     title: state.profile.title,
                     frame: state.profile.frame,
-                    bannerTheme: state.profile.bannerTheme
+                    bannerTheme: state.profile.bannerTheme,
+                    equippedBadges: state.profile.equippedBadges || []
                 };
             } else {
                 alert("ユーザー情報の取得に失敗しました。");
@@ -1197,6 +1464,10 @@
         document.getElementById('modal-points-display').innerText = `${user.rp} RP`;
         document.getElementById('modal-bio-display').innerText = user.bio || "よろしくお願いします！";
         document.getElementById('modal-badge-container').innerHTML = getRankBadgeHTML(uRank.name, user.frame || "none");
+
+        // 👑 プロフィールモーダル内の装備バッジ表示
+        const modalBadgesContainer = document.getElementById('modal-equipped-badges');
+        renderPlayerBadges(modalBadgesContainer, user.equippedBadges || [], user.frame || "none");
 
         modal.style.display = 'flex';
     }
@@ -1224,38 +1495,143 @@
 
     async function accountLogin() {
         const idInput = document.getElementById('sync-user-id').value.trim();
+        let wasNewId = false;
         if(!idInput) {
             const randomId = "FE-" + Math.floor(100000 + Math.random() * 900000);
             state.currentUserId = randomId;
+            wasNewId = true;
             alert(`あなただけのオンラインIDを発行しました！\n【 ID: ${randomId} 】`);
         } else { state.currentUserId = idInput; }
+        
         saveLocalData();
         renderSyncPanel();
+        
         if (window.fb) {
             const docSnap = await window.fb.db.collection("users").doc(state.currentUserId).get();
             if (docSnap.exists) {
                 const cloudData = docSnap.data();
+                
                 state.rp = cloudData.rp !== undefined ? cloudData.rp : 100;
-                state.profile.nickname = cloudData.nickname || "";
+                state.profile.nickname = cloudData.nickname || "名無しの受験生";
                 state.profile.bannerTheme = cloudData.bannerTheme || "default";
                 state.profile.bio = cloudData.bio || "合格目指して勉強中です！";
                 state.profile.title = cloudData.title || "駆け出しの学習者";
                 state.profile.frame = cloudData.frame || "none";
+                state.profile.equippedBadges = cloudData.equippedBadges || [];
+                
+                state.currentSeason = cloudData.currentSeason !== undefined ? cloudData.currentSeason : 0;
+                state.unlockedBadges = cloudData.unlockedBadges || [];
+                state.seasonEndRanks = cloudData.seasonEndRanks || {};
+                
+                if (cloudData.achievements) state.achievements = { ...state.achievements, ...cloudData.achievements };
+                if (cloudData.history) state.history = cloudData.history;
+                if (cloudData.wrongQuestions) state.wrongQuestions = cloudData.wrongQuestions;
+                
+                saveLocalData();
                 initSettingsInputs();
-                alert("データを同期・復元しました！");
-                showPopupNotification("☁️ 同期完了", "success-popup");
-            } else { await pushDataToFirebase(); }
+                alert("クラウドから以前の全ての履歴・アチーブメントを安全に復元しました！");
+                showPopupNotification("☁️ 完全復元同期完了", "success-popup");
+            } else { 
+                // 新規アカウント登録時に特別バッジ付与
+                if (!state.unlockedBadges.includes("badge_online")) {
+                    state.unlockedBadges.push("badge_online");
+                }
+                await pushDataToFirebase(); 
+            }
             await fetchOnlineLeaderboard();
         }
         updateUI();
     }
 
     function accountLogout() {
-        state.currentUserId = null;
         saveLocalData();
+        state.currentUserId = null;
         renderSyncPanel();
         updateUI();
-        showPopupNotification("🚪 ログアウトしました", "info-popup");
+        showPopupNotification("🚪 安全にログアウトしました", "info-popup");
+    }
+
+    // 👑 プロフィール編集時のバッジ選択UIの描画と同期
+    function renderBadgeSelectionGrid() {
+        const area = document.getElementById('badge-selection-area');
+        if (!area) return;
+        area.innerHTML = "";
+
+        // 1. 一般バッジ（実績含む）
+        dynamicBadgeDefinitions.forEach(b => {
+            const isUnlocked = state.unlockedBadges.includes(b.id);
+            const isChecked = state.profile.equippedBadges.includes(b.id);
+            
+            const card = document.createElement('div');
+            card.className = `badge-select-option ${isUnlocked ? '' : 'locked'} ${isChecked ? 'selected' : ''}`;
+            
+            card.innerHTML = `
+                <input type="checkbox" data-badge-id="${b.id}" ${isUnlocked ? '' : 'disabled'} ${isChecked ? 'checked' : ''} onchange="handleBadgeSelectToggle(this)">
+                <div style="font-size:1.8rem; margin-bottom:5px;">${isUnlocked ? b.icon : '🔒'}</div>
+                <div style="font-weight:bold; font-size:11px;">${b.title}</div>
+                <div style="font-size:9px; color:var(--text-muted);">${b.desc}</div>
+            `;
+            area.appendChild(card);
+        });
+
+        // 2. シーズンランク維持バッジ（動的に保有している数だけ描画）
+        Object.keys(state.seasonEndRanks).forEach(seasonNum => {
+            const badgeId = `season_${seasonNum}_rank`;
+            const rankName = state.seasonEndRanks[seasonNum];
+            const isChecked = state.profile.equippedBadges.includes(badgeId);
+
+            const card = document.createElement('div');
+            card.className = `badge-select-option ${isChecked ? 'selected' : ''}`;
+            
+            card.innerHTML = `
+                <input type="checkbox" data-badge-id="${badgeId}" ${isChecked ? 'checked' : ''} onchange="handleBadgeSelectToggle(this)">
+                <div style="transform: scale(0.6); height: 50px; display:flex; align-items:center; justify-content:center;">
+                    ${getRankBadgeHTML(rankName, "none")}
+                </div>
+                <div style="font-weight:bold; font-size:11px;">シーズン ${seasonNum} ランク</div>
+                <div style="font-size:9px; color:var(--text-muted);">維持したランク: ${rankName}</div>
+            `;
+            area.appendChild(card);
+        });
+
+        updateBadgeCountNotice();
+    }
+
+    function updateBadgeCountNotice() {
+        const selectedCount = state.profile.equippedBadges.length;
+        const notice = document.getElementById('equipped-badge-count-notice');
+        if (notice) {
+            notice.innerText = `現在の選択: ${selectedCount}/5 個 (チェックをいれた順に飾られます)`;
+            if (selectedCount > 5) {
+                notice.style.color = 'var(--accent-red)';
+                notice.style.fontWeight = 'bold';
+            } else {
+                notice.style.color = 'var(--text-muted)';
+                notice.style.fontWeight = 'normal';
+            }
+        }
+    }
+
+    function handleBadgeSelectToggle(checkbox) {
+        const badgeId = checkbox.getAttribute('data-badge-id');
+        const isChecked = checkbox.checked;
+
+        if (isChecked) {
+            if (state.profile.equippedBadges.length >= 5) {
+                alert("🚨 プロフィールに飾れるバッジは最大5個までです。先に他のバッジのチェックを外してください。");
+                checkbox.checked = false;
+                return;
+            }
+            if (!state.profile.equippedBadges.includes(badgeId)) {
+                state.profile.equippedBadges.push(badgeId);
+            }
+        } else {
+            state.profile.equippedBadges = state.profile.equippedBadges.filter(id => id !== badgeId);
+        }
+
+        // ビジュアル選択状態をトグル
+        checkbox.closest('.badge-select-option').classList.toggle('selected', checkbox.checked);
+        updateBadgeCountNotice();
     }
 
     function initSettingsInputs() {
@@ -1277,410 +1653,545 @@
             });
         }
 
-        selectBannerTheme(state.profile.bannerTheme || "default");
+        const noticeEl = document.getElementById('banner-restriction-notice');
+        if (noticeEl) {
+            if (state.rp < 1000) {
+                noticeEl.innerText = " (※MASTER以上で限定テーマ解放！)";
+            } else if (state.rp < 1300) {
+                noticeEl.innerText = " (※Legend到達で伝説テーマ解放！)";
+            } else {
+                noticeEl.innerText = " (🎉全背景解放済み！)";
+            }
+        }
+
+        const bannerOpts = {
+            'cyberpunk': 1000,
+            'abyss-legend': 1300
+        };
+        for (let bKey in bannerOpts) {
+            const optEl = document.getElementById(`b-opt-${bKey}`);
+            if (optEl) {
+                if (state.rp < bannerOpts[bKey]) {
+                    optEl.classList.add('locked');
+                    optEl.style.opacity = '0.4';
+                } else {
+                    optEl.classList.remove('locked');
+                    optEl.style.opacity = '1';
+                }
+            }
+        }
+
+        document.querySelectorAll('.banner-option').forEach(el => el.classList.remove('selected'));
+        const activeOpt = document.getElementById(`b-opt-${state.profile.bannerTheme}`);
+        if(activeOpt) activeOpt.classList.add('selected');
+
+        renderBadgeSelectionGrid();
     }
 
-    function selectBannerTheme(themeName) {
-        state.profile.bannerTheme = themeName;
+    function selectBannerTheme(themeKey) {
+        const restrictions = { 'cyberpunk': 1000, 'abyss-legend': 1300 };
+        if (restrictions[themeKey] && state.rp < restrictions[themeKey]) {
+            alert(`🔒 このテーマをアンロックするには、更なる実績（${restrictions[themeKey]} RP以上）が必要です。`);
+            return;
+        }
+        state.profile.bannerTheme = themeKey;
         document.querySelectorAll('.banner-option').forEach(el => el.classList.remove('selected'));
-        const activeOpt = document.getElementById(`b-opt-${themeName}`);
-        if(activeOpt) activeOpt.classList.add('selected');
+        const optEl = document.getElementById(`b-opt-${themeKey}`);
+        if(optEl) optEl.classList.add('selected');
     }
 
     async function saveSettings() {
-        state.profile.nickname = document.getElementById('setting-nickname').value.trim();
-        state.profile.bio = document.getElementById('setting-bio').value.trim() || "よろしくお願いします！";
-        state.profile.frame = document.getElementById('setting-frame').value;
-        
-        const selectedTitle = document.getElementById('setting-title').value;
-        if (selectedTitle) state.profile.title = selectedTitle;
+        const nick = document.getElementById('setting-nickname').value.trim();
+        const bioText = document.getElementById('setting-bio').value.trim();
+        const titleVal = document.getElementById('setting-title').value;
+        const frameVal = document.getElementById('setting-frame').value;
+
+        if (nick.length > 14) { alert("ニックネームは最大14文字以下にしてください。"); return; }
+        if (bioText.length > 30) { alert("一言紹介は最大30文字以下にしてください。"); return; }
+
+        state.profile.nickname = nick || "名無しの受験生";
+        state.profile.bio = bioText || "合格目指して勉強中です！";
+        state.profile.title = titleVal;
+        state.profile.frame = frameVal;
 
         saveLocalData();
-        if(state.currentUserId) {
-            await pushDataToFirebase();
-            await fetchOnlineLeaderboard();
-        }
         updateUI();
-        showPopupNotification("⚙️ 設定を保存しました", "success-popup");
-        switchTab('dashboard');
+        await pushDataToFirebase();
+        await fetchOnlineLeaderboard();
+        showPopupNotification("💾 プロフィール設定を適用しました", "success-popup");
     }
 
-    function checkAchievementsLogic(correctCount, totalCount, mode) {
-        if(state.history.length >= 1) state.achievements.firstStep = true;
-        if(state.rp >= 150) state.achievements.rankUp = true;
-        if(state.rp >= 750) state.achievements.topRanker = true;
-        const totalSolved = state.history.length;
-        if (totalSolved >= 10) state.achievements.rookie10 = true;
-        if (totalSolved >= 50) state.achievements.veteran50 = true;
-        if (totalSolved >= 100) state.achievements.legend100 = true;
-        if (state.rp >= 1000) state.achievements.points1000 = true;
-        if (state.rp >= 1300) state.achievements.godLike = true;
-        if (correctCount === totalCount && totalCount >= 10) state.achievements.perfectScore = true;
-        if (mode === 'revenge' && correctCount >= 1) state.achievements.backFromHell = true;
-        if (mode === 'mock') state.achievements.challenger = true;
+    function updateUI() {
+        const uRank = getPlayerRankObject(state.rp, state.currentUserId);
+        
+        document.getElementById('dash-nickname-display').innerText = state.profile.nickname || "名無しの受験生";
+        document.getElementById('dash-title-display').innerText = `称号: ${state.profile.title || "駆け出しの学習者"}`;
+        document.getElementById('dash-id-display').innerText = state.currentUserId ? `同期ID: ${state.currentUserId}` : "👤 ローカル一時保存モード";
+        document.getElementById('dash-bio-display').innerText = `一言: ${state.profile.bio || "未設定"}`;
+        
+        const cardBg = document.getElementById('dash-rank-card');
+        cardBg.style.background = `var(--banner-${state.profile.bannerTheme})`;
+        if (state.profile.bannerTheme === 'midnight' || state.profile.bannerTheme === 'abyss-legend') {
+            cardBg.classList.add('theme-midnight');
+        } else {
+            cardBg.classList.remove('theme-midnight');
+        }
 
-        let categories = { tech: { correct: 0, total: 0 }, mgmt: { correct: 0, total: 0 }, strat: { correct: 0, total: 0 } };
-        state.history.forEach(item => { if (categories[item.category]) { categories[item.category].total++; if (item.isCorrect) categories[item.category].correct++; } });
-        if (categories.tech.correct >= 20) state.achievements.techMaster = true;
-        if (categories.mgmt.correct >= 15) state.achievements.mgmtMaster = true;
-        if (categories.strat.correct >= 15) state.achievements.stratMaster = true;
+        document.getElementById('global-rank-display').innerText = uRank.name;
+        document.getElementById('global-rank-display').style.color = uRank.color;
+        document.getElementById('global-points-display').innerText = `${state.rp} RP`;
+        
+        document.getElementById('dash-rank-badge-container').innerHTML = getRankBadgeHTML(uRank.name, state.profile.frame || "none");
+
+        // 👑 ダッシュボードのバッジ表示
+        const equippedBadgesRow = document.getElementById('dash-equipped-badges');
+        renderPlayerBadges(equippedBadgesRow, state.profile.equippedBadges || [], state.profile.frame || "none");
+
+        renderRecentHistory();
+        calcDomainProficiency();
+        renderBadgeSelectionGrid();
     }
 
-    const achievementConfig = [
-        { key: "firstStep", title: "最初の第一歩", desc: "演習セッションを1回完了する", icon: "🌱" },
-        { key: "rankUp", title: "サバイバー合格", desc: "ホワイトサバイバー級（150 RP）に到達する", icon: "🛡️" },
-        { key: "perfectScore", title: "完全無欠", desc: "10問演習でパーフェクト（10点満点）を達成する", icon: "👑" },
-        { key: "backFromHell", title: "地獄からの生還", desc: "弱点プールを1問以上正解しクリアする", icon: "⚡" },
-        { key: "rookie10", title: "駆け出しの解答者", desc: "累計解答問題数が10問に達する", icon: "📖" },
-        { key: "veteran50", title: "解答の実践者", desc: "累計解答問題数が50問に達する", icon: "📝" },
-        { key: "legend100", title: "世紀の求道者", desc: "累計解答問題数が100問に達する", icon: "🏆" },
-        { key: "points1000", title: "神無き領域の主", desc: "MASTERランク（1000 RP）に到達する", icon: "🔮" },
-        { key: "godLike", title: "レジェンド・降臨", desc: "最高位 Legend（1300 RP）に到達する", icon: "👑" },
-        { key: "challenger", title: "本番への挑戦者", desc: "模擬試験モードを1回最後まで完了する", icon: "⚔️" }
-    ];
+    function renderRecentHistory() {
+        const container = document.getElementById('history-list-container');
+        if (!container) return;
 
-    function renderAchievements() {
-        const container = document.getElementById('achievement-grid-container');
-        if(!container) return;
+        if (state.history.length === 0) {
+            container.innerHTML = `<p style="color:var(--text-muted); font-size:12px; text-align:center; padding:10px 0;">まだ解答履歴がありません。</p>`;
+            return;
+        }
 
-        let html = "";
-        achievementConfig.forEach(a => {
-            const unlocked = state.achievements[a.key] === true;
+        let html = '';
+        state.history.slice(-6).reverse().forEach(h => {
+            const dateStr = new Date(h.time).toLocaleDateString();
+            const scoreColor = h.score >= 70 ? 'var(--accent-green)' : h.score >= 50 ? 'var(--accent-blue)' : 'var(--accent-red)';
             html += `
-                <div class="achievement-card ${unlocked ? 'unlocked' : ''}">
-                    <div class="achievement-icon">${a.icon}</div>
-                    <div style="font-weight:bold; font-size:14px; margin-bottom:4px;">${a.title}</div>
-                    <div style="font-size:11px; color:var(--text-muted); line-height:1.3;">${a.desc}</div>
+                <div class="history-item">
+                    <span>${dateStr} (${h.mode === 'rank' ? '🔴ランク' : h.mode === 'mock' ? '🟣模擬' : '🟢通常'})</span>
+                    <span style="font-weight:bold; color:${scoreColor}">${h.score}点</span>
                 </div>
             `;
         });
         container.innerHTML = html;
     }
 
-    // --- JavaScript後半のコアロジック補完 ＆ バグ修正 ---
-    function switchTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-        
-        const targetTab = document.getElementById(tabId);
-        if (targetTab) targetTab.classList.add('active');
-        
-        // ナビゲーションのボタンのアクティブ表示切替
-        const navIndexMap = { 'dashboard': 0, 'quiz-modes': 1, 'rank-mode': 2, 'achievements': 3, 'settings': 4 };
-        const buttons = document.querySelectorAll('.tab-btn');
-        if (buttons[navIndexMap[tabId]]) {
-            buttons[navIndexMap[tabId]].classList.add('active');
+    function calcDomainProficiency() {
+        let techTotal = 0, techCorrect = 0;
+        let mgmtTotal = 0, mgmtCorrect = 0;
+        let stratTotal = 0, stratCorrect = 0;
+
+        state.history.forEach(session => {
+            if (session.details) {
+                session.details.forEach(q => {
+                    if (q.category === 'tech') {
+                        techTotal++;
+                        if (q.isCorrect) techCorrect++;
+                    } else if (q.category === 'mgmt') {
+                        mgmtTotal++;
+                        if (q.isCorrect) mgmtCorrect++;
+                    } else if (q.category === 'strat') {
+                        stratTotal++;
+                        if (q.isCorrect) stratCorrect++;
+                    }
+                });
+            }
+        });
+
+        const techRate = techTotal > 0 ? Math.round((techCorrect / techTotal) * 100) : 0;
+        const mgmtRate = mgmtTotal > 0 ? Math.round((mgmtCorrect / mgmtTotal) * 100) : 0;
+        const stratRate = stratTotal > 0 ? Math.round((stratCorrect / stratTotal) * 100) : 0;
+
+        document.getElementById('meter-tech-val').innerText = `${techRate}%`;
+        document.getElementById('meter-tech').style.width = `${techRate}%`;
+        document.getElementById('meter-mgmt-val').innerText = `${mgmtRate}%`;
+        document.getElementById('meter-mgmt').style.width = `${mgmtRate}%`;
+        document.getElementById('meter-strat-val').innerText = `${stratRate}%`;
+        document.getElementById('meter-strat').style.width = `${stratRate}%`;
+
+        // AIのアドバイステキスト生成
+        const adviceEl = document.getElementById('ai-advice');
+        if (state.history.length === 0) {
+            adviceEl.innerText = "💡 AI analysis: まだ学習データが足りません。練習問題やランクマッチを1回以上解いてみましょう！";
+        } else {
+            let lowest = { name: "テクノロジ系", val: techRate };
+            if (mgmtRate < lowest.val) lowest = { name: "マネジメント系", val: mgmtRate };
+            if (stratRate < lowest.val) lowest = { name: "ストラテジ系", val: stratRate };
+
+            if (lowest.val < 50) {
+                adviceEl.innerText = `💡 AI analysis: 現在「${lowest.name}」の正答率が${lowest.val}%とやや低迷しています。通常演習でこの分野を選択的に解くか、解説を熟読してみましょう！`;
+            } else if (state.rp >= 1300) {
+                adviceEl.innerText = `💡 AI analysis: 素晴らしい！Legendランクに到達したあなたの網羅性は極めて高いです。引き続きこの調子で、模擬試験モード等での100点維持を目指しましょう！`;
+            } else {
+                adviceEl.innerText = `💡 AI analysis: 全体的にバランスよく学習が進んでいます。苦手な問題は「弱点リベンジ」モードで克服できます。この調子でRPを積み上げましょう！`;
+            }
+        }
+    }
+
+    function renderAchievements() {
+        const container = document.getElementById('achievement-grid-container');
+        if (!container) return;
+
+        const achDefs = [
+            { id: "firstStep", icon: "🌱", title: "第一歩の開拓", desc: "通常演習またはランクマッチを1回完了する" },
+            { id: "rankUp", icon: "🛡️", title: "サバイバーの目覚め", desc: "初期の無知者ランクを脱出する" },
+            { id: "perfectScore", icon: "👑", desc: "10問テストで全問正解の100点満点を獲得する", badgeAward: "badge_perfect" },
+            { id: "revengeKing", icon: "⚡", title: "不屈の精神", desc: "リベンジ演習を合計5問以上正解して克服する" },
+            { id: "grandMaster", icon: "🔮", desc: "累計RPが1000（MASTER）に到達する", badgeAward: "badge_points1000" },
+            { id: "continuousRunner", icon: "🏃", title: "継続は力なり", desc: "履歴内の学習セッションが累計10回を超える" },
+            { id: "speedStar", icon: "⚡", desc: "1つの演習セッション（10問）を150秒以内にスピードクリアする", badgeAward: "badge_speedstar" },
+            { id: "topRanker", icon: "🥇", title: "エリートの証明", desc: "世界ランキングでTOP5に名を連ねる" },
+            { id: "legend100", icon: "🏆", desc: "正誤を問わず、問題累計解答数が100問を突破する", badgeAward: "badge_legend100" },
+            { id: "techMaster", icon: "💻", desc: "テクノロジー系の問題を累計20問以上正解する", badgeAward: "badge_techmaster" }
+        ];
+
+        let html = '';
+        achDefs.forEach(a => {
+            const unlocked = state.achievements[a.id] === true;
+            html += `
+                <div class="achievement-card ${unlocked ? 'unlocked' : ''}">
+                    <div class="achievement-icon">${unlocked ? a.icon : '🔒'}</div>
+                    <h4 style="font-size:13px; margin-bottom:5px;">${a.title || (unlocked ? a.badgeAward && dynamicBadgeDefinitions.find(b=>b.id===a.badgeAward).title : "？？？？")}</h4>
+                    <p style="font-size:11px; color:var(--text-muted);">${a.desc}</p>
+                    ${unlocked && a.badgeAward ? `<div style="font-size:10px; color:var(--accent-green); font-weight:bold; margin-top:5px;">🏅 バッジ獲得済</div>` : ''}
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function checkAchievementsOnSessionEnd(score, timeSpentSec, domainDetails) {
+        let changed = false;
+
+        // 1. firstStep
+        if (!state.achievements.firstStep) {
+            state.achievements.firstStep = true;
+            changed = true;
+            showPopupNotification("🏅 アチーブメント：『第一歩の開拓』解除！", "success-popup");
         }
 
+        // 2. perfectScore
+        if (score === 100 && !state.achievements.perfectScore) {
+            state.achievements.perfectScore = true;
+            changed = true;
+            unlockSystemBadge("badge_perfect");
+            showPopupNotification("👑 アチーブメント：『完全無欠の証明』解除！", "success-popup");
+        }
+
+        // 3. continuousRunner
+        if (state.history.length >= 10 && !state.achievements.continuousRunner) {
+            state.achievements.continuousRunner = true;
+            changed = true;
+            showPopupNotification("🏅 アチーブメント：『継続は力なり』解除！", "success-popup");
+        }
+
+        // 4. speedStar (10問、150秒以下)
+        if (timeSpentSec <= 150 && !state.achievements.speedStar) {
+            state.achievements.speedStar = true;
+            changed = true;
+            unlockSystemBadge("badge_speedstar");
+            showPopupNotification("⚡ アチーブメント：『閃光の超越者』解除！", "success-popup");
+        }
+
+        // 累計解答数の算出
+        let totalAnswerCount = 0;
+        let techCorrectCount = 0;
+        state.history.forEach(h => {
+            if(h.details) {
+                totalAnswerCount += h.details.length;
+                h.details.forEach(d => {
+                    if (d.category === 'tech' && d.isCorrect) techCorrectCount++;
+                });
+            }
+        });
+
+        // 5. legend100
+        if (totalAnswerCount >= 100 && !state.achievements.legend100) {
+            state.achievements.legend100 = true;
+            changed = true;
+            unlockSystemBadge("badge_legend100");
+            showPopupNotification("🏆 アチーブメント：『100問の探求者』解除！", "success-popup");
+        }
+
+        // 6. techMaster
+        if (techCorrectCount >= 20 && !state.achievements.techMaster) {
+            state.achievements.techMaster = true;
+            changed = true;
+            unlockSystemBadge("badge_techmaster");
+            showPopupNotification("💻 アチーブメント：『神技のギーク』解除！", "success-popup");
+        }
+
+        // 7. rankUp
+        const currentRankObj = getPlayerRankObject(state.rp);
+        if (currentRankObj.name !== "無知者" && !state.achievements.rankUp) {
+            state.achievements.rankUp = true;
+            changed = true;
+            showPopupNotification("🛡️ アチーブメント：『サバイバーの目覚め』解除！", "success-popup");
+        }
+
+        // 8. grandMaster & points1000
+        if (state.rp >= 1000 && !state.achievements.grandMaster) {
+            state.achievements.grandMaster = true;
+            changed = true;
+            unlockSystemBadge("badge_points1000");
+            showPopupNotification("🔮 アチーブメント：『神無き領域の主』解除！", "success-popup");
+        }
+
+        if (changed) {
+            saveLocalData();
+            renderAchievements();
+        }
+    }
+
+    function unlockSystemBadge(badgeId) {
+        if (!state.unlockedBadges.includes(badgeId)) {
+            state.unlockedBadges.push(badgeId);
+        }
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
+        const activeTab = document.getElementById(tabId);
+        if (activeTab) {
+            activeTab.classList.add('active');
+        }
+
+        const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
+        if (activeBtn) {
+            activeBtn.classList.add('active');
+        }
+
+        // 設定タブ表示時にフォーム初期化
         if (tabId === 'settings') {
             initSettingsInputs();
         }
     }
 
+    // --- クイズエンジン（演習システム） ---
     function startListSession(mode) {
-        currentSession.mode = mode;
-        currentSession.startTime = new Date().getTime();
-        currentSession.tempLogs = [];
-        currentSession.questionStartTimes = [];
-
-        let targetQuestions = [];
+        let questionPool = [];
+        
         if (mode === 'revenge') {
             if (state.wrongQuestions.length === 0) {
-                alert("現在、弱点プールに登録されている問題はありません。間違えた問題が自動でここにストックされます。");
+                alert("🎉 現在、弱点プールは空っぽです！間違えた問題が発生すると自動でここに蓄積されます。");
                 return;
             }
-            targetQuestions = [...state.wrongQuestions];
-        } else if (mode === 'mock') {
-            targetQuestions = [...masterQuestionBank]; // 10問全問を出題
+            // 弱点プールからシャッフルして最大10問抽出
+            const ids = [...state.wrongQuestions];
+            shuffleArray(ids);
+            const selectedIds = ids.slice(0, 10);
+            selectedIds.forEach(id => {
+                const found = masterQuestionBank.find(q => q.id === id);
+                if (found) questionPool.push(found);
+            });
         } else {
-            // 通常・ランクはシャッフルして最大10問
-            targetQuestions = shuffleArray([...masterQuestionBank]).slice(0, 10);
+            // 通常、ランク、模擬はマスターバンクを複製してシャッフル
+            questionPool = [...masterQuestionBank];
+            shuffleArray(questionPool);
+            questionPool = questionPool.slice(0, 10);
         }
 
-        currentSession.questions = targetQuestions;
+        currentSession = {
+            mode: mode,
+            questions: questionPool,
+            startTime: new Date().getTime(),
+            tempLogs: [],
+            questionStartTimes: []
+        };
 
-        // クイズ導入画面を非表示にして、クイズ進行エリアを表示する
-        document.getElementById(`${mode}-intro`).style.display = 'none';
-        const quizArea = document.getElementById(`${mode}-quiz-area`);
-        quizArea.style.display = 'block';
-
-        renderQuizArea(mode);
+        const listContainerId = `${mode}-quiz-area`;
+        const introContainerId = `${mode}-intro`;
+        
+        const listContainer = document.getElementById(listContainerId);
+        const introContainer = document.getElementById(introContainerId);
+        
+        if (introContainer) introContainer.style.display = 'none';
+        if (listContainer) {
+            listContainer.style.display = 'block';
+            renderSessionQuestionsHTML(listContainer);
+        }
     }
 
-    function renderQuizArea(mode) {
-        const quizArea = document.getElementById(`${mode}-quiz-area`);
-        let html = `<h2 style="margin-bottom:15px; border-bottom:2px solid var(--accent-blue); padding-bottom:8px;">🎯 進行中: ${mode === 'rank' ? 'ランクマッチ' : mode === 'mock' ? '模擬試験' : mode === 'revenge' ? '弱点克服' : '通常演習'}</h2>`;
-        
-        currentSession.questions.forEach((q, idx) => {
-            currentSession.questionStartTimes[idx] = new Date().getTime();
+    function renderSessionQuestionsHTML(containerEl) {
+        let html = `<h2>${currentSession.mode === 'rank' ? '🔥 ランクマッチ' : currentSession.mode === 'mock' ? '📝 本試験模擬テスト' : currentSession.mode === 'revenge' ? '⚡ 弱点リベンジ' : '🌱 通常トレーニング'} (全${currentSession.questions.length}問)</h2><p style="color:var(--text-muted); font-size:12px; margin-bottom:20px;">回答を選んだ後、「正誤判定」を押すと解説が表示されます。すべての判定を終えると最終結果を送信できます。</p>`;
+
+        currentSession.questions.forEach((q, index) => {
+            currentSession.questionStartTimes.push(new Date().getTime());
+            currentSession.tempLogs.push({ qId: q.id, answered: null, isCorrect: false });
+
             html += `
-                <div class="question-block" id="q-block-${idx}">
-                    <div class="question-num">第 ${idx + 1} 問 / 全 ${currentSession.questions.length} 問 [分野: ${q.subCategory}]</div>
+                <div class="question-block" id="qb-${index}">
+                    <div class="question-num">第 ${index + 1} 問 / 分野: ${q.subCategory}</div>
                     <div class="question-text">${q.question}</div>
                     <div class="options-group">
-                        ${q.options.map((opt, oIdx) => `
-                            <label class="option-label" id="label-${idx}-${oIdx}">
-                                <input type="radio" name="ans-${idx}" value="${oIdx}" onclick="submitAnswer(${idx}, ${oIdx})">
-                                <span>${['ア', 'イ', 'ウ', 'エ'][oIdx]}. ${opt}</span>
-                            </label>
-                        `).join('')}
+            `;
+
+            q.options.forEach((opt, oIdx) => {
+                html += `
+                    <label class="option-label" id="label-${index}-${oIdx}">
+                        <input type="radio" name="opt-grp-${index}" value="${oIdx}" onclick="registerTempAnswer(${index}, ${oIdx})">
+                        <span>${opt}</span>
+                    </label>
+                `;
+            });
+
+            html += `
                     </div>
-                    <div class="feedback-area" id="feedback-${idx}">
-                        <div class="result-block" id="result-block-${idx}"></div>
-                        <div class="explanation-box">
-                            <strong>💡 納得解説:</strong><br>${q.explanation}
-                        </div>
-                        <div class="analogy-box">
-                            <strong>🤝 日常の例え話:</strong><br>${q.analogy}
-                        </div>
+                    <button class="btn-primary" id="check-btn-${index}" onclick="verifySingleQuestion(${index})" style="width: auto; padding: 6px 15px; font-size:13px; display:inline-block; margin-bottom:10px;">正誤判定を確認する</button>
+                    
+                    <div class="feedback-area" id="feed-${index}">
+                        <div class="result-block" id="res-box-${index}"></div>
+                        <div class="explanation-box"><strong>💡 解説:</strong> ${q.explanation}</div>
+                        <div class="analogy-box"><strong>🐣 例え話で理解する:</strong><br>${q.analogy}</div>
                     </div>
                 </div>
             `;
         });
 
-        html += `<button class="btn-primary" style="margin-top:20px; background-color: var(--accent-green);" onclick="finishSession()">解答セッションを完了する</button>`;
-        quizArea.innerHTML = html;
+        html += `
+            <div class="card" style="text-align: center; background: #edf2f7;">
+                <h3 style="margin-bottom: 10px;">🏁 全ての問題を解き終えましたか？</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">最終集計を行い、オンライン成績データの送信とRP調整を行います。</p>
+                <button class="btn-primary" onclick="submitSessionFinalResult()" style="background-color: var(--accent-blue); max-width:250px; margin:0 auto;">セッションを終了して集計</button>
+            </div>
+        `;
+
+        containerEl.innerHTML = html;
     }
 
-    function submitAnswer(qIdx, selectedIdx) {
-        const question = currentSession.questions[qIdx];
-        const isCorrect = (selectedIdx === question.answer);
-        
-        // すでに回答済みの場合は再選択を禁止
-        const inputs = document.getElementsByName(`ans-${qIdx}`);
-        inputs.forEach(input => input.disabled = true);
+    function registerTempAnswer(qIndex, optionIndex) {
+        currentSession.tempLogs[qIndex].answered = optionIndex;
+    }
 
-        // ラベルの背景色を変更して視覚的にフィードバック
-        const selectedLabel = document.getElementById(`label-${qIdx}-${selectedIdx}`);
-        const correctLabel = document.getElementById(`label-${qIdx}-${question.answer}`);
+    function verifySingleQuestion(qIndex) {
+        const log = currentSession.tempLogs[qIndex];
+        if (log.answered === null) {
+            alert("⚠️ 選択肢をどれか1つ選択してください。");
+            return;
+        }
 
-        if (isCorrect) {
-            selectedLabel.style.backgroundColor = '#c6f6d5';
-            selectedLabel.style.borderColor = 'var(--accent-green)';
+        const q = currentSession.questions[qIndex];
+        const feedbackArea = document.getElementById(`feed-${qIndex}`);
+        const resBox = document.getElementById(`res-box-${qIndex}`);
+        const checkBtn = document.getElementById(`check-btn-${qIndex}`);
+
+        log.isCorrect = (log.answered === q.answer);
+
+        // UI反映
+        if (log.isCorrect) {
+            resBox.className = "result-block res-correct";
+            resBox.innerText = "🎯 正解！お見事です。";
+            
+            // 弱点プールからの削除
+            state.wrongQuestions = state.wrongQuestions.filter(id => id !== q.id);
+            if (currentSession.mode === 'revenge') {
+                state.achievements.revengeKing = true; // 仮実績トリガー
+            }
         } else {
-            selectedLabel.style.backgroundColor = '#fed7d7';
-            selectedLabel.style.borderColor = 'var(--accent-red)';
-            if (correctLabel) {
-                correctLabel.style.backgroundColor = '#c6f6d5';
+            resBox.className = "result-block res-incorrect";
+            resBox.innerText = `❌ 不正解... (正解: ${q.options[q.answer]})`;
+            
+            // 弱点プールへの自動追加
+            if (!state.wrongQuestions.includes(q.id)) {
+                state.wrongQuestions.push(q.id);
             }
         }
 
-        // フィードバックテキストの設定
-        const resultBlock = document.getElementById(`result-block-${qIdx}`);
-        if (isCorrect) {
-            resultBlock.innerText = "💮 正解！お見事です！";
-            resultBlock.className = "result-block res-correct";
-        } else {
-            resultBlock.innerText = `❌ 不正解... (正解は: ${['ア', 'イ', 'ウ', 'エ'][question.answer]} )`;
-            resultBlock.className = "result-block res-incorrect";
-        }
-
-        // フィードバックエリアの表示
-        document.getElementById(`feedback-${qIdx}`).style.display = 'block';
-
-        // ログへ保存
-        currentSession.tempLogs[qIdx] = {
-            category: question.category,
-            title: question.title,
-            isCorrect: isCorrect,
-            questionId: question.id
-        };
-    }
-
-    async function finishSession() {
-        let answeredCount = 0;
-        let correctCount = 0;
-
-        currentSession.questions.forEach((q, idx) => {
-            const log = currentSession.tempLogs[idx];
-            if (log) {
-                answeredCount++;
-                if (log.isCorrect) correctCount++;
-            }
+        // ラジオボタンのフリーズ
+        document.querySelectorAll(`input[name="opt-grp-${qIndex}"]`).forEach(input => {
+            input.disabled = true;
         });
 
-        if (answeredCount < currentSession.questions.length) {
-            if (!confirm("⚠️ まだ解いていない問題があります。このまま終了してよろしいですか？（未回答の問題は不正解扱いになります）")) {
+        feedbackArea.style.display = 'block';
+        if(checkBtn) checkBtn.style.display = 'none';
+
+        saveLocalData();
+    }
+
+    async function submitSessionFinalResult() {
+        let unansweredFound = false;
+        currentSession.tempLogs.forEach((log, idx) => {
+            const feed = document.getElementById(`feed-${idx}`);
+            if (!feed || feed.style.display !== 'block') unansweredFound = true;
+        });
+
+        if (unansweredFound) {
+            if (!confirm("⚠️ まだ正誤判定を行っていない問題が残っています。未判定は全て『不正解』として集計されますが、このまま終了しますか？")) {
                 return;
             }
         }
 
-        // セッション統計の更新
-        let rpChange = 0;
-        const mode = currentSession.mode;
+        const endTime = new Date().getTime();
+        const spentSec = Math.round((endTime - currentSession.startTime) / 1000);
 
-        if (mode === 'rank') {
-            if (correctCount >= 7) {
-                rpChange = 45 + (correctCount - 7) * 15;
-                showPopupNotification(`🔥 RP上昇！ +${rpChange} RP`, 'success-popup');
-            } else {
-                rpChange = -30 + (correctCount) * 5;
-                showPopupNotification(`💀 RP減少... ${rpChange} RP`, 'clear-popup');
-            }
-        } else {
-            // 通常・模擬・リベンジは一律の練習基礎ポイント
-            rpChange = correctCount * 3;
-            showPopupNotification(`🌱 練習ポイント獲得: +${rpChange} RP`, 'info-popup');
-        }
+        let correctCount = 0;
+        let sessionDetails = [];
 
-        // 弱点プールの更新（間違えた問題を登録、正解した問題を除去）
-        currentSession.questions.forEach((q, idx) => {
-            const log = currentSession.tempLogs[idx];
-            const isCorrect = log ? log.isCorrect : false;
+        currentSession.tempLogs.forEach((log, idx) => {
+            const q = currentSession.questions[idx];
+            const isCorrect = log.isCorrect && (document.getElementById(`feed-${idx}`).style.display === 'block');
+            if (isCorrect) correctCount++;
 
-            if (!isCorrect) {
-                if (!state.wrongQuestions.some(wq => wq.id === q.id)) {
-                    state.wrongQuestions.push(q);
-                }
-            } else {
-                state.wrongQuestions = state.wrongQuestions.filter(wq => wq.id !== q.id);
-            }
-        });
-
-        // 状態保存
-        const previousRp = state.rp;
-        state.rp = Math.max(0, state.rp + rpChange);
-        
-        // 最初の最高ランク到達時に紙吹雪エフェクト
-        if (previousRp < 1300 && state.rp >= 1300) {
-            triggerConfettiEffect();
-        }
-
-        // 履歴ログ登録
-        currentSession.questions.forEach((q, idx) => {
-            const log = currentSession.tempLogs[idx];
-            state.history.push({
+            sessionDetails.push({
+                qId: q.id,
                 category: q.category,
-                title: q.title,
-                isCorrect: log ? log.isCorrect : false,
-                timestamp: new Date().getTime()
+                isCorrect: isCorrect
             });
         });
 
-        checkAchievementsLogic(correctCount, currentSession.questions.length, mode);
-        saveLocalData();
+        const score = Math.round((correctCount / currentSession.questions.length) * 100);
+        
+        // RP（レートポイント）変動計算
+        let rpChange = 0;
+        let rankMsg = '';
 
-        if (state.currentUserId) {
+        if (currentSession.mode === 'rank') {
+            if (score >= 70) {
+                rpChange = score >= 90 ? 45 : 30;
+                rankMsg = `🎉 勝ち越し！ RPが ${rpChange} 上昇しました！`;
+            } else {
+                rpChange = score <= 30 ? -30 : -15;
+                rankMsg = `📉 負け越し... RPが ${Math.abs(rpChange)} 減少しました。`;
+            }
+            state.rp = Math.max(0, state.rp + rpChange);
+        } else {
+            rankMsg = `通常の練習のため、レート(RP)の変動はありません。`;
+        }
+
+        // 履歴レコード保存
+        const record = {
+            time: endTime,
+            mode: currentSession.mode,
+            score: score,
+            timeSpentSec: spentSec,
+            details: sessionDetails
+        };
+        state.history.push(record);
+
+        saveLocalData();
+        checkAchievementsOnSessionEnd(score, spentSec, sessionDetails);
+        updateUI();
+
+        if (state.currentUserId && window.fb) {
             await pushDataToFirebase();
             await fetchOnlineLeaderboard();
         }
 
-        alert(`🎉 セッション終了！\n成績: ${correctCount} / ${currentSession.questions.length}問正解\n獲得・変動RP: ${rpChange > 0 ? '+' : ''}${rpChange} RP`);
+        alert(`🏁 集計完了！\n\n正解数: ${correctCount} / 10 問\n得点: ${score}点\n所要時間: ${spentSec}秒\n\n${rankMsg}`);
 
-        // クイズ画面を閉じてダッシュボードに戻す
-        document.getElementById(`${mode}-intro`).style.display = 'block';
-        document.getElementById(`${mode}-quiz-area`).style.display = 'none';
+        // セッション表示終了、初期化
+        const listContainerId = `${currentSession.mode}-quiz-area`;
+        const introContainerId = `${currentSession.mode}-intro`;
         
-        updateUI();
+        const listContainer = document.getElementById(listContainerId);
+        const introContainer = document.getElementById(introContainerId);
+        
+        if (listContainer) listContainer.style.display = 'none';
+        if (introContainer) introContainer.style.display = 'block';
+
+        currentSession = { mode: '', questions: [], startTime: 0, tempLogs: [], questionStartTimes: [] };
         switchTab('dashboard');
-    }
-
-    function updateUI() {
-        let currentRank = getPlayerRankObject(state.rp, state.currentUserId);
-        const rankDisplay = document.getElementById('global-rank-display');
-
-        if (rankDisplay) {
-            rankDisplay.innerText = currentRank.name;
-            rankDisplay.style.color = currentRank.color;
-        }
-        
-        const rankContainer = document.getElementById('global-rank-container');
-        if (rankContainer) {
-            if (currentRank.specialClass) {
-                rankContainer.className = "status-item " + currentRank.specialClass;
-            } else {
-                rankContainer.className = "status-item";
-            }
-        }
-        
-        const pointsDisplay = document.getElementById('global-points-display');
-        if (pointsDisplay) pointsDisplay.innerText = `${state.rp} RP`;
-        
-        const nicknameDisplay = document.getElementById('dash-nickname-display');
-        if (nicknameDisplay) nicknameDisplay.innerText = state.profile.nickname || "名無しの受験生";
-        
-        const titleDisplay = document.getElementById('dash-title-display');
-        if (titleDisplay) titleDisplay.innerText = `称号: ${state.profile.title || "駆け出しの学習者"}`;
-        
-        const bioDisplay = document.getElementById('dash-bio-display');
-        if (bioDisplay) bioDisplay.innerText = `一言: ${state.profile.bio || "合格目指して勉強中です！"}`;
-        
-        const idDisplay = document.getElementById('dash-id-display');
-        if (idDisplay) idDisplay.innerText = state.currentUserId ? `同期ID: ${state.currentUserId}` : "ローカルモード";
-
-        const rankBadgeContainer = document.getElementById('dash-rank-badge-container');
-        if (rankBadgeContainer) {
-            rankBadgeContainer.innerHTML = getRankBadgeHTML(currentRank.name, state.profile.frame || "none");
-        }
-
-        // ダッシュボードヘッダー背景色
-        const dashCard = document.getElementById('dash-rank-card');
-        if (dashCard) {
-            dashCard.style.background = `var(--banner-${state.profile.bannerTheme || 'default'})`;
-        }
-        
-        // 習得率計算
-        let categories = { tech: { correct: 0, total: 0 }, mgmt: { correct: 0, total: 0 }, strat: { correct: 0, total: 0 } };
-        state.history.forEach(item => {
-            if (categories[item.category]) {
-                categories[item.category].total++;
-                if (item.isCorrect) categories[item.category].correct++;
-            }
-        });
-
-        ['tech', 'mgmt', 'strat'].forEach(cat => {
-            const progress = categories[cat].total > 0 ? Math.round((categories[cat].correct / categories[cat].total) * 100) : 0;
-            const bar = document.getElementById(`meter-${cat}`);
-            const val = document.getElementById(`meter-${cat}-val`);
-            if (bar) bar.style.width = `${progress}%`;
-            if (val) val.innerText = `${progress}%`;
-        });
-
-        // AIアドバイスの簡易生成
-        const aiAdviceBox = document.getElementById('ai-advice');
-        if (aiAdviceBox) {
-            if (state.history.length === 0) {
-                aiAdviceBox.innerText = "💡 AI分析: まだ十分なデータが集まっていません。まずは演習モードで数問解いてみましょう！";
-            } else {
-                const totalCorrect = state.history.filter(h => h.isCorrect).length;
-                const accuracy = Math.round((totalCorrect / state.history.length) * 100);
-                if (accuracy >= 80) {
-                    aiAdviceBox.innerText = `💡 AI分析: 正答率${accuracy}%と非常に優秀なパフォーマンスです！この調子で「ランクマッチ」に積極的に挑戦してRPを獲得していきましょう！`;
-                } else if (accuracy >= 50) {
-                    aiAdviceBox.innerText = `💡 AI分析: 正答率は${accuracy}%と順調に成長しています。間違えた問題は「弱点撲滅リベンジ」にストックされるので、復習を重点的にこなしましょう。`;
-                } else {
-                    aiAdviceBox.innerText = `💡 AI分析: 現在の正答率は${accuracy}%です。まずは「通常演習（練習問題）」でペナルティを気にせずじっくりと解説や『例え話』を読んで基礎概念を定着させましょう。`;
-                }
-            }
-        }
-
-        renderHistory();
-        renderAchievements();
-        renderLeaderboards();
-    }
-
-    function renderHistory() {
-        const historyContainer = document.getElementById('history-list-container');
-        if (!historyContainer) return;
-
-        if (state.history.length === 0) {
-            historyContainer.innerHTML = "<p style='color:var(--text-muted); font-size:12px; text-align:center;'>履歴はまだありません。</p>";
-            return;
-        }
-
-        // 直近5件の履歴を表示
-        let html = "";
-        [...state.history].reverse().slice(0, 5).forEach(item => {
-            const date = new Date(item.timestamp);
-            const timeStr = `${date.getMonth() + 1}/${date.getDate()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-            html += `
-                <div class="history-item">
-                    <span>${item.isCorrect ? '💮 正解' : '❌ 不正解'} - ${item.title}</span>
-                    <span style="color:var(--text-muted); font-size:11px;">${timeStr}</span>
-                </div>
-            `;
-        });
-        historyContainer.innerHTML = html;
     }
 </script>
 </body>
