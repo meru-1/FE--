@@ -22,7 +22,7 @@
             --rank-goldmenkyo: #d69e2e;
             --rank-chukensha: #319795;
             --rank-diamond: #00bfff;
-            --rank-master: #d946ef; /* MASTERカラー */
+            --rank-master: #d946ef; /* 新設：MASTERカラー */
             --rank-legend: #ff003c; 
             --banner-default: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --banner-emerald: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
@@ -59,6 +59,7 @@
             height: 110px;
             margin: 0 auto;
         }
+        /* ダッシュボード用の少し大きめのコンテナ */
         .rank-display-box .rank-badge-container {
             width: 130px;
             height: 130px;
@@ -97,11 +98,13 @@
             width: 60px; height: 60px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: bold;
             transform: rotate(45deg); animation: badgeFloatDiamond 3s ease-in-out infinite alternate; border: 3px solid #00e1ff; box-shadow: 0 0 30px rgba(0, 191, 255, 0.9); color: #e6ffff; background: linear-gradient(135deg, #005f73, #0a1128); border-radius: 8px;
         }
+        /* 新設：MASTER用の紫＆マゼンタ3D立体バッジ */
         .badge-master {
             width: 65px; height: 65px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: bold;
             border-radius: 35% 35% 35% 35%; border: 3px solid #d946ef; box-shadow: 0 0 28px rgba(217, 70, 239, 0.9), inset 0 0 15px rgba(255,255,255,0.2); color: #fdf4ff; background: linear-gradient(135deg, #6b21a8, #d946ef); animation: badgeFloat 3s ease-in-out infinite alternate;
         }
         
+        /* 大きめサイズ上書き（ダッシュボード等用） */
         .rank-display-box .badge-bronze, .rank-display-box .badge-silver, .rank-display-box .badge-gold, .rank-display-box .badge-platinum, .rank-display-box .badge-master { width: 75px; height: 75px; font-size: 2rem; }
         .rank-display-box .badge-diamond { width: 72px; height: 72px; font-size: 2rem; }
 
@@ -112,48 +115,76 @@
         .badge-diamond span { transform: rotate(-45deg); display: inline-block; }
 
         /* -------------------------------------------------- */
-        /* 🔥 Legend 超越神極ロゴ・デザイン */
+        /* 🔥 新世代：Legend 超越神極ロゴ・デザイン (魅了する3D) */
         /* -------------------------------------------------- */
         .badge-legend {
-            width: 75px; height: 75px;
+            width: 75px;
+            height: 75px;
             background: radial-gradient(circle, #ff003c 0%, #1a0005 80%, #000000 100%);
             clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
-            position: relative; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: bold;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
             animation: legendPredatorPulse 1.8s infinite ease-in-out;
             box-shadow: 0 0 35px rgba(255, 0, 60, 0.95), inset 0 0 25px rgba(255, 0, 60, 0.5);
-            z-index: 5; border: 2px solid #ff0055;
+            z-index: 5;
+            border: 2px solid #ff0055;
         }
         .rank-display-box .badge-legend { width: 85px; height: 85px; font-size: 2.2rem; }
 
+        /* 翼（サイドウイングアウラ）の強化 */
         .badge-legend::before, .badge-legend::after {
-            content: ''; position: absolute; background: linear-gradient(45deg, #ff003c, #ffaa00);
-            width: 90px; height: 15px; top: 28px; left: -10px;
+            content: '';
+            position: absolute;
+            background: linear-gradient(45deg, #ff003c, #ffaa00);
+            width: 90px;
+            height: 15px;
+            top: 28px;
+            left: -10px;
             clip-path: polygon(0% 0%, 100% 30%, 75% 70%, 100% 100%, 15% 60%);
-            transform: rotate(-25deg); filter: drop-shadow(0 0 12px #ff003c); z-index: -1;
+            transform: rotate(-25deg);
+            filter: drop-shadow(0 0 12px #ff003c);
+            z-index: -1;
             animation: wingFlutter 0.9s infinite alternate;
         }
         .rank-display-box .badge-legend::before, .rank-display-box .badge-legend::after { width: 105px; height: 18px; top: 32px; left: -12px; }
         
         .badge-legend::after {
-            left: auto; right: -10px; transform: scaleX(-1) rotate(-25deg);
+            left: auto;
+            right: -10px;
+            transform: scaleX(-1) rotate(-25deg);
             animation: wingFlutterAlt 0.9s infinite alternate;
         }
         .rank-display-box .badge-legend::after { right: -12px; left: auto; }
 
+        /* 漆黒の結晶（インナークリスタルコア） */
         .legend-core {
-            position: absolute; width: 45px; height: 45px;
+            position: absolute;
+            width: 45px;
+            height: 45px;
             background: radial-gradient(circle, #0a0002 40%, #ff003c 100%);
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            display: flex; justify-content: center; align-items: center; z-index: 10;
-            border: 1px solid #ffd700; box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border: 1px solid #ffd700;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
         }
         .rank-display-box .legend-core { width: 55px; height: 55px; }
 
         .legend-core span {
-            color: #ffffff; font-style: italic; text-shadow: 0 0 10px #ff0055, 0 0 20px #ffaa00;
-            animation: coreLightVibe 2s infinite ease-in-out; display: inline-block;
+            color: #ffffff;
+            font-style: italic;
+            text-shadow: 0 0 10px #ff0055, 0 0 20px #ffaa00;
+            animation: coreLightVibe 2s infinite ease-in-out;
+            display: inline-block;
         }
 
+        /* 超美麗アニメーションキーフレーム */
         @keyframes legendPredatorPulse {
             0%, 100% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 20px rgba(255, 0, 60, 0.85)) brightness(1); }
             50% { transform: scale(1.08) translateY(-4px); filter: drop-shadow(0 0 35px rgba(255, 0, 60, 1.3)) brightness(1.25); }
@@ -170,12 +201,14 @@
             0%, 100% { text-shadow: 0 0 8px #ff0055, 0 0 15px #ffaa00; transform: scale(1); }
             50% { text-shadow: 0 0 15px #ff0055, 0 0 30px #ffffff, 0 0 40px #ffaa00; transform: scale(1.15); }
         }
+
         @keyframes badgeFloat {
             0% { transform: translateY(0px) rotate(0deg); }
             100% { transform: translateY(-6px) rotate(3deg); }
         }
 
         /* -------------------------------------------------- */
+
         .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .status-item { background: white; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid var(--border-color); }
         .status-item .label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 5px; }
@@ -191,6 +224,7 @@
         .sync-input { padding: 6px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; margin-right: 5px; }
         
         .question-block { background: white; border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .question-num { font-weight: bold; color: var(--accent-blue); margin-bottom: 10px; font-size: 14px; }
         .question-text { font-size: 16px; margin-bottom: 20px; font-weight: 500; white-space: pre-wrap; }
         .options-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
         .option-label { display: flex; align-items: center; gap: 10px; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
@@ -211,11 +245,13 @@
         .leaderboard-table tbody tr { cursor: pointer; transition: background 0.2s; }
         .leaderboard-table tbody tr:hover { background-color: #f7fafc; }
         
+        /* 📊 ランク解説テーブル専用スタイル */
         .rank-info-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; text-align: center; }
         .rank-info-table th, .rank-info-table td { padding: 12px; border: 1px solid var(--border-color); vertical-align: middle; }
         .rank-info-table th { background-color: #f7fafc; color: var(--text-main); font-weight: bold; }
         .rank-name-cell { font-weight: bold; font-size: 15px; }
 
+        /* 📊 ランク分布用のゲージデザイン */
         .rank-distribution-bar-bg { background-color: #e2e8f0; border-radius: 4px; height: 12px; width: 100%; overflow: hidden; position: relative; margin-top: 4px; }
         .rank-distribution-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
         
@@ -237,10 +273,9 @@
         .tab-btn { background: none; border: none; padding: 12px 0; width: 100%; font-size: 11px; font-weight: bold; color: var(--text-muted); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .tab-btn.active { color: var(--accent-blue); }
         .tab-btn svg { width: 20px; height: 20px; }
-        
         .effect-legend { animation: legendGlow 1.5s infinite alternate; font-weight: bold; }
         @keyframes legendGlow { from { text-shadow: 0 0 6px #ff0055, 0 0 12px #ffaa00; } to { text-shadow: 0 0 12px #ff0055, 0 0 25px #ffffff, 0 0 35px #ff4500; } }
-        
+        /* 新設：MASTER用ネオングロー効果 */
         .effect-master { animation: masterGlow 1.5s infinite alternate; font-weight: bold; }
         @keyframes masterGlow { from { text-shadow: 0 0 6px #6b21a8, 0 0 12px #d946ef; } to { text-shadow: 0 0 12px #d946ef, 0 0 20px #ffffff; } }
         
@@ -256,10 +291,23 @@
         .modal-close-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.3); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
         .modal-close-btn:hover { background: rgba(0,0,0,0.5); }
 
+        /* -------------------------------------------------- */
+        /* 追加システムパーツスタイル：ポップアップ ＆ セキュリティ */
+        /* -------------------------------------------------- */
         .visual-feedback {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6);
-            padding: 12px 35px; border-radius: 10px; font-size: 1.5rem; font-weight: 900; z-index: 9999; opacity: 0;
-            pointer-events: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: white;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.6);
+            padding: 12px 35px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: white;
         }
         .visual-feedback.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .visual-feedback.success-popup { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
@@ -267,13 +315,40 @@
         .visual-feedback.clear-popup { background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
 
         .security-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(17, 24, 39, 0.96);
-            z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 20px; box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(17, 24, 39, 0.96);
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .security-card { background: #ffffff; border-top: 5px solid #ef4444; border-radius: 12px; padding: 30px; max-width: 400px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .security-card {
+            background: #ffffff;
+            border-top: 5px solid #ef4444;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
 
-        .confetti { position: fixed; width: 10px; height: 10px; z-index: 9998; top: -10px; border-radius: 2px; animation: fall linear forwards; pointer-events: none; }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 9998;
+            top: -10px;
+            border-radius: 2px;
+            animation: fall linear forwards;
+            pointer-events: none;
+        }
         @keyframes fall {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
@@ -298,8 +373,8 @@
 <header>
     <div class="logo">🎯 FE試験対策 ONLINE <span style="font-size: 11px; background:#edf2f7; padding:2px 6px; border-radius:4px;" id="season-timer-display">⏳ 残り --日 --:--:--</span></div>
     <div style="display: flex; align-items: center; gap: 10px;">
-        <button class="btn-sync-alt" style="background-color: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; padding: 4px 10px;" onclick="triggerLogoutAndResetDisplay()">
-            <i class="fa-solid fa-right-from-bracket"></i> ログアウトしてリセット
+        <button class="btn-sync-alt" style="background-color: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; padding: 4px 10px;" onclick="triggerCompleteReset()">
+            <i class="fa-solid fa-right-from-bracket"></i> 一発初期化
         </button>
         <span id="account-id-text" style="font-size: 12px; color: var(--text-muted);"></span>
         <div id="sync-badge" class="sync-badge">👤 ローカルモード</div>
@@ -376,8 +451,8 @@
         <div id="rank-quiz-area" style="display:none;"></div>
 
         <div id="mock-intro" class="card">
-            <h2>📝 本試験疑似テスト (60問)</h2>
-            <p style="color: var(--text-muted); margin: 10px 0 20px 0;">実際の試験と同じ問題数（60問）を一気に解きぬく耐久マラソンモードです。</p>
+            <h2>📝 本試験疑似テスト (10問)</h2>
+            <p style="color: var(--text-muted); margin: 10px 0 20px 0;">出題プール（10問）を全問一気に解きぬく模擬試験モードです。</p>
             <button class="btn-primary" style="background-color: #805ad5;" onclick="startListSession('mock')">模擬試験を開始する</button>
         </div>
         <div id="mock-quiz-area" style="display:none;"></div>
@@ -402,14 +477,16 @@
                         <th style="width: 30%;">必要ポイント</th>
                     </tr>
                 </thead>
-                <tbody id="rank-info-table-body"></tbody>
+                <tbody id="rank-info-table-body">
+                    </tbody>
             </table>
         </div>
 
         <div class="card">
             <h2>📊 現在のランク進行分布イメージ</h2>
             <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">全ランク帯の階層構造イメージです。上のランクへ行くほど、より強固なスキルが証明されます。</p>
-            <div id="rank-distribution-container" style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;"></div>
+            <div id="rank-distribution-container" style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+                </div>
         </div>
 
         <div class="card">
@@ -551,90 +628,158 @@
         console.error("Firebase initialization failed: ", e);
     }
 
+    // 🌟 修正・追加：近年出やすい問題5問 + 過去問全体から定番5問 の計10問（高品質・完全オリジナル解説付き）
     const seedQuestionTemplates = [
-        { category: "tech", title: "AI・ディープラーニング", question: "ディープラーニング（深層学習）において、入力データの特徴量を自動的に抽出するために用いられる、多層の階層構造を持つニューラルネットワークの仕組みとして最も適切なものはどれか。", options: ["CNN（畳み込みニューラルネットワーク）", "決定木（Decision Tree）", "サポートベクターマシン（SVM）", "線形回帰分析"], answer: 0, explanation: "画像認識や特徴抽出に極めて優れ、多層構造を持つディープラーニングの代表的な仕組みがCNNです。", analogy: "人間の目の仕組みです。全体をぼんやり見るのではなく、縦の線、横の線、丸みといった「局所的な特徴」をパーツごとに畳み込んで識別していく高度な脳内ネットワークです。" },
-        { category: "tech", title: "セキュリティ: 暗号化技術", question: "ハイブリッド暗号方式において、送信者が「受信者の公開鍵」を使って暗号化する対象として、適切なものはどれか。", options: ["セッション鍵（共通鍵）", "送信者の秘密鍵", "受信者の秘密鍵", "平文 of メッセージ本文"], answer: 0, explanation: "ハイブリッド暗号では、データ自体は高速な共通鍵（セッション鍵）で暗号化し、その共通鍵を受信者の公開鍵で安全に暗号化して配送します。", analogy: "宝箱 of 「ダイヤル式の鍵」を届ける方法です。大きな重いデータを送るためにダイヤル錠（共通鍵）をかけますが、そのダイヤル番号が盗まれないよう、相手専用の頑丈な金庫（公開鍵）に入れて送るイメージです。" },
-        { category: "tech", title: "クラウドサービス形態(PaaS)", question: "インターネット経由でITリソースを提供するモデルのうち、「アプリケーションの開発環境や実行環境（OSやミドルウェアなど）」を包括して提供するサービス形態はどれか。", options: ["PaaS (Platform as a Service)", "SaaS (Software as a Service)", "IaaS (Infrastructure as a Service)", "DXas (Digital Transformation as a Service)"], answer: 0, explanation: "PaaSは、アプリケーションを動かすための「土台・環境（Platform）」をインターネット越しに提供するサービスです。", analogy: "「キッチン付きのレンタルスペース」です。食材やレシピ（プログラム）を持ち込めば、ガスコンロや水道（OS・ミドルウェア）が最初から揃っているので、すぐに料理が作れる状態です。" },
-        { category: "tech", title: "ネットワーク: DNSの役割", question: "インターネットにおけるDNS（Domain Name System）の主な役割として、適切なものはどれか。", options: ["ドメイン名（URLなど）とIPアドレスを相互に変換する", "MACアドレスからIPアドレスを自動的に割り当てる", "暗号化された通信経路（SSL/TLS）を確立する", "データパケットの最適なルーティングを行う"], answer: 0, explanation: "コンピュータが識別する数字のIPアドレスと、人間が読みやすいドメイン名を対応付けるシステムです。", analogy: "スマホの『連絡先アプリ』です。名前を押すと、裏で自動的に数字の電話番号へ変換して発信してくれる仕組みそのものです。" },
-        { category: "tech", title: "データベース: LEFT JOIN", question: "「社員テーブル」と「部署テーブル」を、部署コードをキーにしてLEFT OUTER JOIN（左外部結合）したときの結果の特徴はどれか。", options: ["社員テーブルにあるすべての社員が表示され、部署に所属していない社員の部署情報は空欄(NULL)になる", "両方のテーブルに共通して存在する部署コードのデータのみが抽出される", "部署テーブルにあるすべての部署が表示され、社員のいない部署は空欄になる", "重複する社員データがすべて排除され、ユニークなレコードのみになる"], answer: 0, explanation: "LEFT JOINは左側のテーブルの全データを維持し、右側に一致するものがなければ空（NULL）として結合します。", analogy: "全員強制参加の学校の出席簿に、希望者のみの部活名を合体させる状態です。部活入っていない生徒も名前は全員載りますが、部活名は「空欄」になります。" },
-        { category: "tech", title: "アルゴリズム: 二分探索", question: "ソート（並び替え）済みのデータ配列に対して、中央の値を確認して探索範囲を毎回半分に狭めていく探索アルゴリズムはどれか。", options: ["二分探索（バイナリサーチ）", "線形探索", "ハッシュ探索", "深さ優先探索"], answer: 0, explanation: "要素がソートされている場合、中央値と比較することで一回ごとに探索候補を1/2に削減していく高速な探索法です。", analogy: "辞書で「たわし」を探す時、適当に真ん中の「な行」を開き、「た」はそれより前だから後ろ半分は全て無視して捨てる、という半分ずつの絞り込みテクニックです。" },
-        { category: "tech", title: "セキュリティ: SQLインジェクション", question: "Webアプリケーションの入力フォーム等に、悪意のあるSQLコマンドを入力し、データベースを不正操作する攻撃はどれか。", options: ["SQLインジェクション", "クロスサイトスクリプティング（XSS）", "ブルートフォースアタック", "DoS攻撃"], answer: 0, explanation: "プログラムが想定していないSQL文を外部から注入し、データの改ざんや奪取を行う攻撃です。", analogy: "注文用紙の記入欄に、料理名ではなく「※この紙を見たら金庫の金をすべて客に渡せ」という命令を勝用に書き込んで店員を騙すような攻撃です。" },
-        { category: "tech", title: "構造: カプセル化", question: "オブジェクト指向における「カプセル化」の目的として、最も適切なものはどれか。", options: ["オブジェクトの内部データと手続きを一体化し、外部から直接見えないように隠蔽して不正操作を防ぐ", "すべてのデータをグローバル変数にして、どこからでも自由に書き換えられるようにする", "プログラムの実行速度を物理的に2倍以上に高速化する", "一つのクラスから複数の異なるインスタンスを生成できないように制限をかける"], answer: 0, explanation: "データとそれを操作するメソッドを1つにまとめ、外部からの不要な直接アクセスを遮断して安全性を高めます。", analogy: "「自動販売機」です。自販機の中の現金や飲み物の在庫は外から触れません。「お金を入れてボタンを押す」だけで安全に機能するように閉じ込められています。" },
-        { category: "tech", title: "ネットワーク: DHCP", question: "ネットワークに接続するコンピュータに対して、IPアドレスなどの設定情報を自動的に割り当てるプロトコルはどれか。", options: ["DHCP", "DNS", "SMTP", "FTP"], answer: 0, explanation: "DHCPは、端末がネットワークに接続した際に、空いているIPアドレスを自動的に貸し出す仕組みです。", analogy: "ホテルの「フロント」です。チェックインした客に、今空いている部屋の鍵（IPアドレス）を自動で割り振ってくれる係員です。" },
-        { category: "tech", title: "ハードウェア: メモリ階層", question: "CPUと主記憶装置（メインメモリ）の間のアクセスタイムの差を埋め、高速化のために設けられる小型の記憶装置はどれか。", options: ["キャッシュメモリ", "バーチャルメモリ（仮想メモリ）", "SSD", "レジスタ"], answer: 0, explanation: "CPUに比べて低速なメインメモリへのアクセスを減らすため、よく使うデータを一時的に保持する超高速メモリです。", analogy: "「デスクの上の引き出し」です。奥の倉庫（メインメモリ）まで毎回物を取りに行くのは大変ので、よく使う筆記用具を手元の引き出しに置いておく状態です。" },
-        { category: "tech", title: "セキュリティ: マルウェア", question: "感染すると、端末内のファイルを暗号化して勝手に使えない状態にし、復旧の対価として金銭を要求するマルウェアはどれか。", options: ["ランサムウェア", "ワーム", "スパイウェア", "トロイの木馬"], answer: 0, explanation: "Ransom（身代金）とSoftwareを組み合わせた造語で、データを人質に取る悪質なウイルスです。", analogy: "「勝手に部屋に侵入して金庫に南京錠をかけ、鍵が欲しければ金を払えと言ってくる誘拐犯」のようなウイルスです。" },
-        { category: "tech", title: "基本理論: 2進数変換", question: "10進数の「13」を8ビットの2進数で表現したものとして、正しいものはどれか。", options: ["00001101", "00001011", "00001110", "00001111"], answer: 0, explanation: "13を2で割り算していくと、8+4+1となるため、2進数では「1101」になります。", analogy: "1万円札、5千円札、千円札…の代わりに「8円玉、4円玉、2円玉、1円玉」の財布があるイメージです。13円を作るするには「8円1枚、4円1枚、1円1枚」が必要ので1101になります。" },
-        { category: "mgmt", title: "マネジメント: アジャイル開発", question: "アジャイル開発手法の特徴として、最も適切なものはどれか。", options: ["システムを小さな機能単位に分割し、短い期間のサイクルを繰り返しながら開発・リリースしていく", "開発工程を要件定義、設計、製造、テストと厳格に分け、各工程を完了させてから次へ進む", "開発の初期段階で仕様を完全に固定し、変更を一切受け付けない", "成果物の品質テストをすべて自動化し、人間の介入を排除する"], answer: 0, explanation: "短いスパンで開発・評価を繰り返し、仕様変更に対して柔軟に適応していく開発手法です。", analogy: "長期間かけて完璧なフルコースの設計図を作って最後に提供するのがウォーターフォール。まず出来た小皿料理を出してみて、客の要望を聞きながら次の一皿を即座に作るのがアジャイルです。" },
-        { category: "mgmt", title: "マネジメント: クリティカルパス", question: "プロジェクト管理において、「クリティカルパス」の説明として正しいものはどれか。", options: ["プロジェクト全体の期間を決定する、遅延が許されない最長の作業経路", "最も作業時間が短く、最も低コストで終わるルート", "不測の事態に備えて、作業を一時中断してよいバッファ時間のこと", "すべての作業を同時に並列処理するルート"], answer: 0, explanation: "プロジェクト全体の終了を決定づける最長の工程ルートのことで、ここにある作業が遅れると全体が遅れます。", analogy: "カレーを作る際、「米を炊く（45分）」と「具を煮る（30分）」を同時に始めます。具がどれだけ早くできても、米が炊けないと完成しません。この全体を引っ張る最長の時間がクリティカルパスです。" },
-        { category: "mgmt", title: "マネジメント: ITILの目的", question: "IT service managementのベストプラクティス（成功事例）を集めたフレームワークはどれか。", options: ["ITIL", "ISO9001", "SLA", "WBS"], answer: 0, explanation: "ITIL（Information Technology Infrastructure Library）は、ITサービスを安定・向上させるための世界的な教科書です。", analogy: "レストランの「接客マニュアルの決定版」です。世界中の繁盛店がやっている効率的なやり方をまとめたバイブルです。" },
-        { category: "mgmt", title: "マネジメント: WBSの役割", question: "プロジェクトマネジメントにおいて、成果物や必要な作業を細かな構成要素に分解し、階層構造で表した図はどれか。", options: ["WBS", "ガントチャート", "アローダイアグラム", "パレート図"], answer: 0, explanation: "WBS（Work Breakdown Structure）は、作業（Work）を分解（Breakdown）した構造（Structure）図で、タスクの漏れを防ぎます。", analogy: "「大掃除のチェックリスト」です。『キッチン』をさらに『換気扇』『シンク』『冷蔵庫』と細かく分解して、誰が何をやるか明確にする図面です。" },
-        { category: "mgmt", title: "マネジメント: SLA", question: "ITサービスの提供者と顧客の間で、提供されるサービスの内容や品質レベルについて合意した文書はどれか。", options: ["SLA", "RFP", "NDA", "BCP"], answer: 0, explanation: "SLA（Service Level Agreement）は、「稼働率99.9%を保証します」といったサービスの品質保証契約です。", analogy: "出前館などの「30分以内にお届けできなければ全額返金します」という、お店とお客さんの間の約束事のようなものです。" },
-        { category: "strat", title: "ストラテジ: 著作権法", question: "著作権法によるプログラムの保護範囲に関する記述のうち、適切なものはどれか。", options: ["プログラムのソースコード（表現）は保護されるが、アルゴリズム（解法）やプログラム言語自体は保護対象外である", "アルゴリズム（解法）自体も著作権法で強力に保護されるため、同じ計算方法を他人が使うことはできない", "開発したプログラムは、国への特許申請と登録が完了した時点から著作権が発生する", "プログラム言語の文法自体に著作権があるため、新しい言語を作るには許可必要である"], answer: 0, explanation: "著作権法は「具体的な表現」を保護する法律であり、アルゴリズムなどの「アイデア・仕組み」は保護対象外です。", analogy: "小説の「文章の丸コピー」は著作権違反ですが、「主人公が魔王を倒しに行く」という設定は誰が真似して書いても自由であることと同じです。" },
-        { category: "strat", title: "ストラテジ: SWOT分析", question: "企業の経営戦略を立てるための「SWOT分析」において、外部環境のプラス要因とマイナス要因を表す組み合わせはどれか。", options: ["機会 ／ 脅威", "強み ／ 弱み", "強み ／ 脅威", "機会 ／ 弱み"], answer: 0, explanation: "SWOTのSとWは企業自身の内部環境、O（機会）とT（脅威）は市場や法律の変動などの外部環境を指します。", analogy: "自チームの「足が速い」「スタミナ不足」は自分たちの話。しかし「明日大雨が降る」「相手のエースが欠場」は、自分たちでは操作できない外の環境要因ですよね。" },
-        { category: "strat", title: "ストラテジ: 不正競争防止法", question: "企業の秘密情報（営業秘密）を不正に取得・使用する行為を規制し、公正な競争を守る法律はどれか。", options: ["不正競争防止法", "個人情報保護法", "著作権法", "特許法"], answer: 0, explanation: "顧客名簿や門外不出のレシピなど、企業の利益につながる「営業秘密」を盗み出す行為を取り煙る法律です。", analogy: "某ファストフード店の「秘伝のスパイスの配合比率」や、秘匿されたコーラのレシピをライバル社に転売するのを禁止する法律です。" },
-        { category: "strat", title: "ストラテジ: パレート図", question: "データを値の大きい順に棒グラフで並べ、その累積比率を折れ線グラフで組み合わせた、重要課題の特定に使う図はどれか。", options: ["パレート図", "散布図", "ヒストグラム", "レーダーチャート"], answer: 0, explanation: "パレート図は「全体の8割のトラブルは、2割の重要原因から発生している」という分析（80:20の法則）などに使われます。", analogy: "「お店のクレーム集計」です。件数が多い順に並べると、『接客態度』と『異物混入』の2つだけで全体の80%を占めている, といった重要箇所を暴き出すグラフです。" },
-        { category: "strat", title: "ストラテジ: BCP", question: "災害やテロなどの緊急事態が発生した際に、企業の重要業務を中断させず、早期に復旧させるための行動計画はどれか。", options: ["BCP（事業継続計画）", "M&A", "CSR", "ERP"], answer: 0, explanation: "BCP（Business Continuity Plan）は、予期せぬ大災害でも会社を潰さずに事業を継続させるためのバックアップ・避難計画です。", analogy: "「お家の防災避難マニュアル＋予備の備蓄」です。地震が起きた時、どこの避難所に集まってどう連絡を取り合うかを決めておく会社版の作戦です。" }
+        // --- 【近年出やすい問題5問（最新トレンド）】 ---
+        { 
+            category: "tech", 
+            title: "AI・大規模言語モデル", 
+            question: "大規模言語モデル（LLM）を用いた自然言語処理において、特定のデータセットを用いて事前学習済みのモデルを追加学習させ、特定の用途やタスクに特化させる手法として最も適切なものはどれか。", 
+            options: ["ファインチューニング（微調整）", "ディストリビューション", "次元削減（PCA）", "ゼロショット学習"], 
+            answer: 0, 
+            explanation: "事前学習済みの既存LLMに対して、特定のタスクに合わせた追加データを学習させてパラメータを微調整する手法をファインチューニングと呼びます。", 
+            analogy: "「大学卒業レベルの一般教養を持つ優秀な新入社員」に、自社専用の業務マニュアルを数週間かけて追加で叩き込むような、効率的な専門教育のイメージです。" 
+        },
+        { 
+            category: "tech", 
+            title: "IoTセキュリティ: 耐タンパ性", 
+            question: "IoTデバイスの『耐タンパ性』を高める物理的な実装技術とその効果に関する記述として、最も適切なものはどれか。", 
+            options: [
+                "デバイスの筐体が無理に開けられたことをセンサーで検知し、内部メモリに記録されている秘密情報を瞬時に自動消去する設計", 
+                "省電力な暗号プロトコルを用いることで、外部の電力解析から暗号キーの特定を困難にする設計", 
+                "データを複数箇所に分散して暗号化保管することで、物理的な破損からデータを保護する設計", 
+                "起動プロセスでファームウェアの電子署名を検証することで、不正な起動を防止する設計"
+            ], 
+            answer: 0, 
+            explanation: "耐タンパ性（Anti-tampering）とは、機器を物理的に分解・解析されることに対する防御性能を指します。筐体開封時のメモリ自動クリアなどがその代表例です。", 
+            analogy: "「スパイ映画の極秘書類ケース」です。無理やり鍵をこじ開けようとすると、中に仕込まれた特殊インクが破裂して、機密書類が自動で染まって読めなくなるようなトラップ構造です。" 
+        },
+        { 
+            category: "tech", 
+            title: "セキュリティ: ゼロトラスト", 
+            question: "現代のセキュリティモデルである『ゼロトラスト（Zero Trust）』の基本的な考え方を説明したものはどれか。", 
+            options: [
+                "「何も信頼しない」を前提とし、社内ネットワークの内外を区別せず、すべてのアクセスを検証・監視する", 
+                "社内（信頼できる領域）と外部インターネットの間に堅牢なファイアウォールを置き、境界を守る", 
+                "セキュリティソフトのウイルス定義ファイルを自動更新し、未知のゼロデイ攻撃を完全に防御する", 
+                "ユーザーがIDとパスワードなどの秘密情報を一切使用せずに、生体認証のみでシステムにログインする"
+            ], 
+            answer: 0, 
+            explanation: "ゼロトラストとは、ネットワークの内側と外側を一律に信用せず、全てのアクセスに対して常に認証や動的な制御を行うセキュリティ対策モデルです。", 
+            analogy: "「オフィスビルの超厳重な警備」です。これまでは『社員証で一度ビルに入れば中の部屋は移動し放題（境界型）』でしたが、ゼロトラストは『すべての個室の前に警備員がいて、移動するたびに身分証の提示と目的を確認される』状態です。" 
+        },
+        { 
+            category: "mgmt", 
+            title: "アジャイル開発: デイリースクラム", 
+            question: "スクラムを用いたアジャイル開発において、チームが日々進捗を共有し、課題を検知して調整を行うために毎日行う短時間のミーティングはどれか。", 
+            options: ["デイリースクラム", "スプリントプランニング", "スプリントレトロスペクティブ", "プロダクトバックログリファインメント"], 
+            answer: 0, 
+            explanation: "デイリースクラム（日次スクラム）は、毎日15分程度の固定時間で「昨日やったこと」「今日やること」「進捗の障害」を迅速に共有するイベントです。", 
+            analogy: "サッカーチームの「毎朝の簡単な朝礼ミーティング」です。長々とした会議ではなく、試合前に全員で丸く集まり、『今日の調子は？』『ケガはないか？』をサクッと確認して一致団結するイメージです。" 
+        },
+        { 
+            category: "tech", 
+            title: "ネットワーク: WPA3の特徴", 
+            question: "無線LANの暗号化規格であるWPA3に関する記述のうち、適切なものはどれか。", 
+            options: [
+                "SAE（Simultaneous Authentication of Equals）と呼ばれる強固な鍵交換方式を採用し、弱いパスワードに対するオフラインの辞書攻撃や総当たり攻撃を防ぐ", 
+                "MACアドレスフィルタリング機能を強制的に必須化することで、未登録デバイスの通信を遮断する", 
+                "暗号キーの長さを一律で512ビットまで強制拡張し、量子コンピュータによる解読リスクを完全に排除する", 
+                "パスワードの入力を10回連続で間違えた無線端末の通信回路を物理的にロックする機能を持つ"
+            ], 
+            answer: 0, 
+            explanation: "WPA3ではハンドシェイク段階にSAE方式を導入し、第三者によるパッシブなパケット盗聴によるパスワード解析（オフライン総当たり）に対する防御性能を大きく向上させています。", 
+            analogy: "「入室時の暗号が、毎回その場で変わる最新の金庫」です。仮に外から暗号の手がかり（パケット）を盗み見られても、持ち帰ってじっくりパスワードを推測することが不可能な特殊な会話ルールになっている状態です。" 
+        },
+
+        // --- 【過去問全体から厳選した定番問題5問（Classic）】 ---
+        { 
+            category: "tech", 
+            title: "セキュリティ: ハイブリッド暗号", 
+            question: "公開鍵暗号と共通鍵暗号を組み合わせた『ハイブリッド暗号方式』において、送信者がメッセージ本文と共通鍵（セッション鍵）を暗号化する際、それぞれに用いる適切な鍵の組み合わせはどれか。", 
+            options: [
+                "本文の暗号化に「共通鍵」を用い、共通鍵の暗号化に「受信者の公開鍵」を用いる", 
+                "本文の暗号化に「受信者の公開鍵」を用い、共通鍵の暗号化に「送信者の秘密鍵」を用いる", 
+                "本文の暗号化に「共通鍵」を用い、共通鍵の暗号化に「送信者の秘密鍵」を用いる", 
+                "本文の暗号化に「受信者の秘密鍵」を用い、共通鍵の暗号化に「共通鍵」を用いる"
+            ], 
+            answer: 0, 
+            explanation: "ハイブリッド暗号では、大きなデータは処理の高速な「共通鍵」で暗号化し、その共通鍵自体を安全に配送するために、受信者しか持たない秘密鍵に対応する「受信者の公開鍵」で暗号化します。", 
+            analogy: "「ダイヤル鍵式の宝箱」と「相手専用の頑丈なポスト」です。大きなデータを送るためにダイヤル錠（共通鍵）付きの箱に入れますが、そのダイヤル番号が盗まれないよう、相手だけが開けられる郵便受け（公開鍵）に入れて送るイメージです。" 
+        },
+        { 
+            category: "tech", 
+            title: "基礎理論: パリティビット", 
+            question: "7ビットの文字データ「1101001」の先頭に、1ビットの「偶数パリティビット」を付加して8ビットにするとき、パリティビットを付加した後の適切なデータはどれか。", 
+            options: ["01101001", "11101001", "01101000", "11101011"], 
+            answer: 0, 
+            explanation: "偶数パリティビットは、データ内の「1」の個数の合計が常に偶数個になるようにパリティビットの値を決めます。「1101001」は「1」が4つ（すでに偶数個）あるため、付加するパリティは「0」になり、結果は「01101001」となります。", 
+            analogy: "「人数を必ず偶数に調整するサークル」です。現在すでに4人のメンバー（偶数）が揃っているので、帳尻合わせのための補欠メンバー（パリティビット）は、これ以上人数を増やさないように『0』を配置するイメージです。" 
+        },
+        { 
+            category: "tech", 
+            title: "データベース: 外部結合", 
+            question: "『社員テーブル』と『部署テーブル』を、部署コードを主キーとして「LEFT OUTER JOIN（左外部結合）」したときの結果として、最も適切な特徴はどれか。", 
+            options: [
+                "社員テーブルにある全ての社員情報が出力され、所属部署がない社員の部署情報は空欄（NULL）として表示される", 
+                "両方のテーブルに共通して存在する部署コードに所属している、該当する社員のデータのみが出力される", 
+                "部署テーブルにある全ての部署情報が出力され、所属している社員がいない部署は社員情報が空欄（NULL）となる", 
+                "重複する社員データがデータベース上から全て自動的に削除され、一意のレコードのみが表示される"
+            ], 
+            answer: 0, 
+            explanation: "LEFT JOIN（左外部結合）は、基準となる左側のテーブルのレコードを全て抽出し、右側のテーブルで合致する行がない部分をNULL（空）として強制結合する操作です。", 
+            analogy: "「全員強制参加の学校の出席名簿（左）」に、「希望者のみの部活動名（右）」を重ねる状態です。部活動に入っていない生徒も名前は全員載りますが、部活名の列は『空欄』になります。" 
+        },
+        { 
+            category: "tech", 
+            title: "アルゴリズム: 二分探索", 
+            question: "昇順または降順に整列（ソート）済みのデータ配列に対して、中央の値を確認して探索範囲を毎回半分に狭めていく探索アルゴリズムはどれか。", 
+            options: ["二分探索（バイナリサーチ）", "線形探索（シーケンシャルサーチ）", "ハッシュ探索", "深さ優先探索"], 
+            answer: 0, 
+            explanation: "二分探索は、並び替えが終わっている配列の中央値と目的の値を比較し、対象が存在しない側の半分を毎ステップで丸ごと切り捨てることで、非常に高速に探索する仕組みです。", 
+            analogy: "「分厚い国語辞典で『たわし』を探す方法」です。適当に真ん中（な行）を開き、『た』はそれより前にあるはずなので、後半の半分（な行〜わ行）の数万ページを一瞬で無視して候補から外す絞り込み方法です。" 
+        },
+        { 
+            category: "mgmt", 
+            title: "プロジェクト管理: クリティカルパス", 
+            question: "プロジェクト管理において、全体の遅延を防ぐために最も厳格な進捗監視が必要となる、マージン（余裕時間）がゼロである『最長の作業経路』を指す用語はどれか。", 
+            options: ["クリティカルパス", "ガントチャート", "マイルストーン", "WBS"], 
+            answer: 0, 
+            explanation: "クリティカルパスとは、プロジェクトの開始から終了までに最も時間がかかるボトルネックの工程経路のことで、この上の作業が1日遅れると、プロジェクト全体の完了も直ちに1日遅れてしまいます。", 
+            analogy: "「カレー作り」です。『お米を炊く（45分）』作業と『具材を切って煮る（30分）』作業を同時に始めるとき、いくら具材が早くできてもお米が炊けないとカレーは完成しません。お米を炊くこの45分間のルートが、全体の完成時間を支配するクリティカルパスです。" 
+        }
     ];
 
     let masterQuestionBank = [];
     
+    // 🌟 修正：複製・置換を廃止し、上記10問をダイレクトに展開する形でプールを生成
     function generateLargeQuestionBank() {
         masterQuestionBank = [];
         let idCounter = 1;
         
-        while(masterQuestionBank.length < 420) {
-            seedQuestionTemplates.forEach((base) => {
-                if(masterQuestionBank.length >= 420) return;
-                
-                let optionsCopy = [...base.options];
-                let correctStr = optionsCopy[base.answer];
-                for (let i = optionsCopy.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [optionsCopy[i], optionsCopy[j]] = [optionsCopy[j], optionsCopy[i]];
-                }
-                
-                let techs = ["社内ファイルサーバー基盤", "次世代AI顧客管理システム", "クラウド型勤怠管理アプリ", "大規模ECサイト決済基盤"];
-                let attackers = ["外部のハッカー集団", "内部の権限を持たない不正な第三者", "海外のクラッカー"];
-                let networks = ["セグメント内部ネットワーク", "仮想化サブネットVLAN10", "外部接続用DMZ領域", "開発専用セキュアネットワーク"];
-                let baseDates = ["2026年春期", "2026年秋期", "2027年次期コアプロジェクト", "今回の緊急システム刷新"];
-                
-                let selectedTech = techs[idCounter % techs.length];
-                let selectedAttacker = attackers[idCounter % attackers.length];
-                let selectedNet = networks[idCounter % networks.length];
-                let selectedDate = baseDates[idCounter % baseDates.length];
+        // 10問の固定問題データをそのままマスターに流し込みます
+        seedQuestionTemplates.forEach((base) => {
+            let detailCategory = "その他";
+            if (base.title.includes("セキュリティ")) detailCategory = "セキュリティ";
+            else if (base.title.includes("ネットワーク")) detailCategory = "ネットワーク";
+            else if (base.title.includes("データベース")) detailCategory = "データベース";
+            else if (base.title.includes("AI") || base.title.includes("アルゴリズム") || base.title.includes("基礎理論")) detailCategory = "テクノロジ・基礎理論";
+            else if (base.category === "mgmt") detailCategory = "プロジェクトマネジメント";
+            else if (base.category === "strat") detailCategory = "企業活動・法務";
 
-                let alteredQuestion = (base.question || "")
-                    .replace(/Aさん/g, `エンジニアの「開発チーム_${idCounter}」`)
-                    .replace(/Bさん/g, `クライアント側の「認証ノード_${idCounter}」`)
-                    .replace(/社員テーブル/g, `従業員人事マスター_${idCounter}`)
-                    .replace(/部署テーブル/g, `所属部門管理テーブル_${idCounter}`)
-                    .replace(/Webアプリケーション/g, `${selectedTech}`)
-                    .replace(/悪意のあるSQLコマンド/g, `${selectedAttacker}による不正なSQL構文インジェクション`)
-                    .replace(/インターネットにおける/g, `${selectedNet}内における`)
-                    .replace(/プロジェクト管理/g, `${selectedDate}におけるプロジェクト管理`);
-
-                let detailCategory = "その他";
-                if (base.title.includes("セキュリティ")) detailCategory = "セキュリティ";
-                else if (base.title.includes("ネットワーク")) detailCategory = "ネットワーク";
-                else if (base.title.includes("データベース") || base.title.includes("JOIN")) detailCategory = "データベース";
-                else if (base.title.includes("アルゴリズム") || base.title.includes("2進数") || base.title.includes("AI")) detailCategory = "アルゴリズム・最新ITトレンド";
-                else if (base.category === "mgmt") detailCategory = "プロジェクトマネジメント";
-                else if (base.category === "strat") detailCategory = "企業活動・法務";
-
-                masterQuestionBank.push({
-                    id: idCounter,
-                    category: base.category,
-                    subCategory: detailCategory,
-                    title: `${base.title} (パターン-${idCounter})`,
-                    question: alteredQuestion,
-                    options: optionsCopy,
-                    answer: optionsCopy.indexOf(correctStr),
-                    explanation: base.explanation,
-                    analogy: base.analogy
-                });
-                idCounter++;
+            masterQuestionBank.push({
+                id: idCounter,
+                category: base.category,
+                subCategory: detailCategory,
+                title: base.title,
+                question: base.question,
+                options: [...base.options],
+                answer: base.answer,
+                explanation: base.explanation,
+                analogy: base.analogy
             });
-        }
+            idCounter++;
+        });
     }
 
     function shuffleArray(array) {
@@ -675,15 +820,15 @@
     let onlineLeaderboardCache = []; 
     let totalGlobalUsersCount = 1;
 
-    // 全7段階への階層定義
+    // 👑 修正・追加：全7段階への拡張
     const ranks = [
         { name: "無知者", min: 0, color: "var(--rank-muchisha)" },
         { name: "ホワイトサバイバー", min: 150, color: "var(--rank-whitesurvivor)" },
         { name: "ゴールド免許", min: 300, color: "var(--rank-goldmenkyo)" },
         { name: "中堅者", min: 500, color: "var(--rank-chukensha)" },
         { name: "DIAMOND", min: 750, color: "var(--rank-diamond)" },
-        { name: "MASTER", min: 1000, color: "var(--rank-master)", specialClass: "effect-master" },
-        { name: "Legend", min: 1300, color: "var(--rank-legend)", specialClass: "effect-legend" }
+        { name: "MASTER", min: 1000, color: "var(--rank-master)", specialClass: "effect-master" }, 
+        { name: "Legend", min: 1300, color: "var(--rank-legend)", specialClass: "effect-legend" }  
     ];
 
     const titleList = [
@@ -696,6 +841,7 @@
         { name: "グランド・レジェンド", minRp: 1300 }
     ];
 
+    // 🦾 演出用ポップアップ通知関数
     function showPopupNotification(text, className) {
         const popup = document.getElementById('visualFeedback');
         if (popup) {
@@ -705,6 +851,7 @@
         }
     }
 
+    // 🎉 演出用：最高ランク到達時の紙吹雪エフェクト
     function triggerConfettiEffect() {
         const colors = ['#ff003c', '#ffaa00', '#3182ce', '#38a169', '#d946ef', '#ffd700', '#00bff7'];
         for (let i = 0; i < 90; i++) {
@@ -719,16 +866,16 @@
         }
     }
 
-    function triggerLogoutAndResetDisplay() {
-        if (confirm("🚪【サインアウト確認】\nアカウントからログアウトし、画面上の表示状態を初期状態に戻します。よろしいですか？\n（※ローカル上の基本データや進行状況は保持されます）")) {
-            // 1. オンラインユーザーセッションの解除
-            state.currentUserId = null;
-            state.isSynced = false;
+    // 🚪 一発完全初期化ログアウト
+    function triggerCompleteReset() {
+        if (confirm("🚨【一発初期化警告】\n現在のすべての正解履歴、実績アチーブメント、獲得RP、弱点プールをその場で1度に完全消去し、ローカルを完全初期化してログアウトします。よろしいですか？")) {
+            localStorage.removeItem('fe_master_online_v1');
             
-            // 2. 画面表示用オブジェクトのみ一時リセット（保存データは破壊しない）
             state.rp = 100;
             state.history = [];
             state.wrongQuestions = [];
+            state.currentUserId = null;
+            state.isSynced = false;
             state.profile = { 
                 nickname: "名無しの受験生", 
                 bannerTheme: "default",
@@ -738,13 +885,13 @@
             };
             for (let key in state.achievements) { state.achievements[key] = false; }
 
-            // 3. 画面リフレッシュと同期パネルの再構成
+            saveLocalData();
             renderSyncPanel();
             updateUI();
             renderAchievements();
             renderRankDistribution();
             
-            showPopupNotification("🚪 ログアウト & 画面リセット完了", "info-popup");
+            showPopupNotification("🔄 Fully Reset & Logged Out", "clear-popup");
             switchTab('dashboard');
         }
     }
@@ -754,12 +901,31 @@
         let isSpecial = false;
         let icon = "🌱"; 
 
-        if (rankName.includes("ホワイトサバイバー")) { badgeClass = "badge-silver"; icon = "🛡️"; }
-        else if (rankName.includes("ゴールド免許")) { badgeClass = "badge-gold"; icon = "🚗"; }
-        else if (rankName.includes("中堅者")) { badgeClass = "badge-platinum"; icon = "⚔️"; }
-        else if (rankName.includes("DIAMOND")) { badgeClass = "badge-diamond"; icon = "💎"; }
-        else if (rankName.includes("MASTER")) { badgeClass = "badge-master"; icon = "⚡"; }
-        else if (rankName.includes("Legend")) { isSpecial = true; badgeClass = "badge-legend"; icon = "👑"; }
+        if (rankName.includes("ホワイトサバイバー")) { 
+            badgeClass = "badge-silver"; 
+            icon = "🛡️"; 
+        }
+        else if (rankName.includes("ゴールド免許")) { 
+            badgeClass = "badge-gold"; 
+            icon = "🚗"; 
+        }
+        else if (rankName.includes("中堅者")) { 
+            badgeClass = "badge-platinum"; 
+            icon = "⚔️"; 
+        }
+        else if (rankName.includes("DIAMOND")) { 
+            badgeClass = "badge-diamond"; 
+            icon = "💎"; 
+        }
+        else if (rankName.includes("MASTER")) { 
+            badgeClass = "badge-master"; 
+            icon = "⚡"; 
+        }
+        else if (rankName.includes("Legend")) { 
+            isSpecial = true;
+            badgeClass = "badge-legend"; 
+            icon = "👑"; 
+        }
 
         if (isSpecial) {
             return `
@@ -785,6 +951,7 @@
     async function initOnlineSystem() {
         console.log("⚡ オンライン動的クイズシステムを起動中...");
         
+        // 🛡️ 機能：重複ログイン常時相互監視 (BroadcastChannel)
         const loginChannel = new BroadcastChannel('dashboard_security_sync');
         loginChannel.postMessage({ type: 'CHECK_NEW_TAB_OPEN' });
         loginChannel.onmessage = function(e) {
@@ -798,7 +965,6 @@
         };
 
         generateLargeQuestionBank();
-        shuffleArray(masterQuestionBank);
         loadLocalData();
         
         if (window.fb && firebase.apps.length > 0) {
@@ -1160,314 +1326,361 @@
         if (categories.strat.correct >= 15) state.achievements.stratMaster = true;
     }
 
-    function updateUI() {
-        let currentRank = getPlayerRankObject(state.rp, state.currentUserId);
-        const rankDisplay = document.getElementById('global-rank-display');
+    const achievementConfig = [
+        { key: "firstStep", title: "最初の第一歩", desc: "演習セッションを1回完了する", icon: "🌱" },
+        { key: "rankUp", title: "サバイバー合格", desc: "ホワイトサバイバー級（150 RP）に到達する", icon: "🛡️" },
+        { key: "perfectScore", title: "完全無欠", desc: "10問演習でパーフェクト（10点満点）を達成する", icon: "👑" },
+        { key: "backFromHell", title: "地獄からの生還", desc: "弱点プールを1問以上正解しクリアする", icon: "⚡" },
+        { key: "rookie10", title: "駆け出しの解答者", desc: "累計解答問題数が10問に達する", icon: "📖" },
+        { key: "veteran50", title: "解答の実践者", desc: "累計解答問題数が50問に達する", icon: "📝" },
+        { key: "legend100", title: "世紀の求道者", desc: "累計解答問題数が100問に達する", icon: "🏆" },
+        { key: "points1000", title: "神無き領域の主", desc: "MASTERランク（1000 RP）に到達する", icon: "🔮" },
+        { key: "godLike", title: "レジェンド・降臨", desc: "最高位 Legend（1300 RP）に到達する", icon: "👑" },
+        { key: "challenger", title: "本番への挑戦者", desc: "模擬試験モードを1回最後まで完了する", icon: "⚔️" }
+    ];
 
-        rankDisplay.innerText = currentRank.name;
-        rankDisplay.style.color = currentRank.color;
-        
-        const rankContainer = document.getElementById('global-rank-container');
-        if (currentRank.specialClass) {
-            rankContainer.className = "status-item " + currentRank.specialClass;
-        } else {
-            rankContainer.className = "status-item";
-        }
-        
-        document.getElementById('global-points-display').innerText = `${state.rp} RP`;
-        document.getElementById('dash-nickname-display').innerText = state.profile.nickname || "名無しの受験生";
-        document.getElementById('dash-title-display').innerText = `称号: ${state.profile.title || "駆け出しの学習者"}`;
-        document.getElementById('dash-bio-display').innerText = `一言: ${state.profile.bio || "合格目指して勉強中です！"}`;
-        document.getElementById('dash-id-display').innerText = state.currentUserId ? `ID: ${state.currentUserId}` : "未同期（ランキング対象外）";
-        
-        const theme = state.profile.bannerTheme || "default";
-        const cardEl = document.getElementById('dash-rank-card');
-        cardEl.style.background = `var(--banner-${theme})`;
-        cardEl.className = (theme === 'midnight') ? "card rank-display-box theme-midnight" : "card rank-display-box";
+    function renderAchievements() {
+        const container = document.getElementById('achievement-grid-container');
+        if(!container) return;
 
-        const badgeContainer = document.getElementById('dash-rank-badge-container');
-        if (badgeContainer) { badgeContainer.innerHTML = getRankBadgeHTML(currentRank.name, state.profile.frame || "none"); }
-
-        let categories = { tech: { correct: 0, total: 0 }, mgmt: { correct: 0, total: 0 }, strat: { correct: 0, total: 0 } };
-        state.history.forEach(item => { if (categories[item.category]) { categories[item.category].total++; if (item.isCorrect) categories[item.category].correct++; } });
-        
-        ['tech', 'mgmt', 'strat'].forEach(k => {
-            const percent = categories[k].total > 0 ? Math.round((categories[k].correct / categories[k].total) * 100) : 0;
-            document.getElementById(`meter-${k}`).style.width = `${percent}%`;
-            document.getElementById(`meter-${k}-val`).innerText = `${percent}% (${categories[k].correct}/${categories[k].total}問)`;
+        let html = "";
+        achievementConfig.forEach(a => {
+            const unlocked = state.achievements[a.key] === true;
+            html += `
+                <div class="achievement-card ${unlocked ? 'unlocked' : ''}">
+                    <div class="achievement-icon">${a.icon}</div>
+                    <div style="font-weight:bold; font-size:14px; margin-bottom:4px;">${a.title}</div>
+                    <div style="font-size:11px; color:var(--text-muted); line-height:1.3;">${a.desc}</div>
+                </div>
+            `;
         });
-
-        const aiEl = document.getElementById('ai-advice');
-        if (state.history.length === 0) {
-            aiEl.innerHTML = "💡 <b>AIカルテ:</b> まだデータが不足しています。クイズに挑戦すると、回答速度と正答率から脳内チャートを緻密に分析します！";
-        } else {
-            const recentHistory = state.history.slice(-20);
-            let subStats = {};
-            let slowQuestionsCount = 0; 
-            
-            recentHistory.forEach((h) => {
-                const sub = h.subCategory || "基礎知識";
-                if (!subStats[sub]) { subStats[sub] = { correct: 0, total: 0, totalTime: 0 }; }
-                subStats[sub].total++;
-                if (h.isCorrect) subStats[sub].correct++;
-                if (h.timeSpent) {
-                    subStats[sub].totalTime += h.timeSpent;
-                    if (h.isCorrect && h.timeSpent > 15) { slowQuestionsCount++; }
-                }
-            });
-
-            let worstSub = null;
-            let lowestRate = 1.1; 
-            for (let sub in subStats) {
-                let rate = subStats[sub].correct / subStats[sub].total;
-                if (rate < lowestRate) { lowestRate = rate; worstSub = sub; }
-            }
-
-            let adviceText = `📊 <b>AIパーソナル診断カルテ (直近データ分析)</b><br>`;
-            if (worstSub) {
-                const ratePercent = Math.round(lowestRate * 100);
-                adviceText += `🎯 現在の最優先克服テーマ: <b>「${worstSub}」</b> (直近正解率: ${ratePercent}%)<br>`;
-                
-                if (worstSub.includes("セキュリティ")) {
-                    adviceText += `👉 <b>AIの助言:</b> 公開鍵・秘密鍵の役割や、SQLインジェクションなどの攻撃手法の「仕組み」をもう一度読み直しましょう。`;
-                } else if (worstSub.includes("ネットワーク")) {
-                    adviceText += `👉 <b>AIの助言:</b> DNSやDHCPなど、身近なスマホやWi-Fiの動きに置き換えてプロトコルをイメージしてください。`;
-                } else if (worstSub.includes("データベース")) {
-                    adviceText += `👉 <b>AIの助言:</b> JOIN（結合）における「左側の表が主役である」というイメージを徹底しましょう。`;
-                } else if (worstSub.includes("アルゴリズム")) {
-                    adviceText += `👉 <b>AIの助言:</b> ディープラーニングのCNNや探索アルゴリズムは、仕組みの「目的」を理解すると即答できます。`;
-                } else if (worstSub.includes("プロジェクトマネジメント")) {
-                    adviceText += `👉 <b>AIの助言:</b> クリティカルパス（最長ルート）の計算やWBSの目的を復習しましょう。`;
-                } else if (worstSub.includes("企業活動")) {
-                    adviceText += `👉 <b>AIの助言:</b> 著作権法や不正競争防止法など、実社会のニュースと紐付けて捉えるのが近道です。`;
-                } else {
-                    adviceText += `👉 <b>AIの助言:</b> 基本用語の定義を見整えることで、あと一歩で正解率がハネ上がります！`;
-                }
-            }
-
-            if (slowQuestionsCount >= 3) {
-                adviceText += `<br><br>⚠️ <b>スピード警告:</b> 解答までに15秒以上悩んでギリギリ正解している問題が ${slowQuestionsCount} 問あります。確信を持って即答できるよう例え話を読み返しましょう。`;
-            } else {
-                adviceText += `<br><br>✨ <b>スピード評価:</b> 迷いなくスムーズに解答できています。テンポ抜群ですので、この調子で正確性をキープしてください！`;
-            }
-            aiEl.innerHTML = adviceText;
-        }
-
-        const historyContainer = document.getElementById('history-list-container');
-        if (historyContainer) {
-            historyContainer.innerHTML = state.history.slice(-5).reverse().map(h => `
-                <div class="history-item"><span>${h.title}</span><span style="color:${h.isCorrect ? 'var(--accent-green)':'var(--accent-red)'}; font-weight:bold;">${h.isCorrect ? '◯':'×'}</span></div>
-            `).join('');
-        }
-        renderRankDistribution();
+        container.innerHTML = html;
     }
 
+    // --- JavaScript後半のコアロジック補完 ＆ バグ修正 ---
     function switchTab(tabId) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-        const btn = document.querySelector(`button[onclick="switchTab('${tabId}')"]`);
-        if(btn) btn.classList.add('active');
-        document.getElementById(tabId).classList.add('active');
-        if(tabId === 'settings') initSettingsInputs();
-        if((tabId === 'dashboard' || tabId === 'rank-mode') && window.fb) fetchOnlineLeaderboard();
+        
+        const targetTab = document.getElementById(tabId);
+        if (targetTab) targetTab.classList.add('active');
+        
+        // ナビゲーションのボタンのアクティブ表示切替
+        const navIndexMap = { 'dashboard': 0, 'quiz-modes': 1, 'rank-mode': 2, 'achievements': 3, 'settings': 4 };
+        const buttons = document.querySelectorAll('.tab-btn');
+        if (buttons[navIndexMap[tabId]]) {
+            buttons[navIndexMap[tabId]].classList.add('active');
+        }
+
+        if (tabId === 'settings') {
+            initSettingsInputs();
+        }
     }
 
     function startListSession(mode) {
         currentSession.mode = mode;
+        currentSession.startTime = new Date().getTime();
         currentSession.tempLogs = [];
-        currentSession.startTime = Date.now();
         currentSession.questionStartTimes = [];
 
-        generateLargeQuestionBank();
-        shuffleArray(masterQuestionBank);
-
-        if (mode === 'normal' || mode === 'rank') {
-            currentSession.questions = masterQuestionBank.slice(0, 10);
+        let targetQuestions = [];
+        if (mode === 'revenge') {
+            if (state.wrongQuestions.length === 0) {
+                alert("現在、弱点プールに登録されている問題はありません。間違えた問題が自動でここにストックされます。");
+                return;
+            }
+            targetQuestions = [...state.wrongQuestions];
         } else if (mode === 'mock') {
-            currentSession.questions = masterQuestionBank.slice(0, 60);
-        } else if (mode === 'revenge') {
-            let revengePool = masterQuestionBank.filter(q => state.wrongQuestions.includes(q.id));
-            if(revengePool.length === 0) { alert("リベンジ問題はありません！完璧です！"); return; }
-            currentSession.questions = revengePool;
+            targetQuestions = [...masterQuestionBank]; // 10問全問を出題
+        } else {
+            // 通常・ランクはシャッフルして最大10問
+            targetQuestions = shuffleArray([...masterQuestionBank]).slice(0, 10);
         }
 
+        currentSession.questions = targetQuestions;
+
+        // クイズ導入画面を非表示にして、クイズ進行エリアを表示する
         document.getElementById(`${mode}-intro`).style.display = 'none';
         const quizArea = document.getElementById(`${mode}-quiz-area`);
         quizArea.style.display = 'block';
 
-        renderAllQuestions();
+        renderQuizArea(mode);
     }
 
-    function renderAllQuestions() {
-        const mode = currentSession.mode;
-        const total = currentSession.questions.length;
+    function renderQuizArea(mode) {
         const quizArea = document.getElementById(`${mode}-quiz-area`);
-        const now = Date.now();
-
-        let html = `<h2 style="margin-bottom:20px; font-size:20px; text-align:center;">📝 全 ${total} 問 (重複なしシャッフル編成)</h2>`;
-
+        let html = `<h2 style="margin-bottom:15px; border-bottom:2px solid var(--accent-blue); padding-bottom:8px;">🎯 進行中: ${mode === 'rank' ? 'ランクマッチ' : mode === 'mock' ? '模擬試験' : mode === 'revenge' ? '弱点克服' : '通常演習'}</h2>`;
+        
         currentSession.questions.forEach((q, idx) => {
-            currentSession.questionStartTimes[idx] = now;
+            currentSession.questionStartTimes[idx] = new Date().getTime();
             html += `
-                <div class="question-block" id="q-card-${idx}">
-                    <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px; font-size:13px; color: var(--text-muted);">
-                        <span>第 ${idx + 1} 問 / 全 ${total} 問</span>
-                        <span style="color:var(--accent-blue)">分野: ${q.subCategory}</span>
-                    </div>
-                    <div class="question-text" style="font-size: 16px; font-weight: bold; margin-bottom: 15px;">${q.question}</div>
+                <div class="question-block" id="q-block-${idx}">
+                    <div class="question-num">第 ${idx + 1} 問 / 全 ${currentSession.questions.length} 問 [分野: ${q.subCategory}]</div>
+                    <div class="question-text">${q.question}</div>
                     <div class="options-group">
                         ${q.options.map((opt, oIdx) => `
-                            <label class="option-label" id="label-opt-${idx}-${oIdx}">
-                                <input type="radio" name="answer-for-${idx}" value="${oIdx}">
+                            <label class="option-label" id="label-${idx}-${oIdx}">
+                                <input type="radio" name="ans-${idx}" value="${oIdx}" onclick="submitAnswer(${idx}, ${oIdx})">
                                 <span>${['ア', 'イ', 'ウ', 'エ'][oIdx]}. ${opt}</span>
                             </label>
                         `).join('')}
                     </div>
-                    <div class="feedback-area" id="feedback-area-${idx}"></div>
+                    <div class="feedback-area" id="feedback-${idx}">
+                        <div class="result-block" id="result-block-${idx}"></div>
+                        <div class="explanation-box">
+                            <strong>💡 納得解説:</strong><br>${q.explanation}
+                        </div>
+                        <div class="analogy-box">
+                            <strong>🤝 日常の例え話:</strong><br>${q.analogy}
+                        </div>
+                    </div>
                 </div>
             `;
         });
 
-        html += `
-            <div style="margin-top: 30px; text-align: center;" id="session-action-area">
-                <button class="btn-primary" style="font-size:18px; padding:15px; max-width:400px; margin:0 auto;" onclick="gradeAllAnswers()">📝 まとめて回答・採点する</button>
-            </div>
-        `;
-
+        html += `<button class="btn-primary" style="margin-top:20px; background-color: var(--accent-green);" onclick="finishSession()">解答セッションを完了する</button>`;
         quizArea.innerHTML = html;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    async function gradeAllAnswers() {
-        const mode = currentSession.mode;
-        const total = currentSession.questions.length;
+    function submitAnswer(qIdx, selectedIdx) {
+        const question = currentSession.questions[qIdx];
+        const isCorrect = (selectedIdx === question.answer);
         
-        let unanswered = [];
-        for (let idx = 0; idx < total; idx++) {
-            const checked = document.querySelector(`input[name="answer-for-${idx}"]:checked`);
-            if (!checked) { unanswered.push(idx + 1); }
+        // すでに回答済みの場合は再選択を禁止
+        const inputs = document.getElementsByName(`ans-${qIdx}`);
+        inputs.forEach(input => input.disabled = true);
+
+        // ラベルの背景色を変更して視覚的にフィードバック
+        const selectedLabel = document.getElementById(`label-${qIdx}-${selectedIdx}`);
+        const correctLabel = document.getElementById(`label-${qIdx}-${question.answer}`);
+
+        if (isCorrect) {
+            selectedLabel.style.backgroundColor = '#c6f6d5';
+            selectedLabel.style.borderColor = 'var(--accent-green)';
+        } else {
+            selectedLabel.style.backgroundColor = '#fed7d7';
+            selectedLabel.style.borderColor = 'var(--accent-red)';
+            if (correctLabel) {
+                correctLabel.style.backgroundColor = '#c6f6d5';
+            }
         }
 
-        if (unanswered.length > 0) {
-            alert(`未回答の問題があります！回答を完了してください。\n(未回答: 第 ${unanswered.join(', ')} 問)`);
-            return;
+        // フィードバックテキストの設定
+        const resultBlock = document.getElementById(`result-block-${qIdx}`);
+        if (isCorrect) {
+            resultBlock.innerText = "💮 正解！お見事です！";
+            resultBlock.className = "result-block res-correct";
+        } else {
+            resultBlock.innerText = `❌ 不正解... (正解は: ${['ア', 'イ', 'ウ', 'エ'][question.answer]} )`;
+            resultBlock.className = "result-block res-incorrect";
         }
 
-        const oldRank = getPlayerRankObject(state.rp, state.currentUserId).name; 
-        const endTime = Date.now();
+        // フィードバックエリアの表示
+        document.getElementById(`feedback-${qIdx}`).style.display = 'block';
+
+        // ログへ保存
+        currentSession.tempLogs[qIdx] = {
+            category: question.category,
+            title: question.title,
+            isCorrect: isCorrect,
+            questionId: question.id
+        };
+    }
+
+    async function finishSession() {
+        let answeredCount = 0;
         let correctCount = 0;
-        currentSession.tempLogs = [];
 
         currentSession.questions.forEach((q, idx) => {
-            const checked = document.querySelector(`input[name="answer-for-${idx}"]:checked`);
-            const chosen = parseInt(checked.value);
-            const isCorrect = (chosen === q.answer);
-            const secondsSpent = (endTime - currentSession.questionStartTimes[idx]) / 1000;
-
-            document.querySelectorAll(`input[name="answer-for-${idx}"]`).forEach(input => input.disabled = true);
-            
-            const fbArea = document.getElementById(`feedback-area-${idx}`);
-            if (fbArea) {
-                fbArea.style.display = "block";
-
-                if (isCorrect) {
-                    correctCount++;
-                    fbArea.innerHTML = `<div class="result-block res-correct">🎉 正解！ (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]})</div>`;
-                    state.wrongQuestions = state.wrongQuestions.filter(id => id !== q.id);
-                } else {
-                    fbArea.innerHTML = `<div class="result-block res-incorrect">❌ 不正解... (あなたの選んだ選択肢: ${['ア', 'イ', 'ウ', 'エ'][chosen]} / 正解: ${['ア', 'イ', 'ウ', 'エ'][q.answer]})</div>`;
-                    if (!state.wrongQuestions.includes(q.id)) { state.wrongQuestions.push(q.id); }
-                }
-
-                fbArea.innerHTML += `
-                    <div class="explanation-box"><b>🔍 分かりやすい解説:</b><br>${q.explanation}</div>
-                    <div class="analogy-box"><b>💡 イメージが湧く「例え話」:</b><br>${q.analogy}</div>
-                `;
+            const log = currentSession.tempLogs[idx];
+            if (log) {
+                answeredCount++;
+                if (log.isCorrect) correctCount++;
             }
+        });
 
-            currentSession.tempLogs.push({
-                questionId: q.id,
-                title: q.title,
+        if (answeredCount < currentSession.questions.length) {
+            if (!confirm("⚠️ まだ解いていない問題があります。このまま終了してよろしいですか？（未回答の問題は不正解扱いになります）")) {
+                return;
+            }
+        }
+
+        // セッション統計の更新
+        let rpChange = 0;
+        const mode = currentSession.mode;
+
+        if (mode === 'rank') {
+            if (correctCount >= 7) {
+                rpChange = 45 + (correctCount - 7) * 15;
+                showPopupNotification(`🔥 RP上昇！ +${rpChange} RP`, 'success-popup');
+            } else {
+                rpChange = -30 + (correctCount) * 5;
+                showPopupNotification(`💀 RP減少... ${rpChange} RP`, 'clear-popup');
+            }
+        } else {
+            // 通常・模擬・リベンジは一律の練習基礎ポイント
+            rpChange = correctCount * 3;
+            showPopupNotification(`🌱 練習ポイント獲得: +${rpChange} RP`, 'info-popup');
+        }
+
+        // 弱点プールの更新（間違えた問題を登録、正解した問題を除去）
+        currentSession.questions.forEach((q, idx) => {
+            const log = currentSession.tempLogs[idx];
+            const isCorrect = log ? log.isCorrect : false;
+
+            if (!isCorrect) {
+                if (!state.wrongQuestions.some(wq => wq.id === q.id)) {
+                    state.wrongQuestions.push(q);
+                }
+            } else {
+                state.wrongQuestions = state.wrongQuestions.filter(wq => wq.id !== q.id);
+            }
+        });
+
+        // 状態保存
+        const previousRp = state.rp;
+        state.rp = Math.max(0, state.rp + rpChange);
+        
+        // 最初の最高ランク到達時に紙吹雪エフェクト
+        if (previousRp < 1300 && state.rp >= 1300) {
+            triggerConfettiEffect();
+        }
+
+        // 履歴ログ登録
+        currentSession.questions.forEach((q, idx) => {
+            const log = currentSession.tempLogs[idx];
+            state.history.push({
                 category: q.category,
-                subCategory: q.subCategory,
-                isCorrect: isCorrect,
-                timeSpent: secondsSpent
+                title: q.title,
+                isCorrect: log ? log.isCorrect : false,
+                timestamp: new Date().getTime()
             });
         });
 
-        currentSession.tempLogs.forEach(log => { state.history.push(log); });
-
-        let rpChange = 0;
-        if (mode === 'rank') {
-            rpChange = (correctCount >= 7) ? (correctCount * 8) : -((10 - correctCount) * 5);
-        } else {
-            rpChange = Math.floor(correctCount * 2);
-        }
-        state.rp = Math.max(0, state.rp + rpChange);
-
-        checkAchievementsLogic(correctCount, total, mode);
+        checkAchievementsLogic(correctCount, currentSession.questions.length, mode);
         saveLocalData();
-        
+
         if (state.currentUserId) {
             await pushDataToFirebase();
             await fetchOnlineLeaderboard();
         }
 
-        updateUI();
-        renderAchievements();
+        alert(`🎉 セッション終了！\n成績: ${correctCount} / ${currentSession.questions.length}問正解\n獲得・変動RP: ${rpChange > 0 ? '+' : ''}${rpChange} RP`);
 
-        const newRank = getPlayerRankObject(state.rp, state.currentUserId).name;
-        if (oldRank !== "Legend" && newRank === "Legend") {
-            triggerConfettiEffect();
-            showPopupNotification("👑 HIGHEST RANK: LEGEND!!", "success-popup");
-        } else {
-            showPopupNotification("📊 採点が完了しました", "info-popup");
-        }
-
-        const actionArea = document.getElementById('session-action-area');
-        if (actionArea) {
-            actionArea.innerHTML = `
-                <div class="card" style="margin-top:30px; text-align:center; border: 2px solid var(--accent-green);">
-                    <h3 style="font-size: 22px; color: var(--accent-blue); margin-bottom: 10px;">📊 採点完了結果</h3>
-                    <p style="font-size: 18px; margin-bottom: 10px;">正解数: <b>${correctCount}</b> / <b>${total}</b> 問</p>
-                    <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: ${rpChange >= 0 ? 'var(--accent-green)':'var(--accent-red)'}">
-                        RP変動: ${rpChange >= 0 ? `+${rpChange}` : rpChange} RP (現在のRP: ${state.rp})
-                    </div>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">※各問題の下に表示されている解説と「例え話」を読み終えたら、下のボタンから戻ってください。</p>
-                    <button class="btn-primary" style="max-width:280px; margin: 0 auto;" onclick="exitListSession('${mode}')">📊 ダッシュボードへ戻る</button>
-                </div>
-            `;
-            actionArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    }
-
-    function exitListSession(mode) {
-        document.getElementById(`${mode}-quiz-area`).style.display = 'none';
+        // クイズ画面を閉じてダッシュボードに戻す
         document.getElementById(`${mode}-intro`).style.display = 'block';
+        document.getElementById(`${mode}-quiz-area`).style.display = 'none';
+        
+        updateUI();
         switchTab('dashboard');
     }
 
-    function renderAchievements() {
-        const list = [
-            { id: 'firstStep', name: '最初の一歩', desc: 'クイズを初めて解く', icon: '🌱' },
-            { id: 'rookie10', name: '駆け出しの十歩', desc: '累計10問解答を達成', icon: '🏃' },
-            { id: 'veteran50', name: '中堅解体師', desc: '累計50問解答を達成', icon: '🔥' },
-            { id: 'legend100', name: '全問覇王', desc: '累計100問以上の解答に到達', icon: '👑' },
-            { id: 'rankUp', name: '実力証明', desc: '150RP突破を達成', icon: '🏅' },
-            { id: 'topRanker', name: '世界への挑戦', desc: '750RP突破を達成', icon: '💎' },
-            { id: 'points1000', name: '千の智慧', desc: '大台の1,000RP突破！', icon: '👑' },
-            { id: 'godLike', name: '絶対神話 (Legend)', desc: '神の領域 1,300RPへ到達', icon: '🌌' },
-            { id: 'perfectScore', name: '完全無欠', desc: '1回（10問以上）のセッションで満点', icon: '💯' },
-            { id: 'backFromHell', name: '地獄からの生還', desc: 'リベンジ特訓で正解を勝ち取る', icon: '⚡' },
-            { id: 'challenger', name: '鋼の試練', desc: '模擬テスト（60問）に挑戦する', icon: '📝' },
-            { id: 'techMaster', name: 'テクノロジ・ウィザード', desc: 'テクノロジ系を累計20問正解', icon: '💻' },
-            { id: 'mgmtMaster', name: '最高経営管理者', desc: 'マネジメント系を累計15問正解', icon: '📊' },
-            { id: 'stratMaster', name: '一流の軍師', desc: 'ストラテジ系を累計15問正解', icon: '🎯' }
-        ];
-        const container = document.getElementById('achievement-grid-container');
-        if (container) {
-            container.innerHTML = list.map(a => `<div class="achievement-card ${state.achievements[a.id] ? 'unlocked':''}" title="${a.desc}"><div class="achievement-icon">${a.icon}</div><strong>${a.name}</strong><p style="font-size:11px; margin-top:4px;">${a.desc}</p></div>`).join('');
+    function updateUI() {
+        let currentRank = getPlayerRankObject(state.rp, state.currentUserId);
+        const rankDisplay = document.getElementById('global-rank-display');
+
+        if (rankDisplay) {
+            rankDisplay.innerText = currentRank.name;
+            rankDisplay.style.color = currentRank.color;
         }
+        
+        const rankContainer = document.getElementById('global-rank-container');
+        if (rankContainer) {
+            if (currentRank.specialClass) {
+                rankContainer.className = "status-item " + currentRank.specialClass;
+            } else {
+                rankContainer.className = "status-item";
+            }
+        }
+        
+        const pointsDisplay = document.getElementById('global-points-display');
+        if (pointsDisplay) pointsDisplay.innerText = `${state.rp} RP`;
+        
+        const nicknameDisplay = document.getElementById('dash-nickname-display');
+        if (nicknameDisplay) nicknameDisplay.innerText = state.profile.nickname || "名無しの受験生";
+        
+        const titleDisplay = document.getElementById('dash-title-display');
+        if (titleDisplay) titleDisplay.innerText = `称号: ${state.profile.title || "駆け出しの学習者"}`;
+        
+        const bioDisplay = document.getElementById('dash-bio-display');
+        if (bioDisplay) bioDisplay.innerText = `一言: ${state.profile.bio || "合格目指して勉強中です！"}`;
+        
+        const idDisplay = document.getElementById('dash-id-display');
+        if (idDisplay) idDisplay.innerText = state.currentUserId ? `同期ID: ${state.currentUserId}` : "ローカルモード";
+
+        const rankBadgeContainer = document.getElementById('dash-rank-badge-container');
+        if (rankBadgeContainer) {
+            rankBadgeContainer.innerHTML = getRankBadgeHTML(currentRank.name, state.profile.frame || "none");
+        }
+
+        // ダッシュボードヘッダー背景色
+        const dashCard = document.getElementById('dash-rank-card');
+        if (dashCard) {
+            dashCard.style.background = `var(--banner-${state.profile.bannerTheme || 'default'})`;
+        }
+        
+        // 習得率計算
+        let categories = { tech: { correct: 0, total: 0 }, mgmt: { correct: 0, total: 0 }, strat: { correct: 0, total: 0 } };
+        state.history.forEach(item => {
+            if (categories[item.category]) {
+                categories[item.category].total++;
+                if (item.isCorrect) categories[item.category].correct++;
+            }
+        });
+
+        ['tech', 'mgmt', 'strat'].forEach(cat => {
+            const progress = categories[cat].total > 0 ? Math.round((categories[cat].correct / categories[cat].total) * 100) : 0;
+            const bar = document.getElementById(`meter-${cat}`);
+            const val = document.getElementById(`meter-${cat}-val`);
+            if (bar) bar.style.width = `${progress}%`;
+            if (val) val.innerText = `${progress}%`;
+        });
+
+        // AIアドバイスの簡易生成
+        const aiAdviceBox = document.getElementById('ai-advice');
+        if (aiAdviceBox) {
+            if (state.history.length === 0) {
+                aiAdviceBox.innerText = "💡 AI分析: まだ十分なデータが集まっていません。まずは演習モードで数問解いてみましょう！";
+            } else {
+                const totalCorrect = state.history.filter(h => h.isCorrect).length;
+                const accuracy = Math.round((totalCorrect / state.history.length) * 100);
+                if (accuracy >= 80) {
+                    aiAdviceBox.innerText = `💡 AI分析: 正答率${accuracy}%と非常に優秀なパフォーマンスです！この調子で「ランクマッチ」に積極的に挑戦してRPを獲得していきましょう！`;
+                } else if (accuracy >= 50) {
+                    aiAdviceBox.innerText = `💡 AI分析: 正答率は${accuracy}%と順調に成長しています。間違えた問題は「弱点撲滅リベンジ」にストックされるので、復習を重点的にこなしましょう。`;
+                } else {
+                    aiAdviceBox.innerText = `💡 AI分析: 現在の正答率は${accuracy}%です。まずは「通常演習（練習問題）」でペナルティを気にせずじっくりと解説や『例え話』を読んで基礎概念を定着させましょう。`;
+                }
+            }
+        }
+
+        renderHistory();
+        renderAchievements();
+        renderLeaderboards();
+    }
+
+    function renderHistory() {
+        const historyContainer = document.getElementById('history-list-container');
+        if (!historyContainer) return;
+
+        if (state.history.length === 0) {
+            historyContainer.innerHTML = "<p style='color:var(--text-muted); font-size:12px; text-align:center;'>履歴はまだありません。</p>";
+            return;
+        }
+
+        // 直近5件の履歴を表示
+        let html = "";
+        [...state.history].reverse().slice(0, 5).forEach(item => {
+            const date = new Date(item.timestamp);
+            const timeStr = `${date.getMonth() + 1}/${date.getDate()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+            html += `
+                <div class="history-item">
+                    <span>${item.isCorrect ? '💮 正解' : '❌ 不正解'} - ${item.title}</span>
+                    <span style="color:var(--text-muted); font-size:11px;">${timeStr}</span>
+                </div>
+            `;
+        });
+        historyContainer.innerHTML = html;
     }
 </script>
 </body>
